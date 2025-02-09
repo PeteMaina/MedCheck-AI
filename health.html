@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedCheck AI - Intelligent Medical Solutions</title>
+  <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
+  <style>
+    /* New Five-Shade Color Palette */
+    :root {
+      --color1: #0A3D62;  
+      --color2: #F0F5F9;  
+      --color3: #1E90FF;  
+      --color4: #00A8CC;  
+      --color5: #FF6B6B;  
+    }
+
+    /* Global Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--color2);
+      color: var(--color1);
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: var(--color1);
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Get Started Button */
+    .btn-get-started {
+      background: var(--color5);
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      gap: 5px;
+    }
+    .btn-get-started:hover {
+      background: #e05555;
+    }
+
+    /* Sticky Navigation Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--color2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+      z-index: 1000;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--color1);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav li a {
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav li a:hover {
+      background: var(--color3);
+      color: #fff;
+    }
+
+    /* Hero Section with Full-Viewport Background */
+    .hero {
+      height: 100vh;
+      background: url('https://via.placeholder.com/1920x1080?text=Healthcare+Background') no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 61, 98, 0.6); /* Overlay using primary dark */
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      padding: 20px;
+    }
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    /* Section Base Styling */
+    section {
+      padding: 80px 0;
+    }
+    section:nth-of-type(even) {
+      background: #fff;
+    }
+    section:nth-of-type(odd) {
+      background: var(--color2);
+    }
+    h2.section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      color: var(--color1);
+    }
+
+    /* About Section */
+    .about {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .about img {
+      flex: 1 1 400px;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+    }
+    .about-text {
+      flex: 1 1 300px;
+    }
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+    .about-text p {
+      margin-bottom: 10px;
+    }
+
+    /* Features Section */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .feature-card h4 {
+      margin-bottom: 10px;
+      color: var(--color1);
+    }
+    .feature-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Technology Section */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .tech-grid img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+    }
+
+    /* Positive Health & AI Section */
+    .health-ai {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .health-ai img {
+      flex: 1 1 400px;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+    }
+    .health-ai-text {
+      flex: 1 1 300px;
+    }
+    .health-ai-text h3 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+    .health-ai-text p {
+      margin-bottom: 10px;
+    }
+
+    /* Testimonials Section */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .testimonial-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      text-align: center;
+    }
+    .testimonial-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .testimonial-card h4 {
+      margin-bottom: 10px;
+      color: var(--color1);
+    }
+    .testimonial-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Call-to-Action Section */
+    .cta-section {
+      text-align: center;
+      padding: 60px 0;
+      background: var(--color1);
+      color: #fff;
+    }
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-form {
+      flex: 1 1 300px;
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+    }
+    .contact-form button {
+      width: 100%;
+      background: var(--color5);
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background: #e05555;
+    }
+    .contact-info {
+      flex: 1 1 300px;
+      max-width: 500px;
+      text-align: center;
+    }
+    .contact-info img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--color1);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .about, .health-ai {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Navigation -->
+  <header>
+    <div class="container nav-container">
+      <div class="logo">MedCheck AI</div>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#tech">Technology</a></li>
+          <li><a href="#health-ai">Positive Health</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Revolutionizing Healthcare with AI</h1>
+      <p>Advanced medical solutions powered by cutting-edge artificial intelligence.</p>
+      <a class="btn-get-started" href="auth.html">Get Started </a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="container" id="about">
+    <h2 class="section-title">About MediAI</h2>
+    <div class="about">
+      <img src="Images/AI2.jpg" alt="Medical AI Lab" />
+      <div class="about-text">
+        <h3>Innovative &amp; Reliable</h3>
+        <p>
+          At MediAI, we merge advanced AI technologies with medical expertise to streamline diagnostics and treatment processes.
+        </p>
+        <p>
+          Our platform enhances clinical decisions and improves patient outcomes, ensuring precision and efficiency in healthcare.
+        </p>
+        <a class="btn-get-started" href="auth.html">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container" id="features">
+    <h2 class="section-title">Key Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h4>Data-Driven Diagnostics</h4>
+        <p>Utilize vast datasets and machine learning to deliver accurate and timely diagnoses.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Predictive Analytics</h4>
+        <p>Anticipate patient risks and outcomes to provide proactive and personalized care.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Personalized Treatment</h4>
+        <p>Customize treatment plans using AI insights tailored to each patient’s unique needs.</p>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a class="btn-get-started" href="auth.html">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Technology Section -->
+  <section class="container" id="tech">
+    <h2 class="section-title">Our Technology</h2>
+    <div class="tech-grid">
+      <img src="Images/neural_network.jpg" alt="Neural Networks" />
+      <img src="Images/Imaging_solutions.png" alt="Imaging Solutions" />
+      <img src="Images/big-data_analytics.png" alt="Big Data Analytics" />
+      <img src="Images/Real-time_monitoring.jpg" alt="Real-time Monitoring" />
+      
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a class="btn-get-started" href="auth.html">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Positive Health & AI Section -->
+  <section class="container" id="health-ai">
+    <h2 class="section-title">Positive Health &amp; AI</h2>
+    <div class="health-ai">
+      <img src="Images/Live_AI.gif" alt="Healthy AI" />
+      <div class="health-ai-text">
+        <h3>Empowering Wellness Through AI</h3>
+        <p>
+          At MediAI, we believe that technology should promote not only health but overall wellbeing. Our solutions empower patients and healthcare professionals by providing early detection, personalized wellness insights, and continuous monitoring.
+        </p>
+        <p>
+          With our AI‑driven approach, positive health outcomes become a reality—ensuring a future where care and technology work hand in hand.
+        </p>
+        <a class="btn-get-started" href="auth.html">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="container" id="testimonials">
+    <h2 class="section-title">What Our Clients Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <img src="Images/Emily.jpg" alt="Client 1" />
+        <h4>Dr. Emily </h4>
+        <p>"MediAI has revolutionized our approach to diagnostics, making our processes faster and more accurate."</p>
+      </div>
+      <div class="testimonial-card">
+        <img src="Images/DR1.jpg" alt="Client 2" />
+        <h4>Dr. Michael Lee</h4>
+        <p>"The predictive analytics have been a game changer in anticipating patient risks, allowing us to intervene earlier."</p>
+      </div>
+      <div class="testimonial-card">
+        <img src="Images/Sophie.jpg" alt="Client 3" />
+        <h4>Dr. Sophia </h4>
+        <p>"Personalized treatment recommendations have significantly improved our patient care and outcomes."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call-to-Action Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Join the Future of Healthcare</h2>
+      <p>Experience the transformative power of AI in healthcare. Get started today and be part of the revolution.</p>
+      <a class="btn-get-started" href="auth.html">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="container" id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-container">
+      <div class="contact-form">
+        <form id="contactForm">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+      <div class="contact-info">
+        <img src="Images/AI3.jpg" alt="Office Location" />
+        <p>The best services, sign up to get started</p>
+        <p>Email: peterwahomemaina003@gmail.com | Phone: +254794797796</p>
+        <a href="auth.html"><p>bypass</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 MedCheck. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Basic Contact Form Submission Handler
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Thank you for contacting us! We will get back to you soon.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

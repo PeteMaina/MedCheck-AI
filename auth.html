@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedCheck AI - Authentication</title>
+  <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color1: #0A3D62; /* Dark Blue */
+      --color2: #F0F5F9; /* Light Blue Background */
+      --color3: #1E90FF; /* Bright Blue */
+      --color4: #00A8CC; /* Teal */
+      --color5: #FF6B6B; /* Red */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, var(--color1), var(--color2));
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-container {
+      background: var(--color2);
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+      width: 400px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--color1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: var(--color3);
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--color4);
+    }
+
+    .social-buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .social-buttons button {
+      width: calc(33% - 10px);
+      background-color: #fff;
+      color: var(--color1);
+      border: 1px solid var(--color1);
+    }
+
+    .social-buttons button:hover {
+      background-color: var(--color1);
+      color: #fff;
+    }
+
+    .toggle-section {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .toggle-section a {
+      color: var(--color3);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toggle-section a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <h1>MedCheck Authentication</h1>
+
+    <!-- Sign In Form -->
+    <form id="signInForm">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <br>
+      <button type="submit">Sign In</button>
+    </form>
+
+    <!-- Social Buttons -->
+    <div class="social-buttons">
+      <button><i class="fab fa-google"></i> Google</button>
+      <button><i class="fab fa-facebook-f"></i> Facebook</button>
+      <button><i class="fab fa-twitter"></i> Twitter</button>
+    </div>
+
+    <!-- Forgot Password Section -->
+    <div id="forgotPassword" style="display: none;">
+      <form>
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Reset Password</button>
+      </form>
+    </div>
+
+    <!-- Sign Up Form -->
+    <form id="signUpForm" style="display: none;">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <br>
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Toggle Sections -->
+    <div class="toggle-section">
+        <p>Already have an account? <a href="#" id="toSignIn"> Sign In</a> </p>
+        <br>
+        <p>Not yet Using our services? <a href="#" id="toSignUp"> Sign Up</a> </p>
+        <br>
+        <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
+      
+    </div>
+
+    <footer>
+      © 2025 MedCheck AI. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    // Toggle between sections
+    const toSignIn = document.getElementById('toSignIn');
+    const toSignUp = document.getElementById('toSignUp');
+    const toForgotPassword = document.getElementById('toForgotPassword');
+
+    const signInForm = document.getElementById('signInForm');
+    const signUpForm = document.getElementById('signUpForm');
+    const forgotPassword = document.getElementById('forgotPassword');
+
+    toSignIn.addEventListener('click', (e) => {
+      e.preventDefault();
+      signInForm.style.display = 'block';
+      signUpForm.style.display = 'none';
+      forgotPassword.style.display = 'none';
+    });
+
+    toSignUp.addEventListener('click', (e) => {
+      e.preventDefault();
+      signInForm.style.display = 'none';
+      signUpForm.style.display = 'block';
+      forgotPassword.style.display = 'none';
+    });
+
+    toForgotPassword.addEventListener('click', (e) => {
+      e.preventDefault();
+      signInForm.style.display = 'none';
+      signUpForm.style.display = 'none';
+      forgotPassword.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
