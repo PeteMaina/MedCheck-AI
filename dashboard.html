@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediAI Dashboard - Personalized Health Insights</title>
+  <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
+  <style>
+    /* Five-Shade Color Palette */
+    :root {
+      --color1: #0A3D62;  /* Primary Dark: Trustworthy deep blue */
+      --color2: #F0F5F9;  /* Light Background */
+      --color3: #1E90FF;  /* Bright Blue Accent */
+      --color4: #00A8CC;  /* Secondary Accent */
+      --color5: #FF6B6B;  /* Call-to-Action Red */
+    }
+
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--color2);
+      color: var(--color1);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--color1);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    a:hover {
+      color: var(--color3);
+    }
+
+    /* Header Styling */
+    header {
+      width: 100%;
+      background: var(--color1);
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    header .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    header nav ul li {
+      cursor: pointer;
+    }
+    header nav ul li:hover {
+      color: var(--color3);
+    }
+
+    
+    .dashboard-container {
+      display: flex;
+      margin-top: 80px; /* account for header height */
+      min-height: calc(100vh - 80px);
+    }
+    
+    
+    .sidebar {
+      width: 250px;
+      background: var(--color2);
+      padding: 20px;
+      border-right: 2px solid var(--color1);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    .sidebar ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+    .sidebar ul li {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .sidebar ul li:hover {
+      background: var(--color3);
+      color: #fff;
+      transform: scale(1.05);
+    }
+    
+    
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      background: var(--color2);
+    }
+    
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    }
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+      color: var(--color1);
+    }
+    .card p {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    .card button {
+      background: var(--color5);
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .card button:hover {
+      background: #e05555;
+      transform: scale(1.05);
+    }
+
+    
+    .welcome-card {
+      grid-column: 1 / -1;
+      background: var(--color4);
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 30px;
+    }
+    .welcome-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.35);
+    }
+    .welcome-card h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .welcome-card p {
+      font-size: 1rem;
+    }
+    
+    
+    @media (max-width: 768px) {
+      .dashboard-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--color1);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="logo">MedCheck AI Dashboard</div>
+    <nav>
+      <ul>
+        <li onclick="navigate('dashboard')">Dashboard</li>
+        <li onclick="navigate('symptoms')">Symptom Checker</li>
+        <li onclick="navigate('medication')">Medications</li>
+        <li onclick="navigate('diagnostics')">Diagnostics</li>
+        <li onclick="navigate('profile')">Profile</li>
+        <li onclick="navigate('settings')">Settings</li>
+        <li onclick="logout()"><a href="health.html">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  
+  <div class="dashboard-container">
+    
+    <aside class="sidebar">
+      <ul>
+        <li onclick="navigate('dashboard')">Overview</li>
+        <li onclick="navigate('symptoms')">Symptom Checker</li>
+        <li onclick="navigate('medication')">Medication Schedule</li>
+        <li onclick="navigate('diagnostics')">Diagnostics & Analysis</li>
+        <li onclick="navigate('trends')">Health Trends</li>
+        <li onclick="navigate('appointments')">Appointments</li>
+        <li onclick="navigate('activity')">Recent Activity</li>
+      </ul>
+    </aside>
+
+    
+    <main class="main-content">
+      
+      <div class="card welcome-card">
+        <h2>Welcome, Leakey Maina!</h2>
+        <p>Your personalized health dashboard is here. Our AI continuously
+             monitors your symptoms and adjusts your care plan—ensuring
+             you get timely medication, accurate diagnostics, and essential reminders.
+            </p>
+            <button onclick="navigate('diagnostics')">Get started</button>
+      </div>
+
+      
+      <div class="card-grid">
+        
+        <div class="card">
+          <h3>Symptom Checker</h3>
+          <p>Review your current symptoms. Let our AI analyze them to catch any potential issues early.</p>
+          <button onclick="navigate('symptoms')">Check Now</button>
+        </div>
+        
+        <div class="card">
+          <h3>Medication Reminders</h3>
+          <p>View your upcoming medication schedule with precise timing and dosages to stay on track.</p>
+          <button onclick="navigate('medication')">View Reminders</button>
+        </div>
+        
+        <div class="card">
+          <h3>Diagnostics & Analysis</h3>
+          <p>Get detailed, AI‑driven analysis and diagnosis based on your reported symptoms and history.</p>
+          <button onclick="navigate('diagnostics')">View Analysis</button>
+        </div>
+        
+        <div class="card">
+          <h3>Health Trends</h3>
+          <p>Track your wellness progress over time with interactive insights and charts.</p>
+          <button onclick="navigate('trends')">View Trends</button>
+        </div>
+        
+        <div class="card">
+          <h3>Upcoming Appointments</h3>
+          <p>Stay updated with your scheduled appointments and follow-up consultations.</p>
+          <button onclick="navigate('appointments')">View Appointments</button>
+        </div>
+        <!-- Recent Activity Card -->
+        <div class="card">
+          <h3>Recent Activity</h3>
+          <p>Review your latest interactions, symptom updates, and our AI recommendations.</p>
+          <button onclick="navigate('activity')">View Activity</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Placeholder navigation function
+    function navigate(section) {
+      alert("Navigating to the " + section + " section...");
+      // Here you would load the relevant content or change the view
+    }
+    // Placeholder logout function
+    function logout() {
+      alert("Logging out...");
+      // Implement your logout process, then redirect (e.g., location.href = 'login.html')
+    }
+  </script>
+</body>
+</html>
