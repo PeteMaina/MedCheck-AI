@@ -8,11 +8,11 @@
   <style>
     /* New Five-Shade Color Palette */
     :root {
-      --color1: #0A3D62;  
+      --color1: #022944;  
       --color2: #F0F5F9;  
       --color3: #1E90FF;  
-      --color4: #00A8CC;  
-      --color5: #FF6B6B;  
+      --color4: #074452;  
+      --color5: #d11c1c;  
     }
 
     /* Global Reset & Base Styles */
@@ -76,9 +76,12 @@
       padding: 15px 0;
     }
     .logo {
-      font-size: 1.5rem;
+      font-size: 2.0rem;
       font-weight: bold;
-      color: var(--color1);
+      
+      background: linear-gradient(to right, red, blue);
+      background-clip: text ;
+      color: transparent;
     }
     nav ul {
       list-style: none;
@@ -88,7 +91,7 @@
     nav li a {
       padding: 8px 12px;
       border-radius: 5px;
-      transition: background 0.3s;
+      transition: background 0.6s;
     }
     nav li a:hover {
       background: var(--color3);
@@ -97,8 +100,8 @@
 
     /* Hero Section with Full-Viewport Background */
     .hero {
-      height: 100vh;
-      background: url('https://via.placeholder.com/1920x1080?text=Healthcare+Background') no-repeat center center/cover;
+      height: 90vh;
+      border-image: url(Images/revo.jpg);
       position: relative;
       display: flex;
       align-items: center;
@@ -112,7 +115,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(10, 61, 98, 0.6); /* Overlay using primary dark */
+      background: rgba(2, 34, 56, 0.911); /* Overlay using primary dark */
     }
     .hero-content {
       position: relative;
@@ -147,7 +150,12 @@
     }
 
     /* About Section */
+    #about{
+      margin-top: 30px;
+      border-radius: 20px;
+    }
     .about {
+
       display: flex;
       align-items: center;
       gap: 40px;
@@ -490,8 +498,8 @@
       <div class="contact-info">
         <img src="Images/AI3.jpg" alt="Office Location" />
         <p>The best services, sign up to get started</p>
-        <p>Email: peterwahomemaina003@gmail.com | Phone: +254794797796</p>
-        <a href="auth.html"><p>bypass</p></a>
+        <p>Email: peterwahomemaina003@gmail.com | Phone: +254794797796</p> <br> <br>
+        <a href="dashboard.html"><p>bypass</p></a>
       </div>
     </div>
   </section>

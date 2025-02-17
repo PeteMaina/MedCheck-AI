@@ -23,28 +23,38 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, var(--color1), var(--color2));
+      background-size: cover;
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      background-image: url(Images/auth_back.jpg);
+      background-repeat: no-repeat;
     }
 
     .auth-container {
-      background: var(--color2);
+      backdrop-filter: blur(6px);
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 1);
+      box-shadow: 12px 12px 12px rgba(0, 0, 0, 1), -8px -8px 10px rgb(2, 53, 95);
       width: 400px;
       padding: 30px;
       text-align: center;
       position: relative;
+      height: 80vh;
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 2.0rem;
+      font-weight: bold;
       margin-bottom: 20px;
-      color: var(--color1);
+      background: linear-gradient(to right, red, blue);
+      background-clip: text ;
+      color: transparent;
+    }
+
+    h2 {
+      margin-bottom: 20px;
     }
 
     form {
@@ -127,10 +137,11 @@
 <body>
 
   <div class="auth-container">
-    <h1>MedCheck Authentication</h1>
+    <h1>MedCheck AI</h1>
 
     <!-- Sign In Form -->
     <form id="signInForm">
+      <h2>Sign in</h2>
       <input type="email" placeholder="Email" required>
       <input type="password" placeholder="Password" required>
       <br>
@@ -147,6 +158,7 @@
     <!-- Forgot Password Section -->
     <div id="forgotPassword" style="display: none;">
       <form>
+        <h2>Recover Password</h2>
         <input type="email" placeholder="Enter your email" required>
         <button type="submit">Reset Password</button>
       </form>
@@ -154,6 +166,7 @@
 
     <!-- Sign Up Form -->
     <form id="signUpForm" style="display: none;">
+      <h2>sign up</h2>
       <input type="text" placeholder="Full Name" required>
       <input type="email" placeholder="Email" required>
       <input type="password" placeholder="Password" required>
