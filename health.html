@@ -41,6 +41,23 @@
     }
 
     /* Get Started Button */
+    .get-started {
+      background: var(--color5);
+      border: none;
+      border-radius: 50px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      gap: 5px;
+      margin-right: 5px;
+      align-items: end;
+      justify-content: end;
+      text-align: right;
+    }
     .btn-get-started {
       background: var(--color5);
       border: none;
@@ -56,6 +73,10 @@
       gap: 5px;
     }
     .btn-get-started:hover {
+      background: #e05555;
+    }
+
+    .get-started:hover {
       background: #e05555;
     }
 
@@ -155,7 +176,7 @@
       border-radius: 20px;
     }
     .about {
-
+      padding: 10px;
       display: flex;
       align-items: center;
       gap: 40px;
@@ -206,6 +227,7 @@
 
     /* Technology Section */
     .tech-grid {
+      padding: 15px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
@@ -241,7 +263,11 @@
     }
 
     /* Testimonials Section */
+    #testimonials, #tech, #contact{
+      border-radius: 15px;
+    }
     .testimonials-grid {
+      padding: 15px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
@@ -365,6 +391,7 @@
           <li><a href="#health-ai">Positive Health</a></li>
           <li><a href="#testimonials">Testimonials</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a class="get-started" href="auth.html">Get started</a></li>
         </ul>
       </nav>
     </div>
@@ -425,8 +452,8 @@
     <div class="tech-grid">
       <img src="Images/neural_network.jpg" alt="Neural Networks" />
       <img src="Images/Imaging_solutions.png" alt="Imaging Solutions" />
-      <img src="Images/big-data_analytics.png" alt="Big Data Analytics" />
-      <img src="Images/Real-time_monitoring.jpg" alt="Real-time Monitoring" />
+      <img src="Images/big-data.jpg" alt="Big Data Analytics" />
+      <img src="Images/hmm.jpg" alt="Real-time Monitoring" />
       
     </div>
     <div style="text-align:center; margin-top:40px;">
