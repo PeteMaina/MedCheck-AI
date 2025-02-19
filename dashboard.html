@@ -6,16 +6,20 @@
   <title>MediAI Dashboard - Personalized Health Insights</title>
   <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
   <style>
-    /* Five-Shade Color Palette */
+    /* --------------------------------------
+       Five-Shade Color Palette
+    -------------------------------------- */
     :root {
-      --color1: #0A3D62;  /* Primary Dark: Trustworthy deep blue */
+      --color1: #0A3D62;  /* Primary Dark */
       --color2: #F0F5F9;  /* Light Background */
       --color3: #1E90FF;  /* Bright Blue Accent */
       --color4: #027c97;  /* Secondary Accent */
       --color5: #FF6B6B;  /* Call-to-Action Red */
     }
-
     
+    /* --------------------------------------
+       Global Reset & Base Styles
+    -------------------------------------- */
     * {
       margin: 0;
       padding: 0;
@@ -35,51 +39,163 @@
     a:hover {
       color: var(--color3);
     }
-
-    /* Header Styling */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* --------------------------------------
+       Buttons
+    -------------------------------------- */
+    .btn-get-started {
+      background: var(--color5);
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn-get-started:hover {
+      background: #e05555;
+    }
+    
+    /* --------------------------------------
+       Header & Horizontal Navigation (Always Visible)
+    -------------------------------------- */
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       background: var(--color1);
       color: #fff;
-      padding: 20px;
+      padding: 10px 20px; /* Compact header */
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      position: fixed;
-      top: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       z-index: 1000;
     }
-    header .logo {
-      font-size: 1.8rem;
+    .logo {
+      font-size: 1.6rem;
       font-weight: bold;
+      white-space: nowrap;
     }
-    header nav ul {
+    /* Horizontal navigation always visible */
+    nav.horizontal-nav {
+      display: flex;
+      flex: 1;
+    }
+    nav.horizontal-nav ul {
       list-style: none;
       display: flex;
-      gap: 20px;
+      justify-content: space-evenly; /* Evenly distribute items */
+      align-items: center;
+      white-space: nowrap;
+      width: 100%;
     }
-    header nav ul li {
+    nav.horizontal-nav ul li a {
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    nav.horizontal-nav ul li a:hover {
+      background: var(--color3);
+      color: #fff;
+    }
+    /* Mark Dashboard as active */
+    nav.horizontal-nav ul li.active a {
+      background: var(--color3);
+      color: #fff;
+    }
+    
+    /* --------------------------------------
+       Hamburger Icon & Vertical Navigation Panel (Small Screens)
+    -------------------------------------- */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1100;
+      }
+    }
+    .vertical-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background: var(--color1);
+      padding-top: 60px; /* below header */
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .vertical-nav.active {
+      transform: translateX(0);
+    }
+    .vertical-nav .close-nav {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #fff;
       cursor: pointer;
     }
-    header nav ul li:hover {
-      color: var(--color3);
+    .vertical-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 10px;
     }
-
+    .vertical-nav ul li a {
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 5px;
+      display: block;
+    }
+    .vertical-nav ul li a:hover {
+      background: var(--color3);
+    }
     
+    /* --------------------------------------
+       Dashboard Layout (Sidebar + Main Content)
+    -------------------------------------- */
     .dashboard-container {
       display: flex;
-      margin-top: 80px; /* account for header height */
-      min-height: calc(100vh - 80px);
+      margin-top: 60px; /* header height */
+      min-height: calc(100vh - 60px);
     }
-    
-    
+    /* Sidebar (visible on large screens only) */
     .sidebar {
       width: 250px;
       background: var(--color2);
       padding: 20px;
       border-right: 2px solid var(--color1);
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
     }
     .sidebar ul {
       list-style: none;
@@ -97,22 +213,28 @@
       color: #fff;
       transform: scale(1.05);
     }
+    .sidebar ul li.symptom a {
+      color: inherit;
+      text-decoration: none;
+    }
     
-    
+    /* --------------------------------------
+       Main Content
+    -------------------------------------- */
     .main-content {
       flex: 1;
       padding: 20px;
       background: var(--color2);
     }
     
-    
+    /* --------------------------------------
+       Card Grid & Cards
+    -------------------------------------- */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
     }
-    
-    
     .card {
       background: #fff;
       padding: 20px;
@@ -147,151 +269,174 @@
       background: #e05555;
       transform: scale(1.05);
     }
-
     
+    /* --------------------------------------
+       Welcome Card (Dashboard Indicator)
+    -------------------------------------- */
     .welcome-card {
       grid-column: 1 / -1;
       background: var(--color4);
       color: #fff;
       text-align: center;
-      padding: 30px;
+      padding: 20px;
       border-radius: 12px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.25);
       transition: transform 0.3s, box-shadow 0.3s;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .welcome-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 14px 28px rgba(0,0,0,0.35);
     }
     .welcome-card h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
     }
     .welcome-card p {
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
     
-    
+    /* --------------------------------------
+       Responsive Adjustments
+    -------------------------------------- */
     @media (max-width: 768px) {
       .dashboard-container {
         flex-direction: column;
       }
-      .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid var(--color1);
+      .main-content {
+        margin-top: 10px;
+      }
+      /* Adjust horizontal nav links on small screens */
+      nav.horizontal-nav ul li a {
+        padding: 6px 6px;
+        font-size: 0.8rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 1.75rem;
+      }
+      .hero-content p {
+        font-size: 0.9rem;
+      }
+      h2.section-title {
+        font-size: 2rem;
+      }
+      nav.horizontal-nav ul li a {
+        padding: 4px 4px;
+        font-size: 0.7rem;
       }
     }
   </style>
 </head>
 <body>
-  
+  <!-- Header with Logo, Horizontal Navigation, and Menu Toggle for Vertical Nav -->
   <header>
-    <div class="logo">MedCheck AI Dashboard</div>
-    <nav>
-      <ul>
-        <li onclick="navigate('dashboard')">Dashboard</li>
-        <li onclick="navigate('symptoms')"> <a href="symptom-checker.html">Symptom Checker</a></li>
-        <li onclick="navigate('medication')">Medications</li>
-        <li onclick="navigate('diagnostics')">Diagnostics</li>
-        <li onclick="navigate('profile')">Profile</li>
-        <li onclick="navigate('settings')">Settings</li>
-        <li onclick="logout()"><a href="index.html">Logout</a></li>
-      </ul>
-    </nav>
+    <div class="container nav-container">
+      <div class="logo">MedCheck AI</div>
+      <nav class="horizontal-nav">
+        <ul id="navList">
+          <li class="active"><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="symptom.html">Symptom Checker</a></li>
+          <li><a href="medication.html">Medications</a></li>
+          <li><a href="diagnostics.html">Diagnostics</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </nav>
+      <!-- Menu Toggle Icon (visible on small screens) -->
+      <button class="menu-toggle" onclick="toggleVerticalNav()">&#9776;</button>
+    </div>
   </header>
-
   
+  <!-- Vertical Navigation Panel (Only for small screens) -->
+  <nav class="vertical-nav" id="verticalNav">
+    <button class="close-nav" onclick="toggleVerticalNav()">X</button>
+    <ul>
+      <li class="active"><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="symptom.html">Symptom Checker</a></li>
+      <li><a href="medication.html">Medications</a></li>
+      <li><a href="diagnostics.html">Diagnostics</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="index.html">Logout</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Dashboard Layout -->
   <div class="dashboard-container">
-    
+    <!-- Sidebar (Visible on large screens only) -->
     <aside class="sidebar">
       <ul>
-        <li onclick="navigate('dashboard.html')">Overview</li>
-        <li onclick="navigate('symptoms')">Symptom Checker</li>
-        <li onclick="navigate('medication')">Medication Schedule</li>
-        <li onclick="navigate('diagnostics')">Diagnostics & Analysis</li>
-        <li onclick="navigate('trends')">Health Trends</li>
-        <li onclick="navigate('appointments')">Appointments</li>
-        <li> <a href="index.html">log out</a></li>
+        <li class="active"><a href="dashboard.html">Overview</a></li>
+        <li class="symptom"><a href="symptom.html">Symptom Checker</a></li>
+        <li><a href="medication.html">Medication Schedule</a></li>
+        <li><a href="diagnostics.html">Diagnostics & Analysis</a></li>
+        <li><a href="trends.html">Health Trends</a></li>
+        <li><a href="appointments.html">Appointments</a></li>
+        <li><a href="index.html">Log Out</a></li>
       </ul>
     </aside>
-
     
+    <!-- Main Content -->
     <main class="main-content">
-      
       <div class="card welcome-card">
         <h2>Welcome, Leakey Maina!</h2>
-        <p>Your personalized health dashboard is here. Our AI continuously
-             monitors your symptoms and adjusts your care plan—ensuring
-             you get timely medication, accurate diagnostics, and essential reminders.
-            </p>
-            <button onclick="navigate('diagnostics')">Get started</button>
+        <p>Your personalized health dashboard is here. Our AI continuously monitors your symptoms and adjusts your care plan—ensuring you get timely medication, accurate diagnostics, and essential reminders.</p>
+        <button onclick="navigate('diagnostics.html')">Get started</button>
       </div>
-
       
       <div class="card-grid">
-        
         <div class="card">
           <h3>Symptom Checker</h3>
           <p>Review your current symptoms. Let our AI analyze them to catch any potential issues early.</p>
-          <button onclick="navigate('symptoms')">Check Now</button>
+          <button onclick="navigate('symptom.html')">Check Now</button>
         </div>
-        
         <div class="card">
           <h3>Medication Reminders</h3>
           <p>View your upcoming medication schedule with precise timing and dosages to stay on track.</p>
-          <button onclick="navigate('medication')">View Reminders</button>
+          <button onclick="navigate('medication.html')">View Reminders</button>
         </div>
-        
         <div class="card">
           <h3>Diagnostics & Analysis</h3>
           <p>Get detailed, AI‑driven analysis and diagnosis based on your reported symptoms and history.</p>
-          <button onclick="navigate('diagnostics')">View Analysis</button>
+          <button onclick="navigate('diagnostics.html')">View Analysis</button>
         </div>
-        
         <div class="card">
           <h3>Health Trends</h3>
           <p>Track your wellness progress over time with interactive insights and charts.</p>
-          <button onclick="navigate('trends')">View Trends</button>
+          <button onclick="navigate('trends.html')">View Trends</button>
         </div>
-        
         <div class="card">
           <h3>Upcoming Appointments</h3>
           <p>Stay updated with your scheduled appointments and follow-up consultations.</p>
-          <button onclick="navigate('appointments')">View Appointments</button>
+          <button onclick="navigate('appointments.html')">View Appointments</button>
         </div>
-        <!-- Recent Activity Card -->
         <div class="card">
           <h3>Recent Activity</h3>
           <p>Review your latest interactions, symptom updates, and our AI recommendations.</p>
-          <button onclick="navigate('activity')">View Activity</button>
+          <button onclick="navigate('activity.html')">View Activity</button>
         </div>
       </div>
     </main>
   </div>
-
+  
   <script>
-    // Placeholder navigation function
-    function navigate(section) {
-      alert("Navigating to the " + section + " section...");
-      // Here you would load the relevant content or change the view
+    // Toggle the vertical navigation panel on small screens
+    function toggleVerticalNav() {
+      const vNav = document.getElementById("verticalNav");
+      vNav.classList.toggle("active");
     }
-    // Placeholder logout function
-    function logout() {
-      alert("Logging out...");
-      // Implement your logout process, then redirect (e.g., location.href = 'login.html')
+    
+    // Navigation function: if destination ends with ".html", redirect; otherwise, alert.
+    function navigate(destination) {
+      if (destination.endsWith(".html")) {
+        window.location.href = destination;
+      } else {
+        alert("Navigating to " + destination + " section...");
+      }
     }
   </script>
 </body>
 </html>
-
-
-<!--    issues
-  fix links
-  fix css links after that
-  make it a respoinsive layout
-  add and style footer
-  reduce noise content
-
--->
