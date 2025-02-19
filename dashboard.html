@@ -81,6 +81,11 @@
       z-index: 1000;
     }
     .logo {
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
       font-size: 1.6rem;
       font-weight: bold;
       white-space: nowrap;
@@ -274,6 +279,7 @@
        Welcome Card (Dashboard Indicator)
     -------------------------------------- */
     .welcome-card {
+      margin-top: 10px;
       grid-column: 1 / -1;
       background: var(--color4);
       color: #fff;
