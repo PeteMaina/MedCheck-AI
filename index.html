@@ -6,7 +6,9 @@
   <title>MedCheck AI - Intelligent Medical Solutions</title>
   <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
   <style>
-    /* New Five-Shade Color Palette */
+    /* ------------------------------------------------------------
+       COLOR PALETTE
+    ------------------------------------------------------------ */
     :root {
       --color1: #022944;  
       --color2: #F0F5F9;  
@@ -15,7 +17,9 @@
       --color5: #d11c1c;  
     }
 
-    /* Global Reset & Base Styles */
+    /* ------------------------------------------------------------
+       GLOBAL RESET & BASE STYLES
+    ------------------------------------------------------------ */
     * {
       margin: 0;
       padding: 0;
@@ -38,49 +42,44 @@
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 15px;
     }
 
-    /* Get Started Button */
+    /* ------------------------------------------------------------
+       BUTTONS
+    ------------------------------------------------------------ */
+    .get-started, .btn-get-started {
+      background: var(--color5);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: #fff;
+      text-decoration: none;
+    }
     .get-started {
-      background: var(--color5);
-      border: none;
-      border-radius: 50px;
       font-size: 13px;
-      cursor: pointer;
-      transition: background 0.3s;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-      color: #fff;
-      text-decoration: none;
-      display: flex;
+      display: inline-flex;
       gap: 5px;
-      margin-right: 5px;
-      align-items: end;
-      justify-content: end;
-      text-align: right;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
     }
-    .btn-get-started {
-      background: var(--color5);
-      border: none;
-      padding: 15px 30px;
-      border-radius: 50px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-      color: #fff;
-      text-decoration: none;
-      display: inline-block;
-      gap: 5px;
-    }
+    .get-started:hover,
     .btn-get-started:hover {
       background: #e05555;
     }
-
-    .get-started:hover {
-      background: #e05555;
+    .btn-get-started {
+      padding: 15px 30px;
+      font-size: 1rem;
+      display: inline-block;
+      gap: 5px;
     }
 
-    /* Sticky Navigation Header */
+    /* ------------------------------------------------------------
+       HEADER & NAVIGATION
+    ------------------------------------------------------------ */
     header {
       position: fixed;
       top: 0;
@@ -97,37 +96,51 @@
       padding: 15px 0;
     }
     .logo {
-      font-size: 2.0rem;
+      font-size: 2rem;
       font-weight: bold;
-      
       background: linear-gradient(to right, red, blue);
-      background-clip: text ;
+      background-clip: text;
+      -webkit-background-clip: text;
       color: transparent;
+      white-space: nowrap;
     }
     nav ul {
       list-style: none;
       display: flex;
-      gap: 20px;
+      gap: 10px;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
     }
     nav li a {
       padding: 8px 12px;
       border-radius: 5px;
       transition: background 0.6s;
+      font-size: 1rem;
+      white-space: nowrap;
     }
     nav li a:hover {
       background: var(--color3);
       color: #fff;
     }
+    /* On small screens, remove the last "Get started" nav link */
+    @media (max-width: 768px) {
+      nav ul li:last-child {
+        display: none;
+      }
+    }
 
-    /* Hero Section with Full-Viewport Background */
+    /* ------------------------------------------------------------
+       HERO SECTION
+    ------------------------------------------------------------ */
     .hero {
+      margin-top: 60px; /* push hero content below fixed header */
       height: 90vh;
-      border-image: url(Images/revo.jpg);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      background: url(Images/revo.jpg) no-repeat center center/cover;
     }
     .hero::before {
       content: "";
@@ -136,7 +149,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(2, 34, 56, 0.911); /* Overlay using primary dark */
+      background: rgba(2, 34, 56, 0.91);
     }
     .hero-content {
       position: relative;
@@ -153,7 +166,9 @@
       margin-bottom: 30px;
     }
 
-    /* Section Base Styling */
+    /* ------------------------------------------------------------
+       SECTION BASE STYLING
+    ------------------------------------------------------------ */
     section {
       padding: 80px 0;
     }
@@ -170,8 +185,10 @@
       color: var(--color1);
     }
 
-    /* About Section */
-    #about{
+    /* ------------------------------------------------------------
+       ABOUT SECTION
+    ------------------------------------------------------------ */
+    #about {
       margin-top: 30px;
       border-radius: 20px;
     }
@@ -185,6 +202,8 @@
     .about img {
       flex: 1 1 400px;
       max-width: 500px;
+      width: 100%;
+      height: auto;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,1);
     }
@@ -199,7 +218,9 @@
       margin-bottom: 10px;
     }
 
-    /* Features Section */
+    /* ------------------------------------------------------------
+       FEATURES SECTION
+    ------------------------------------------------------------ */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -225,7 +246,9 @@
       color: #555;
     }
 
-    /* Technology Section */
+    /* ------------------------------------------------------------
+       TECHNOLOGY SECTION
+    ------------------------------------------------------------ */
     .tech-grid {
       padding: 15px;
       display: grid;
@@ -238,7 +261,9 @@
       box-shadow: 0 4px 12px rgba(0,0,0,1);
     }
 
-    /* Positive Health & AI Section */
+    /* ------------------------------------------------------------
+       POSITIVE HEALTH & AI SECTION
+    ------------------------------------------------------------ */
     .health-ai {
       display: flex;
       align-items: center;
@@ -248,6 +273,8 @@
     .health-ai img {
       flex: 1 1 400px;
       max-width: 500px;
+      width: 100%;
+      height: auto;
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,1);
     }
@@ -262,8 +289,10 @@
       margin-bottom: 10px;
     }
 
-    /* Testimonials Section */
-    #testimonials, #tech, #contact{
+    /* ------------------------------------------------------------
+       TESTIMONIALS SECTION
+    ------------------------------------------------------------ */
+    #testimonials, #tech, #contact {
       border-radius: 15px;
     }
     .testimonials-grid {
@@ -295,7 +324,9 @@
       color: #555;
     }
 
-    /* Call-to-Action Section */
+    /* ------------------------------------------------------------
+       CALL-TO-ACTION SECTION
+    ------------------------------------------------------------ */
     .cta-section {
       text-align: center;
       padding: 60px 0;
@@ -311,7 +342,9 @@
       margin-bottom: 30px;
     }
 
-    /* Contact Section */
+    /* ------------------------------------------------------------
+       CONTACT SECTION
+    ------------------------------------------------------------ */
     .contact-container {
       display: flex;
       flex-wrap: wrap;
@@ -361,7 +394,9 @@
       margin-bottom: 20px;
     }
 
-    /* Footer */
+    /* ------------------------------------------------------------
+       FOOTER
+    ------------------------------------------------------------ */
     footer {
       background: var(--color1);
       color: #fff;
@@ -369,16 +404,57 @@
       padding: 20px;
     }
 
-    /* Responsive Adjustments */
+    /* ------------------------------------------------------------
+       RESPONSIVE DESIGN
+    ------------------------------------------------------------ */
     @media (max-width: 768px) {
-      .about, .health-ai {
+      /* Header: Stack nav below logo in one row */
+      .nav-container {
         flex-direction: column;
+        align-items: center;
+      }
+      nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        gap: 5px;
+      }
+      nav li a {
+        padding: 8px 6px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+      /* Adjust hero section */
+      .hero {
+        height: 70vh;
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .hero-content p {
+        font-size: 1rem;
+      }
+      /* Reduce container side padding */
+      .container {
+        padding: 0 10px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 1.75rem;
+      }
+      .hero-content p {
+        font-size: 0.9rem;
+      }
+      h2.section-title {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Sticky Navigation -->
+  <!-- Sticky Navigation Header -->
   <header>
     <div class="container nav-container">
       <div class="logo">MedCheck AI</div>
@@ -402,7 +478,7 @@
     <div class="hero-content">
       <h1>Revolutionizing Healthcare with AI</h1>
       <p>Advanced medical solutions powered by cutting-edge artificial intelligence.</p>
-      <a class="btn-get-started" href="auth.html">Get Started </a>
+      <a class="btn-get-started" href="auth.html">Get Started</a>
     </div>
   </section>
 
@@ -454,7 +530,6 @@
       <img src="Images/Imaging_solutions.png" alt="Imaging Solutions" />
       <img src="Images/big-data.jpg" alt="Big Data Analytics" />
       <img src="Images/hmm.jpg" alt="Real-time Monitoring" />
-      
     </div>
     <div style="text-align:center; margin-top:40px;">
       <a class="btn-get-started" href="auth.html">Get Started</a>
@@ -485,7 +560,7 @@
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <img src="Images/Emily.jpg" alt="Client 1" />
-        <h4>Dr. Emily </h4>
+        <h4>Dr. Emily</h4>
         <p>"MediAI has revolutionized our approach to diagnostics, making our processes faster and more accurate."</p>
       </div>
       <div class="testimonial-card">
@@ -495,7 +570,7 @@
       </div>
       <div class="testimonial-card">
         <img src="Images/Sophie.jpg" alt="Client 3" />
-        <h4>Dr. Sophia </h4>
+        <h4>Dr. Sophia</h4>
         <p>"Personalized treatment recommendations have significantly improved our patient care and outcomes."</p>
       </div>
     </div>
@@ -525,7 +600,8 @@
       <div class="contact-info">
         <img src="Images/AI3.jpg" alt="Office Location" />
         <p>The best services, sign up to get started</p>
-        <p>Email: peterwahomemaina003@gmail.com | Phone: +254794797796</p> <br> <br>
+        <p>Email: peterwahomemaina003@gmail.com | Phone: +254794797796</p>
+        <br><br>
         <a href="dashboard.html"><p>bypass</p></a>
       </div>
     </div>
