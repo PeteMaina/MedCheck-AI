@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Patient Portal</title>
+    <link rel="stylesheet" href="shedulestyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="script.js" defer></script>
+    <script src="chatbot.js" defer></script>
+</head>
+<body>
+    <!-- Add sidebar before navbar -->
+    <aside class="sidebar">
+        <ul>
+            <a href="dashboard.html"><li><span>Dashboard</span></li></a>
+            <a href="symptom.html"><li><span>Symptom Checker</span></li></a>
+            <a href="Medicationschedule.html"><li><span>Medication Schedule</span></li></a>
+            <li><span>Diagnostics & Analysis</span></li>
+            <li><span>Health Trends</span></li>
+            <li><span>Recent Activity</span></li>
+            <li><span>Profile</span></li>
+            <li><span>Settings</span></li>
+        </ul>
+    </aside>
+
+    <div class="main-content">
+    <nav class="navbar">
+        <div class="nav-brand">Schedule Planner</div>
+        <div class="nav-links">
+            <button class="profile-btn">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <div class="dashboard-grid">
+            <!-- Tasks Card -->
+            <div class="card tasks-card">
+                <h2>Tasks</h2>
+                    <button class="add-task-btn">
+                        <i class="fas fa-plus"></i> Add New Task
+                    </button>
+                <div class="tasks-list">
+                        <!-- Tasks will be added here -->
+                </div>
+            </div>
+
+            <!-- Upcoming Appointments Card -->
+            <div class="card appointments-card">
+                <h2>Upcoming Appointments</h2>
+                <div class="appointment-item">
+                    <div class="appointment-info">
+                        <h3>Dr. Sarah Johnson</h3>
+                        <p>Cardiology Consultation</p>
+                    </div>
+                    <div class="appointment-time">
+                        <span>Tomorrow</span>
+                        <span>10:00 AM</span>
+                    </div>
+                </div>
+                <button class="add-appointment-btn">
+                    <i class="fas fa-plus"></i> Add Appointment
+                </button>
+            </div>
+
+            <!-- Medication Schedule Card -->
+            <div class="card medication-card">
+                <h2>Medication Schedule</h2>
+                <div class="medication-item">
+                    <div class="med-info">
+                        <span class="med-name">Aspirin</span>
+                        <span class="med-dose">1 tablet - Morning</span>
+                    </div>
+                    <button class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <button class="add-medication-btn">Add New Medication</button>
+            </div>
+
+            <!-- Virtual Doctor Card -->
+            <div class="card virtual-doctor-card">
+                <h2>MedCheck AI</h2>
+                    <button class="start-consultation-btn" id="openChatBtn">
+                        <i class="fas fa-stethoscope"></i>
+                        Start Consultation
+                    </button>
+                    <p class="availability">AI-powered assistant available 24/7</p>
+                </div>
+            </div>
+
+            <!-- Virtual Doctor Modal Dialog -->
+            <div id="virtualDoctorModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-user-md"></i> Virtual Doctor</h2>
+                        <button class="close-modal-btn">&times;</button>
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message system">
+                                Hello! I'm your AI medical assistant. How can I help you today?
+                            </div>
+                        </div>
+                        <div class="chat-input-container">
+                            <input 
+                                type="text" 
+                                id="userInput" 
+                                placeholder="Type your message here..." 
+                                class="chat-input-field"
+                                autocomplete="off"
+                            >
+                            <button id="sendMessage" class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <!-- Add this modal dialog for medication schedule -->
+            <div id="addMedicationModal" class="modal">
+            <div class="modal-content">
+                    <div class="modal-header" style="background: var(--primary-green);">
+                        <h2><i class="fas fa-pills"></i> Add New Medication</h2>
+                        <button class="close-modal-btn">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addMedicationForm" class="medication-form">
+                            <div class="form-group">
+                                <label for="medicationName">Medication Name</label>
+                                <input type="text" id="medicationName" required placeholder="Enter medication name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="medicationDose">Dosage</label>
+                                <input type="text" id="medicationDose" required placeholder="e.g., 1 tablet">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="startDate">Start Date</label>
+                                    <input type="date" id="startDate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="medicationTime">Time</label>
+                                    <input type="time" id="medicationTime" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="frequency">Frequency</label>
+                                <select id="frequency" required>
+                                    <option value="daily">Daily</option>
+                                    <option value="twice">Twice Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="medicationNotes">Notes/Description</label>
+                                <textarea id="medicationNotes" rows="3" placeholder="Add any additional instructions or notes"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn">Cancel</button>
+                                <button type="submit" class="submit-btn">Add Medication</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add this modal dialog for appointments -->
+            <div id="addAppointmentModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: var(--primary-purple);">
+                        <h2><i class="fas fa-calendar-plus"></i> Add New Appointment</h2>
+                        <button class="close-modal-btn">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addAppointmentForm" class="appointment-form">
+                            <div class="form-group">
+                                <label for="doctorName">Doctor Name</label>
+                                <input type="text" id="doctorName" required placeholder="Enter doctor's name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="specialization">Specialization</label>
+                                <input type="text" id="specialization" required placeholder="e.g., Cardiology">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="appointmentDate">Date</label>
+                                    <input type="date" id="appointmentDate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="appointmentTime">Time</label>
+                                    <input type="time" id="appointmentTime" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appointmentType">Appointment Type</label>
+                                <select id="appointmentType" required>
+                                    <option value="consultation">Consultation</option>
+                                    <option value="followup">Follow-up</option>
+                                    <option value="checkup">Regular Check-up</option>
+                                    <option value="test">Medical Test</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appointmentNotes">Notes/Description</label>
+                                <textarea id="appointmentNotes" rows="3" placeholder="Add any additional notes or description"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn">Cancel</button>
+                                <button type="submit" class="submit-btn" style="background: var(--primary-purple);">Add Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add this modal dialog for tasks -->
+            <div id="addTaskModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: var(--primary-blue);">
+                        <h2><i class="fas fa-tasks"></i> Add New Task</h2>
+                        <button class="close-modal-btn">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addTaskForm" class="task-form">
+                            <div class="form-group">
+                                <label for="taskName">Task Name</label>
+                                <input type="text" id="taskName" required placeholder="Enter task name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskPriority">Priority</label>
+                                <select id="taskPriority" required>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="taskDate">Due Date</label>
+                                    <input type="date" id="taskDate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="taskTime">Time</label>
+                                    <input type="time" id="taskTime" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskNotes">Description</label>
+                                <textarea id="taskNotes" rows="3" placeholder="Add any additional notes or description"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn">Cancel</button>
+                                <button type="submit" class="submit-btn" style="background: var(--primary-blue);">Add Task</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    </div>
+</body>
+</html> 
