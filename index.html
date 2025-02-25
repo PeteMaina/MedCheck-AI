@@ -10,11 +10,19 @@
        COLOR PALETTE
     ------------------------------------------------------------ */
     :root {
-      --color1: #022944;  
-      --color2: #F0F5F9;  
-      --color3: #1E90FF;  
-      --color4: #074452;  
-      --color5: #d11c1c;  
+      /* Primary Colors */
+      --color1: #2C5282;  /* Deep Blue - Trust & Professionalism */
+      --color2: #F7FAFC;  /* Soft White - Clean Background */
+      --color3: #4299E1;  /* Bright Blue - Interactive Elements */
+      --color4: #38B2AC;  /* Teal - Accents & Highlights */
+      --color5: #48BB78;  /* Green - Call-to-action & Success */
+
+      /* Additional Colors for Enhanced UX */
+      --text-primary: #2D3748;     /* Dark Gray - Primary Text */
+      --text-secondary: #4A5568;   /* Medium Gray - Secondary Text */
+      --background-light: #EDF2F7; /* Light Gray - Secondary Background */
+      --accent-warm: #F6AD55;      /* Warm Orange - Warnings/Notifications */
+      --accent-soft: #B2F5EA;      /* Soft Teal - Subtle Highlights */
     }
 
     /* ------------------------------------------------------------
@@ -52,29 +60,22 @@
       background: var(--color5);
       border: none;
       border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s;
-      color: #fff;
-      text-decoration: none;
-    }
-    .get-started {
-      font-size: 13px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
-      display: inline-flex;
-      gap: 5px;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 12px;
+      padding: 12px 28px;
+      color: white;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(72, 187, 120, 0.2);
+      position: relative;
+      overflow: hidden;
     }
     .get-started:hover,
     .btn-get-started:hover {
-      background: #e05555;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+      background: #3da066;
     }
-    .btn-get-started {
-      padding: 15px 30px;
-      font-size: 1rem;
-      display: inline-block;
-      gap: 5px;
+    .get-started:active, .btn-get-started:active {
+      transform: translateY(1px);
     }
 
     /* ------------------------------------------------------------
@@ -85,8 +86,9 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: var(--color2);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+      background: rgba(247, 250, 252, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(44, 82, 130, 0.1);
       z-index: 1000;
     }
     .nav-container {
@@ -98,11 +100,18 @@
     .logo {
       font-size: 2rem;
       font-weight: bold;
-      background: linear-gradient(to right, red, blue);
+      background: linear-gradient(45deg, var(--color5), var(--color3));
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
       white-space: nowrap;
+      transition: all 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+      background: linear-gradient(45deg, var(--color3), var(--color5));
+      background-clip: text;
+      -webkit-background-clip: text;
     }
     nav ul {
       list-style: none;
@@ -112,15 +121,26 @@
       justify-content: flex-end;
     }
     nav li a {
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background 0.6s;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
       font-size: 1rem;
       white-space: nowrap;
     }
-    nav li a:hover {
+    nav li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
       background: var(--color3);
-      color: #fff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    nav li a:hover::after {
+      width: 80%;
     }
     /* On small screens, remove the last "Get started" nav link */
     @media (max-width: 768px) {
@@ -171,6 +191,7 @@
     ------------------------------------------------------------ */
     section {
       padding: 80px 0;
+      transition: background-color 0.3s ease;
     }
     section:nth-of-type(even) {
       background: #fff;
@@ -205,7 +226,11 @@
       width: 100%;
       height: auto;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 8px 30px rgba(44, 82, 130, 0.15);
+    }
+    .about:hover img {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(44, 82, 130, 0.2);
     }
     .about-text {
       flex: 1 1 300px;
@@ -230,12 +255,15 @@
       background: #fff;
       padding: 20px;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 4px 15px rgba(44, 82, 130, 0.1);
       text-align: center;
-      transition: transform 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(66, 153, 225, 0.1);
     }
     .feature-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(44, 82, 130, 0.15);
+      border-color: var(--color3);
     }
     .feature-card h4 {
       margin-bottom: 10px;
@@ -258,7 +286,11 @@
     .tech-grid img {
       width: 100%;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 8px 30px rgba(44, 82, 130, 0.15);
+    }
+    .tech-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(44, 82, 130, 0.2);
     }
 
     /* ------------------------------------------------------------
@@ -276,7 +308,11 @@
       width: 100%;
       height: auto;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 8px 30px rgba(44, 82, 130, 0.15);
+    }
+    .health-ai:hover img {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(44, 82, 130, 0.2);
     }
     .health-ai-text {
       flex: 1 1 300px;
@@ -305,8 +341,15 @@
       background: #fff;
       padding: 20px;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 4px 15px rgba(44, 82, 130, 0.1);
       text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(66, 153, 225, 0.1);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(44, 82, 130, 0.15);
+      border-color: var(--color3);
     }
     .testimonial-card img {
       width: 80px;
@@ -314,6 +357,12 @@
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 10px;
+      transition: all 0.3s ease;
+      border: 4px solid var(--accent-soft);
+    }
+    .testimonial-card:hover img {
+      transform: scale(1.1);
+      border-color: var(--color3);
     }
     .testimonial-card h4 {
       margin-bottom: 10px;
@@ -330,8 +379,24 @@
     .cta-section {
       text-align: center;
       padding: 60px 0;
-      background: var(--color1);
+      background: linear-gradient(135deg, var(--color1), var(--color4));
       color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+      transform: translateY(100%);
+      transition: transform 0.6s ease;
+    }
+    .cta-section:hover::before {
+      transform: translateY(0);
     }
     .cta-section h2 {
       font-size: 2.5rem;
@@ -358,15 +423,22 @@
       background: #fff;
       padding: 20px;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 4px 15px rgba(44, 82, 130, 0.1);
     }
     .contact-form input,
     .contact-form textarea {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 15px;
+      padding: 12px 16px;
+      border: 2px solid var(--background-light);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--color3);
+      box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+      outline: none;
     }
     .contact-form button {
       width: 100%;
@@ -390,7 +462,7 @@
     .contact-info img {
       width: 100%;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,1);
+      box-shadow: 0 8px 30px rgba(44, 82, 130, 0.15);
       margin-bottom: 20px;
     }
 
@@ -514,7 +586,7 @@
       </div>
       <div class="feature-card">
         <h4>Personalized Treatment</h4>
-        <p>Customize treatment plans using AI insights tailored to each patient’s unique needs.</p>
+        <p>Customize treatment plans using AI insights tailored to each patient's unique needs.</p>
       </div>
     </div>
     <div style="text-align:center; margin-top:40px;">
@@ -525,6 +597,14 @@
   <!-- Technology Section -->
   <section class="container" id="tech">
     <h2 class="section-title">Our Technology</h2>
+    <p>
+      <p>
+        Our real-time medical diagnostics system leverages cutting-edge artificial intelligence (AI) and machine learning technologies to revolutionize healthcare by enabling predictive analytics and virtual diagnosis. 
+        By integrating advanced algorithms with vast datasets of medical information, the system can analyze patient data in real-time, identifying patterns and anomalies that may indicate potential health issues before they become critical.
+         This proactive approach not only enhances diagnostic accuracy but also empowers healthcare providers to deliver personalized care tailored to individual patient needs. 
+        The purpose of this system is to bridge gaps in accessibility, reduce diagnostic errors, and improve overall patient outcomes by providing clinicians with actionable insights and decision-support tools, ultimately transforming the way medical diagnoses are made and managed.
+        </p>
+    </p>
     <div class="tech-grid">
       <img src="Images/neural_network.jpg" alt="Neural Networks" />
       <img src="Images/Imaging_solutions.png" alt="Imaging Solutions" />
@@ -539,6 +619,11 @@
   <!-- Positive Health & AI Section -->
   <section class="container" id="health-ai">
     <h2 class="section-title">Positive Health &amp; AI</h2>
+    <p>
+      <p>
+        This technology significantly enhances diagnostic speed and accuracy, enabling early detection of diseases and improving patient outcomes.
+      </p>
+    </p>
     <div class="health-ai">
       <img src="Images/Live_AI.gif" alt="Healthy AI" />
       <div class="health-ai-text">

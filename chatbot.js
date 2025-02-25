@@ -64,57 +64,57 @@ async function handleMessage(userInput, messageContainer) {
     const userMessage = userInput.value.trim();
     if (!userMessage) return;
 
-    // Add user message to chat
+        // Add user message to chat
     addMessageToChat(messageContainer, 'user', userMessage);
-    userInput.value = '';
+        userInput.value = '';
 
-    // Show typing indicator
+        // Show typing indicator
     showTypingIndicator(messageContainer);
 
-    try {
+        try {
         const response = await fetch('http://localhost:1234/v1/chat/completions', {
-            method: 'POST',
-            headers: {
+                method: 'POST',
+                headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
+                },
+                body: JSON.stringify({
                 model: "mistral-7b-instruct-v0.2.Q4_K_M",
-                messages: [
-                    {
-                        role: "system",
+                    messages: [
+                        {
+                            role: "system",
                         content: "You are an AI medical assistant. You help analyze symptoms and provide general medical information. Always remind users to consult healthcare professionals for specific medical advice. Be empathetic and thorough in your responses."
-                    },
-                    {
-                        role: "user",
+                        },
+                        {
+                            role: "user",
                         content: userMessage
-                    }
-                ],
-                temperature: 0.7,
+                        }
+                    ],
+                    temperature: 0.7,
                 max_tokens: 500,
-                stream: true
-            })
-        });
+                    stream: true
+                })
+            });
 
-        if (!response.ok) {
+            if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
-        }
+            }
 
-        const reader = response.body.getReader();
+            const reader = response.body.getReader();
         let partialResponse = '';
         removeTypingIndicator(messageContainer);
 
         // Create a new message element for the AI response
         const messageElement = createMessageElement(messageContainer, 'assistant', '');
 
-        while (true) {
-            const { done, value } = await reader.read();
+            while (true) {
+                const { done, value } = await reader.read();
             
-            if (done) break;
-            
-            const chunk = new TextDecoder().decode(value);
-            const lines = chunk.split('\n');
-            
-            for (const line of lines) {
+                if (done) break;
+
+                const chunk = new TextDecoder().decode(value);
+                const lines = chunk.split('\n');
+
+                for (const line of lines) {
                 if (line.startsWith('data: ')) {
                     if (line.includes('[DONE]')) continue;
                     
@@ -124,16 +124,16 @@ async function handleMessage(userInput, messageContainer) {
                             partialResponse += jsonData.choices[0].delta.content;
                             messageElement.textContent = partialResponse;
                             scrollToBottom(messageContainer);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
                         }
-                    } catch (e) {
-                        console.error('Error parsing JSON:', e);
                     }
                 }
             }
-        }
 
-    } catch (error) {
-        console.error('Error:', error);
+        } catch (error) {
+            console.error('Error:', error);
         removeTypingIndicator(messageContainer);
         addMessageToChat(messageContainer, 'system', 'Sorry, I encountered an error. Please try again.');
     }
@@ -148,13 +148,13 @@ function addMessageToChat(container, type, content) {
 }
 
 function createMessageElement(container, type, content) {
-    const messageDiv = document.createElement('div');
+        const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type}`;
     messageDiv.textContent = content;
     container.appendChild(messageDiv);
     scrollToBottom(container);
-    return messageDiv;
-}
+        return messageDiv;
+    }
 
 function showTypingIndicator(container) {
     const typingDiv = document.createElement('div');

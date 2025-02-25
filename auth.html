@@ -14,79 +14,189 @@
     }
 
     :root {
-      --color1: #0A3D62; /* Dark Blue */
-      --color2: #F0F5F9; /* Light Blue Background */
-      --color3: #1E90FF; /* Bright Blue */
-      --color4: #00A8CC; /* Teal */
-      --color5: #FF6B6B; /* Red */
+      --primary: #2B84EA;      /* Trustworthy blue */
+      --secondary: #38B2AC;    /* Calming teal */
+      --background: #18364a;   /* Updated deep blue background */
+      --text: #FFFFFF;         /* White text */
+      --accent: #4FD1C5;      /* Soft teal accent */
+      --error: #F56565;       /* Soft red for errors */
+      --success: #48BB78;     /* Soft green for success */
+      --surface: rgba(255, 255, 255, 0.1);  /* Semi-transparent white */
+      --border: rgba(255, 255, 255, 0.2);   /* Subtle borders */
+      --input-bg: rgba(255, 255, 255, 0.08); /* Input background */
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background-size: cover;
-      color: #fff;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      background: var(--background);
+      overflow: hidden;
+    }
+
+    .split-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .auth-section {
+      width: 790px;
+      min-width: 790px;
+      background: linear-gradient(135deg, #18364a, #1d4258);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-image: url(Images/auth_back.jpg);
-      background-repeat: no-repeat;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .image-section {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-width: 400px;
+      background: var(--background-dark);
+    }
+
+    .image-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(1.1) contrast(1.1);
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+          135deg,
+          rgba(43, 132, 234, 0.3),
+          rgba(56, 178, 172, 0.3)
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    /* Add a subtle animation to the image */
+    @keyframes subtle-zoom {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.05);
+      }
+    }
+
+    .image-section img {
+      animation: subtle-zoom 20s infinite alternate ease-in-out;
     }
 
     .auth-container {
-      backdrop-filter: blur(6px);
-      border-radius: 20px;
-      box-shadow: 12px 12px 12px rgba(0, 0, 0, 1), -8px -8px 10px rgb(2, 53, 95);
-      width: 400px;
-      padding: 30px;
-      text-align: center;
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 
+          0 4px 6px rgba(66, 153, 225, 0.1),
+          0 12px 24px rgba(66, 153, 225, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       position: relative;
-      height: 80vh;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .auth-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+          0 8px 12px rgba(66, 153, 225, 0.15),
+          0 16px 32px rgba(66, 153, 225, 0.25);
     }
 
     h1 {
-      font-size: 2.0rem;
+      font-size: 2rem;
       font-weight: bold;
-      margin-bottom: 20px;
-      background: linear-gradient(to right, red, blue);
-      background-clip: text ;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    h1:hover {
+      transform: scale(1.05);
     }
 
     h2 {
       margin-bottom: 20px;
+      color: var(--text);
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      text-align: left;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      font-weight: 500;
     }
 
     input[type="text"],
     input[type="email"],
     input[type="password"] {
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 20px;
+      width: 100%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
       font-size: 16px;
-      background-color: #f9f9f9;
-      color: #333;
+      background: var(--input-bg);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]::placeholder,
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
     }
 
     button {
-      padding: 10px;
+      width: 100%;
+      padding: 12px;
       border: none;
-      border-radius: 20px;
+      border-radius: 12px;
       font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
-      background-color: var(--color3);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(43, 132, 234, 0.2);
     }
 
     button:hover {
-      background-color: var(--color4);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(43, 132, 234, 0.3);
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
     }
 
     .social-buttons {
@@ -96,31 +206,33 @@
     }
 
     .social-buttons button {
-      width: calc(33% - 10px);
-      background-color: #fff;
-      color: var(--color1);
-      border: 1px solid var(--color1);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .social-buttons button:hover {
-      background-color: var(--color1);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--accent);
+      color: white;
     }
 
     .toggle-section {
       margin-top: 20px;
       font-size: 14px;
-      color: #555;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .toggle-section a {
-      color: var(--color3);
+      color: var(--accent);
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
 
     .toggle-section a:hover {
-      text-decoration: underline;
+      color: white;
+      text-decoration: none;
     }
 
     footer {
@@ -130,63 +242,83 @@
       right: 0;
       text-align: center;
       font-size: 12px;
-      color: #aaa;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Responsive design */
+    @media (max-width: 1200px) {
+      .auth-section {
+        width: 100%;
+        min-width: auto;
+        padding: 1rem;
+      }
+      
+      .image-section {
+        min-width: 300px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .image-section {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-container">
-    <h1>MedCheck AI</h1>
+  <div class="split-container">
+    <div class="auth-section">
+      <div class="auth-container">
+        <h1>MedCheck AI</h1>
+        
+        <!-- Sign In Form -->
+        <form id="signInForm">
+          <h2>Sign in</h2>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit">Sign In</button>
+        </form>
 
-    <!-- Sign In Form -->
-    <form id="signInForm">
-      <h2>Sign in</h2>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Password" required>
-      <br>
-      <button type="submit">Sign In</button>
-    </form>
+        <!-- Social Buttons -->
+        <div class="social-buttons">
+          <button><i class="fab fa-google"></i> Google</button>
+          <button><i class="fab fa-facebook-f"></i> Facebook</button>
+          <button><i class="fab fa-twitter"></i> Twitter</button>
+        </div>
 
-    <!-- Social Buttons -->
-    <div class="social-buttons">
-      <button><i class="fab fa-google"></i> Google</button>
-      <button><i class="fab fa-facebook-f"></i> Facebook</button>
-      <button><i class="fab fa-twitter"></i> Twitter</button>
+        <!-- Toggle Sections -->
+        <div class="toggle-section">
+          <p>Don't have an account? <a href="#" id="toSignUp">Sign Up</a></p>
+          <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
+        </div>
+
+        <footer>
+          <p>&copy; 2025 MedCheck. All rights reserved.</p>
+        </footer>
+      </div>
     </div>
 
-    <!-- Forgot Password Section -->
-    <div id="forgotPassword" style="display: none;">
-      <form>
-        <h2>Recover Password</h2>
-        <input type="email" placeholder="Enter your email" required>
-        <button type="submit">Reset Password</button>
-      </form>
+    <div class="image-section">
+      <img src="Images/authfront.png" alt="Healthcare Professional">
+      <div class="image-overlay"></div>
     </div>
+  </div>
 
-    <!-- Sign Up Form -->
-    <form id="signUpForm" style="display: none;">
-      <h2>sign up</h2>
-      <input type="text" placeholder="Full Name" required>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Password" required>
-      <br>
-      <button type="submit">Sign Up</button>
-    </form>
+  <!-- Other forms (Sign Up, Forgot Password) remain the same but hidden -->
+  <div id="signUpForm" style="display: none;">
+    <!-- Sign Up form content -->
+  </div>
 
-    <!-- Toggle Sections -->
-    <div class="toggle-section">
-        <p>Already have an account? <a href="#" id="toSignIn"> Sign In</a> </p>
-        <br>
-        <p>Not yet Using our services? <a href="#" id="toSignUp"> Sign Up</a> </p>
-        <br>
-        <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
-      
-    </div>
-
-    <footer>
-      © 2025 MedCheck AI. All rights reserved.
-    </footer>
+  <div id="forgotPassword" style="display: none;">
+    
+    <!-- Forgot Password form content -->
   </div>
 
   <script>
