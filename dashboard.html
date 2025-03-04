@@ -90,6 +90,16 @@
       font-weight: bold;
       white-space: nowrap;
     }
+
+    .top-nav nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    .menu-toggle {
+      display: none;
+      cursor: pointer;
+    }
     /* Horizontal navigation always visible */
     nav.horizontal-nav {
       display: flex;
@@ -337,23 +347,16 @@
 </head>
 <body>
   <!-- Header with Logo, Horizontal Navigation, and Menu Toggle for Vertical Nav -->
-  <header>
-    <div class="container nav-container">
-      <div class="logo">MedCheck AI</div>
-      <nav class="horizontal-nav">
-        <ul id="navList">
-          <li class="active"><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="symptom.html">Symptom Checker</a></li>
-          <li><a href="Medicationschedule.html">Medications</a></li>
-          <li><a href="diagnostics.html">Diagnostics</a></li>
-          <li><a href="profile.html">Profile</a></li>
-          <li><a href="settings.html">Settings</a></li>
-          <li><a href="index.html">Logout</a></li>
-        </ul>
-      </nav>
-      <!-- Menu Toggle Icon (visible on small screens) -->
-      <button class="menu-toggle" onclick="toggleVerticalNav()">&#9776;</button>
-    </div>
+  <header class="top-nav">
+    <span class="logo">MedCheck AI</span>
+    <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="Medicationschedule.html">Medications</a>
+      <a href="#">Diagnostics</a>
+      <a href="profile.html">Profile</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
   </header>
   
   <!-- Vertical Navigation Panel (Only for small screens) -->

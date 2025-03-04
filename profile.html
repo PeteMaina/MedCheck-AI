@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedCheck AI - Profile</title>
+  <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
+  <style>
+    /* ---------------------- COLORS & ROOT VARIABLES ---------------------- */
+    :root {
+      --dark-blue: #19335d;        /* Darker shade for nav/sidebar */
+      --sidebar-bg: #1f3251;       /* Sidebar background */
+      --teal: #009688;             /* Teal accent color */
+      --light-bg: #f5f5f5;         /* Page background */
+      --card-bg: #ffffff;          /* Card background */
+      --text-color: #333;          /* Primary text color */
+      --active-bg: #26418f;        /* Active link highlight */
+    }
+    /* ---------------------- GLOBAL STYLES ---------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      padding-bottom: 60px; /* Extra space for footer */
+    }
+    /* ---------------------- TOP NAVIGATION ---------------------- */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: var(--dark-blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      z-index: 1000;
+    }
+    /* Menu toggle positioned to the left of the brand text */
+    .top-nav .menu-toggle {
+      display: none; /* Hidden on large screens */
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    .top-nav .brand {
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      font-size: 1.6rem;
+      font-weight: bold;
+      flex-grow: 1;
+    }
+    .top-nav nav {
+      display: flex;
+    }
+    .top-nav nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    /* ---------------------- SIDEBAR ---------------------- */
+    .sidebar {
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 250px;
+      height: calc(100% - 50px);
+      background: var(--sidebar-bg);
+      color: #fff;
+      padding-top: 1rem;
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    /* Hidden by default on small screens */
+    .sidebar.hidden {
+      transform: translateX(-250px);
+    }
+    .sidebar a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      transition: background 0.2s;
+    }
+    .sidebar a:hover {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+    }
+    .sidebar a.active {
+      background: var(--active-bg);
+      border-radius: 15px;
+    }
+    /* ---------------------- MAIN CONTENT ---------------------- */
+    .main-content {
+      margin-top: 50px;
+      margin-left: 250px;
+      padding: 1rem;
+      transition: margin-left 0.3s ease;
+    }
+    /* ---------------------- GRID CONTAINER ---------------------- */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    /* ---------------------- CARD STYLES ---------------------- */
+    .card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* ---------------------- PROFILE CARD ---------------------- */
+    .profile-card {
+      text-align: center;
+    }
+    .profile-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--teal);
+      margin-bottom: 1rem;
+    }
+    .profile-card button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    /* ---------------------- COMMON CARD HEADINGS & STYLES ---------------------- */
+    h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .chart-container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      height: 300px;
+    }
+    /* ---------------------- MEDICAL INFORMATION CARD ---------------------- */
+    .medical-info p {
+      margin: 0.5rem 0;
+    }
+    .medical-info label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    .medical-info input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .medical-info button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    /* ---------------------- CALCULATOR CARDS ---------------------- */
+    .health-calculator,
+    .additional-metrics,
+    .ideal-weight-calculator,
+    .tdee-calculator {
+      margin: 20px auto;
+      max-width: 1200px;
+    }
+    .health-calculator label,
+    .additional-metrics label,
+    .ideal-weight-calculator label,
+    .tdee-calculator label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    .health-calculator input,
+    .additional-metrics input,
+    .additional-metrics select,
+    .ideal-weight-calculator input,
+    .ideal-weight-calculator select,
+    .tdee-calculator input,
+    .tdee-calculator select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .health-calculator button,
+    .additional-metrics button,
+    .ideal-weight-calculator button,
+    .tdee-calculator button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    .health-calculator p.result,
+    .additional-metrics p.result,
+    .ideal-weight-calculator p.result,
+    .tdee-calculator p.result {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    /* ---------------------- FOOTER ---------------------- */
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: var(--dark-blue);
+      color: #fff;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    /* ---------------------- MEDIA QUERIES ---------------------- */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      /* Hide nav links on small screens */
+      .top-nav nav {
+        display: none;
+      }
+      /* Sidebar is hidden by default on small screens */
+      .sidebar {
+        transform: translateX(-250px);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+  <!-- Local Chart.js (No external links) -->
+  <script src="chart.min.js"></script>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <!-- Menu toggle on small screens positioned to the left -->
+    <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
+    <span class="brand">MedCheck AI</span>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="Medicationschedule.html">Medications</a>
+      <a href="#">Diagnostics</a>
+      <a href="#">Profile</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+  </header>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="symptom.html">Symptom Checker</a>
+    <a href="Medicationschedule.html">Medication Schedule</a>
+    <a href="">Diagnostics &amp; Analysis</a>
+    <a href="#">Health Trends</a>
+    <a href="#">Upcoming Appointments</a>
+    <a href="#" class="active">Profile</a>
+  </aside>
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <div class="container">
+      <!-- Profile Card -->
+      <div class="card profile-card">
+        <img src="Images/profile_image.png" alt="User Avatar">
+        <h2 id="user-name">John Doe</h2>
+        <p id="user-email">johndoe@example.com</p>
+        <button onclick="editProfile()">Edit Profile</button>
+      </div>
+      <!-- Health Metrics Card -->
+      <div class="card health-metrics">
+        <h3>Health Metrics</h3>
+        <div class="chart-container">
+          <canvas id="healthChart"></canvas>
+        </div>
+      </div>
+      <!-- Medical Information Card (Editable Height & Weight) -->
+      <div class="card medical-info">
+        <h3>Medical Information</h3>
+        <p><strong>Age:</strong> 35</p>
+        <p><strong>Blood Type:</strong> O+</p>
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" placeholder="Enter your height">
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter your weight">
+        <p><strong>Allergies:</strong> Penicillin, Nuts</p>
+        <p><strong>Chronic Conditions:</strong> Hypertension</p>
+        <p><strong>Last Checkup:</strong> 2025-02-15</p>
+        <button onclick="saveMedicalInfo()">Save Medical Info</button>
+      </div>
+    </div>
+    <!-- Body Fat Calculator Card -->
+    <div class="health-calculator">
+      <h3>Body Fat Calculator (For Men)</h3>
+      <label for="calc-height">Height (cm):</label>
+      <input type="number" id="calc-height" placeholder="Enter height">
+      <label for="neck">Neck Circumference (cm):</label>
+      <input type="number" id="neck" placeholder="Enter neck circumference">
+      <label for="waist">Waist Circumference (cm):</label>
+      <input type="number" id="waist" placeholder="Enter waist circumference">
+      <button onclick="calculateBodyFat()">Calculate Body Fat</button>
+      <p class="result" id="bodyFatResult"></p>
+    </div>
+    <!-- Additional Body Metrics Card (BMI & BMR Calculator) -->
+    <div class="additional-metrics">
+      <h3>Additional Body Metrics</h3>
+      <label for="age">Age (years):</label>
+      <input type="number" id="age" placeholder="Enter your age">
+      <label for="gender">Gender:</label>
+      <select id="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <button onclick="calculateAdditionalMetrics()">Calculate BMI & BMR</button>
+      <p class="result" id="additionalMetricsResult"></p>
+    </div>
+    <!-- Ideal Body Weight Calculator Card -->
+    <div class="ideal-weight-calculator">
+      <h3>Ideal Body Weight Calculator</h3>
+      <label for="ideal-height">Height (cm):</label>
+      <input type="number" id="ideal-height" placeholder="Enter your height">
+      <label for="ideal-gender">Gender:</label>
+      <select id="ideal-gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <button onclick="calculateIdealWeight()">Calculate Ideal Weight</button>
+      <p class="result" id="idealWeightResult"></p>
+    </div>
+    <!-- TDEE Calculator Card -->
+    <div class="tdee-calculator">
+      <h3>Total Daily Energy Expenditure (TDEE) Calculator</h3>
+      <label for="activity-level">Activity Level:</label>
+      <select id="activity-level">
+        <option value="1.2">Sedentary (little or no exercise)</option>
+        <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+        <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
+        <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+        <option value="1.9">Extra active (very hard exercise &amp; physical job)</option>
+      </select>
+      <button onclick="calculateTDEE()">Calculate TDEE</button>
+      <p class="result" id="tdeeResult"></p>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Medicheck Inc. All rights reserved</p>
+  </footer>
+  <script>
+    // On page load, load data and render the chart
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserProfile();
+      loadMedicalInfo();
+      loadAdditionalMetrics();
+      loadIdealWeightInfo();
+      loadTDEEInfo();
+      renderChart();
+    });
+    // Sidebar toggle function (for small screens)
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('hidden');
+      }
+    }
+    // Profile Functions
+    function loadUserProfile() {
+      const name = localStorage.getItem('userName') || 'John Doe';
+      const email = localStorage.getItem('userEmail') || 'johndoe@example.com';
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-email').textContent = email;
+    }
+    function editProfile() {
+      const currentName = document.getElementById('user-name').textContent;
+      const currentEmail = document.getElementById('user-email').textContent;
+      const newName = prompt('Enter new name:', currentName);
+      const newEmail = prompt('Enter new email:', currentEmail);
+      if (newName) localStorage.setItem('userName', newName);
+      if (newEmail) localStorage.setItem('userEmail', newEmail);
+      loadUserProfile();
+    }
+    // Medical Information Functions (Editable Height & Weight)
+    function loadMedicalInfo() {
+      const height = localStorage.getItem('height') || '';
+      const weight = localStorage.getItem('weight') || '';
+      document.getElementById('height').value = height;
+      document.getElementById('weight').value = weight;
+    }
+    function saveMedicalInfo() {
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      localStorage.setItem('height', height);
+      localStorage.setItem('weight', weight);
+      alert('Medical information saved.');
+      // Pre-fill the Body Fat Calculator if empty
+      if (!document.getElementById('calc-height').value) {
+        document.getElementById('calc-height').value = height;
+      }
+    }
+    // Body Fat Calculator Functions
+    function calculateBodyFat() {
+      const calcHeight = document.getElementById('calc-height').value;
+      const neck = document.getElementById('neck').value;
+      const waist = document.getElementById('waist').value;
+      localStorage.setItem('calcHeight', calcHeight);
+      localStorage.setItem('neck', neck);
+      localStorage.setItem('waist', waist);
+      if (!calcHeight || !neck || !waist) {
+        alert('Please enter height, neck, and waist measurements.');
+        return;
+      }
+      const height = parseFloat(calcHeight);
+      const neckVal = parseFloat(neck);
+      const waistVal = parseFloat(waist);
+      const log10 = Math.log10 || function(x){ return Math.log(x) / Math.LN10; };
+      const bodyFat = 495 / (1.0324 - 0.19077 * log10(waistVal - neckVal) + 0.15456 * log10(height)) - 450;
+      const bodyFatRounded = Math.round(bodyFat * 10) / 10;
+      document.getElementById('bodyFatResult').textContent = 'Estimated Body Fat: ' + bodyFatRounded + '%';
+    }
+    // Additional Body Metrics Functions (BMI & BMR Calculator)
+    function loadAdditionalMetrics() {
+      const age = localStorage.getItem('age') || '35';
+      const gender = localStorage.getItem('gender') || 'Male';
+      document.getElementById('age').value = age;
+      document.getElementById('gender').value = gender;
+    }
+    function calculateAdditionalMetrics() {
+      const age = parseFloat(document.getElementById('age').value);
+      const gender = document.getElementById('gender').value;
+      const height = parseFloat(document.getElementById('height').value);
+      const weight = parseFloat(document.getElementById('weight').value);
+      if (!age || !height || !weight) {
+        alert('Please ensure Age, Height, and Weight are entered.');
+        return;
+      }
+      localStorage.setItem('age', age);
+      localStorage.setItem('gender', gender);
+      const heightInMeters = height / 100;
+      const bmi = weight / (heightInMeters * heightInMeters);
+      const bmiRounded = Math.round(bmi * 10) / 10;
+      let bmr;
+      if (gender === 'Male') {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+      } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+      }
+      const bmrRounded = Math.round(bmr);
+      document.getElementById('additionalMetricsResult').textContent = 'BMI: ' + bmiRounded + ' | BMR: ' + bmrRounded + ' kcal/day';
+    }
+    // Ideal Body Weight Calculator Functions
+    function loadIdealWeightInfo() {
+      const idealHeight = localStorage.getItem('idealHeight') || localStorage.getItem('height') || '';
+      const idealGender = localStorage.getItem('idealGender') || 'Male';
+      document.getElementById('ideal-height').value = idealHeight;
+      document.getElementById('ideal-gender').value = idealGender;
+    }
+    function calculateIdealWeight() {
+      const heightInput = document.getElementById('ideal-height').value;
+      const gender = document.getElementById('ideal-gender').value;
+      if (!heightInput) {
+        alert('Please enter your height in cm.');
+        return;
+      }
+      const height = parseFloat(heightInput);
+      const heightInInches = height / 2.54;
+      let idealWeight;
+      if (gender === 'Male') {
+        idealWeight = 50 + 2.3 * Math.max(0, (heightInInches - 60));
+      } else {
+        idealWeight = 45.5 + 2.3 * Math.max(0, (heightInInches - 60));
+      }
+      idealWeight = Math.round(idealWeight * 10) / 10;
+      document.getElementById('idealWeightResult').textContent = 'Ideal Body Weight: ' + idealWeight + ' kg';
+      localStorage.setItem('idealHeight', height);
+      localStorage.setItem('idealGender', gender);
+    }
+    // TDEE Calculator Functions
+    function loadTDEEInfo() {
+      const activityLevel = localStorage.getItem('activityLevel') || '1.2';
+      document.getElementById('activity-level').value = activityLevel;
+    }
+    function calculateTDEE() {
+      const age = parseFloat(document.getElementById('age').value);
+      const gender = document.getElementById('gender').value;
+      const height = parseFloat(document.getElementById('height').value);
+      const weight = parseFloat(document.getElementById('weight').value);
+      const activityMultiplier = parseFloat(document.getElementById('activity-level').value);
+      if (!age || !height || !weight) {
+        alert('Please ensure Age, Height, and Weight are entered.');
+        return;
+      }
+      localStorage.setItem('activityLevel', activityMultiplier);
+      let bmr;
+      if (gender === 'Male') {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+      } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+      }
+      const tdee = bmr * activityMultiplier;
+      const tdeeRounded = Math.round(tdee);
+      document.getElementById('tdeeResult').textContent = 'Estimated TDEE: ' + tdeeRounded + ' kcal/day';
+    }
+    // Render Chart (using local Chart.js)
+    function renderChart() {
+      const ctx = document.getElementById('healthChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+          datasets: [
+            {
+              label: 'Blood Pressure Trends',
+              data: [120, 125, 130, 128, 126],
+              borderColor: '#009688',
+              backgroundColor: 'rgba(0,150,136,0.2)',
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+    // Logout function
+    function logout() {
+      localStorage.clear();
+      alert('You have been logged out.');
+      window.location.href = 'auth.html';
+    }
+  </script>
+</body>
+</html>

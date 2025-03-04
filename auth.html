@@ -263,6 +263,17 @@
         display: none;
       }
     }
+    
+    .logo {
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      font-size: 1.6rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -270,7 +281,7 @@
   <div class="split-container">
     <div class="auth-section">
       <div class="auth-container">
-        <h1>MedCheck AI</h1>
+        <h1 class="logo">MedCheck AI</h1>
         
         <!-- Sign In Form -->
         <form id="signInForm">
