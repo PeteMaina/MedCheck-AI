@@ -6,29 +6,25 @@
   <title>MedCheck AI - Profile</title>
   <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
   <style>
-    /* ------------------------------------------------------------
-       COLOR PALETTE & GLOBAL VARIABLES
-    ------------------------------------------------------------ */
+    /* ---------------------- COLORS & ROOT VARIABLES ---------------------- */
     :root {
-      --dark-blue: #19335d;        /* Primary dark blue */
+      --dark-blue: #19335d;        /* Dark blue for nav and sidebar */
       --sidebar-bg: #1f3251;       /* Sidebar background */
-      --teal: #009688;             /* Teal accent */
+      --teal: #009688;             /* Teal accent color */
       --light-bg: #f5f5f5;         /* Page background */
-      --card-bg: #ffffff;          /* Card background */
+      --card-bg: #ffffff;          /* White panels/cards */
       --text-color: #333;          /* Primary text color */
       --active-bg: #26418f;        /* Active link highlight */
     }
-    /* ------------------------------------------------------------
-       GLOBAL & RESET
-    ------------------------------------------------------------ */
+    /* ---------------------- GLOBAL & RESET ---------------------- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
     body {
-      font-family: Arial, sans-serif;
-      background: var(--light-bg);
+      background-color: var(--light-bg);
       color: var(--text-color);
       padding-bottom: 60px; /* Space for footer */
     }
@@ -39,9 +35,7 @@
     ul {
       list-style: none;
     }
-    /* ------------------------------------------------------------
-       HEADER
-    ------------------------------------------------------------ */
+    /* ---------------------- HEADER ---------------------- */
     header {
       background-color: var(--dark-blue);
       color: #fff;
@@ -70,6 +64,11 @@
       display: none;
     }
     .logo {
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
       font-size: 1.6rem;
       font-weight: bold;
       white-space: nowrap;
@@ -88,11 +87,10 @@
     .nav-links a:hover {
       background-color: var(--active-bg);
     }
-    /* ------------------------------------------------------------
-       MOBILE NAVIGATION (Off-canvas)
-    ------------------------------------------------------------ */
+    /* ---------------------- MOBILE NAVIGATION (Off-canvas) ---------------------- */
     .mobile-nav {
       background-color: var(--dark-blue);
+      color: #fff;
       position: fixed;
       top: 60px; /* below header */
       left: 0;
@@ -112,6 +110,7 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      white-space: nowrap;
     }
     .mobile-nav ul li:hover {
       background-color: var(--active-bg);
@@ -119,9 +118,7 @@
     .mobile-nav ul li.active {
       background-color: var(--teal);
     }
-    /* ------------------------------------------------------------
-       DESKTOP SIDEBAR
-    ------------------------------------------------------------ */
+    /* ---------------------- DESKTOP SIDEBAR ---------------------- */
     .sidebar {
       background-color: var(--dark-blue);
       color: #fff;
@@ -153,9 +150,7 @@
     .sidebar ul li.active {
       background-color: var(--teal);
     }
-    /* ------------------------------------------------------------
-       MAIN CONTENT
-    ------------------------------------------------------------ */
+    /* ---------------------- MAIN CONTENT ---------------------- */
     .main-content {
       margin-top: 60px; /* header height */
       margin-left: 250px; /* desktop sidebar width */
@@ -167,9 +162,7 @@
         margin-left: 0;
       }
     }
-    /* ------------------------------------------------------------
-       CONTAINER & CARD STYLES
-    ------------------------------------------------------------ */
+    /* ---------------------- CONTAINER & CARD STYLES ---------------------- */
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -281,9 +274,7 @@
       margin-top: 1rem;
       font-weight: bold;
     }
-    /* ------------------------------------------------------------
-       FOOTER
-    ------------------------------------------------------------ */
+    /* ---------------------- FOOTER ---------------------- */
     footer {
       text-align: center;
       padding: 10px;
@@ -293,15 +284,18 @@
       bottom: 0;
       width: 100%;
     }
-    /* ------------------------------------------------------------
-       RESPONSIVE DESIGN
-    ------------------------------------------------------------ */
+    /* ---------------------- MEDIA QUERIES ---------------------- */
     @media (max-width: 768px) {
+      /* On small screens, show only the logo and toggle button */
       .toggle-btn {
         display: block;
       }
       .nav-links {
         display: none;
+      }
+      /* Mobile Navigation Off-canvas */
+      .mobile-nav {
+        display: block;
       }
     }
   </style>
@@ -323,13 +317,13 @@
       <a href="auth.html">Logout</a>
     </nav>
   </header>
-  <!-- MOBILE NAVIGATION -->
+  <!-- MOBILE NAVIGATION (Off-canvas) -->
   <nav class="mobile-nav" id="mobileNav">
     <ul>
       <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
       <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medications</a></li>
       <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</a></li>
-      <li onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
+      <li class="active" onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
       <li onclick="closeMobileNav()"><a href="auth.html">Logout</a></li>
     </ul>
   </nav>
@@ -337,9 +331,10 @@
   <aside class="sidebar">
     <ul>
       <a href="dashboard.html"><li>Dashboard</li></a>
+      <a href="symptom.html"><li>Symptoms</li></a>
       <a href="Medicationschedule.html"><li>Medications</li></a>
       <a href="diagnostics.html"><li>Diagnostics</li></a>
-      <a href="profile.html"><li class="active">Profile</li></a>
+      <a href="profile.html" class="active"><li class="active">Profile</li></a>
     </ul>
   </aside>
   <!-- MAIN CONTENT -->
@@ -347,7 +342,7 @@
     <div class="container">
       <!-- Profile Card -->
       <div class="card profile-card">
-        <img src="Images/me1.png" alt="User Avatar">
+        <img src="Images/profile_image.png" alt="User Avatar">
         <h2 id="user-name">John Doe</h2>
         <p id="user-email">johndoe@example.com</p>
         <button onclick="editProfile()">Edit Profile</button>
@@ -362,7 +357,7 @@
       <!-- Medical Information Card -->
       <div class="card medical-info">
         <h3>Medical Information</h3>
-        <p><strong>Age:</strong> 35</p>
+        <p><strong>Age:</strong> 20</p>
         <p><strong>Blood Type:</strong> O+</p>
         <label for="height">Height (cm):</label>
         <input type="number" id="height" placeholder="Enter your height">
