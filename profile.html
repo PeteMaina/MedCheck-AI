@@ -14,8 +14,7 @@
       --light-bg: #f5f5f5;         /* Page background */
       --card-bg: #ffffff;          /* Card background */
       --text-color: #333;          /* Primary text color */
-      --active-bg: #26418f; 
-      --color3: #1E90FF;       /* Active link highlight */
+      --active-bg: #26418f;        /* Active link highlight */
     }
     /* ---------------------- GLOBAL STYLES ---------------------- */
     * {
@@ -40,9 +39,15 @@
       color: #fff;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 0 1rem;
       z-index: 1000;
+    }
+    /* Menu toggle positioned to the left of the brand text */
+    .top-nav .menu-toggle {
+      display: none; /* Hidden on large screens */
+      cursor: pointer;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
     }
     .top-nav .brand {
       background: linear-gradient(to right, red, blue);
@@ -52,15 +57,15 @@
       white-space: nowrap;
       font-size: 1.6rem;
       font-weight: bold;
+      flex-grow: 1;
+    }
+    .top-nav nav {
+      display: flex;
     }
     .top-nav nav a {
       color: #fff;
       text-decoration: none;
       margin-left: 1rem;
-    }
-    .menu-toggle {
-      display: none;
-      cursor: pointer;
     }
     /* ---------------------- SIDEBAR ---------------------- */
     .sidebar {
@@ -75,6 +80,10 @@
       transition: transform 0.3s ease;
       z-index: 999;
     }
+    /* Hidden by default on small screens */
+    .sidebar.hidden {
+      transform: translateX(-250px);
+    }
     .sidebar a {
       display: block;
       color: #fff;
@@ -83,15 +92,12 @@
       transition: background 0.2s;
     }
     .sidebar a:hover {
-      background: var(--color3);
+      background: rgba(255,255,255,0.1);
       border-radius: 15px;
     }
     .sidebar a.active {
       background: var(--active-bg);
       border-radius: 15px;
-    }
-    .sidebar.hidden {
-      transform: translateX(-250px);
     }
     /* ---------------------- MAIN CONTENT ---------------------- */
     .main-content {
@@ -99,9 +105,6 @@
       margin-left: 250px;
       padding: 1rem;
       transition: margin-left 0.3s ease;
-    }
-    .main-content.expanded {
-      margin-left: 0;
     }
     /* ---------------------- GRID CONTAINER ---------------------- */
     .container {
@@ -139,8 +142,8 @@
       border-radius: 15px;
       cursor: pointer;
     }
-    /* ---------------------- HEALTH METRICS CARD ---------------------- */
-    .health-metrics h3 {
+    /* ---------------------- COMMON CARD HEADINGS & STYLES ---------------------- */
+    h3 {
       text-align: center;
       margin-bottom: 1rem;
     }
@@ -151,10 +154,6 @@
       height: 300px;
     }
     /* ---------------------- MEDICAL INFORMATION CARD ---------------------- */
-    .medical-info h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
     .medical-info p {
       margin: 0.5rem 0;
     }
@@ -177,136 +176,26 @@
       border-radius: 15px;
       cursor: pointer;
     }
-    /* ---------------------- BODY FAT CALCULATOR CARD ---------------------- */
-    .health-calculator {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin: 20px auto;
-      max-width: 1200px;
-    }
-    .health-calculator h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .health-calculator label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .health-calculator input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .health-calculator button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .health-calculator p.result {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    /* ---------------------- ADDITIONAL BODY METRICS CARD ---------------------- */
-    .additional-metrics {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin: 20px auto;
-      max-width: 1200px;
-    }
-    .additional-metrics h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .additional-metrics label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .additional-metrics input,
-    .additional-metrics select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .additional-metrics button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .additional-metrics p.result {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    /* ---------------------- IDEAL BODY WEIGHT CALCULATOR CARD ---------------------- */
-    .ideal-weight-calculator {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin: 20px auto;
-      max-width: 1200px;
-    }
-    .ideal-weight-calculator h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .ideal-weight-calculator label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .ideal-weight-calculator input,
-    .ideal-weight-calculator select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .ideal-weight-calculator button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .ideal-weight-calculator p.result {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    /* ---------------------- TDEE CALCULATOR CARD ---------------------- */
+    /* ---------------------- CALCULATOR CARDS ---------------------- */
+    .health-calculator,
+    .additional-metrics,
+    .ideal-weight-calculator,
     .tdee-calculator {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       margin: 20px auto;
       max-width: 1200px;
     }
-    .tdee-calculator h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+    .health-calculator label,
+    .additional-metrics label,
+    .ideal-weight-calculator label,
     .tdee-calculator label {
       display: block;
       margin: 0.5rem 0 0.2rem;
     }
+    .health-calculator input,
+    .additional-metrics input,
+    .additional-metrics select,
+    .ideal-weight-calculator input,
+    .ideal-weight-calculator select,
     .tdee-calculator input,
     .tdee-calculator select {
       width: 100%;
@@ -314,6 +203,9 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
+    .health-calculator button,
+    .additional-metrics button,
+    .ideal-weight-calculator button,
     .tdee-calculator button {
       margin-top: 10px;
       padding: 8px 12px;
@@ -323,6 +215,9 @@
       border-radius: 15px;
       cursor: pointer;
     }
+    .health-calculator p.result,
+    .additional-metrics p.result,
+    .ideal-weight-calculator p.result,
     .tdee-calculator p.result {
       text-align: center;
       margin-top: 1rem;
@@ -334,13 +229,20 @@
       padding: 10px;
       background: var(--dark-blue);
       color: #fff;
-      margin-top: 20px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
     /* ---------------------- MEDIA QUERIES ---------------------- */
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
       }
+      /* Hide nav links on small screens */
+      .top-nav nav {
+        display: none;
+      }
+      /* Sidebar is hidden by default on small screens */
       .sidebar {
         transform: translateX(-250px);
       }
@@ -355,23 +257,25 @@
 <body>
   <!-- Top Navigation -->
   <header class="top-nav">
-    <span class="brand">MedCheck AI</span>
+    <!-- Menu toggle on small screens positioned to the left -->
     <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
+    <span class="brand">MedCheck AI</span>
     <nav>
       <a href="dashboard.html">Dashboard</a>
       <a href="Medicationschedule.html">Medications</a>
       <a href="#">Diagnostics</a>
-      <a href="profile.html">Profile</a>
+      <a href="#">Profile</a>
       <a href="#" onclick="logout()">Logout</a>
     </nav>
   </header>
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
-    <a href="symptom.html">Dashboard</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="symptom.html">Symptom Checker</a>
     <a href="Medicationschedule.html">Medication Schedule</a>
-    <a href="#">Diagnostics & Analysis</a>
+    <a href="">Diagnostics &amp; Analysis</a>
     <a href="#">Health Trends</a>
+    <a href="#">Upcoming Appointments</a>
     <a href="#" class="active">Profile</a>
   </aside>
   <!-- Main Content -->
@@ -453,7 +357,7 @@
         <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
         <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
         <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
-        <option value="1.9">Extra active (very hard exercise & physical job)</option>
+        <option value="1.9">Extra active (very hard exercise &amp; physical job)</option>
       </select>
       <button onclick="calculateTDEE()">Calculate TDEE</button>
       <p class="result" id="tdeeResult"></p>
@@ -464,7 +368,7 @@
     <p>&copy; 2025 Medicheck Inc. All rights reserved</p>
   </footer>
   <script>
-    // On page load, load data and render chart
+    // On page load, load data and render the chart
     document.addEventListener('DOMContentLoaded', () => {
       loadUserProfile();
       loadMedicalInfo();
@@ -473,12 +377,14 @@
       loadTDEEInfo();
       renderChart();
     });
-    // Sidebar toggle
+    // Sidebar toggle function (for small screens)
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
-      const mainContent = document.getElementById('mainContent');
-      sidebar.classList.toggle('hidden');
-      mainContent.classList.toggle('expanded');
+      if (sidebar.classList.contains('hidden')) {
+        sidebar.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('hidden');
+      }
     }
     // Profile Functions
     function loadUserProfile() {
@@ -509,6 +415,7 @@
       localStorage.setItem('height', height);
       localStorage.setItem('weight', weight);
       alert('Medical information saved.');
+      // Pre-fill the Body Fat Calculator if empty
       if (!document.getElementById('calc-height').value) {
         document.getElementById('calc-height').value = height;
       }
