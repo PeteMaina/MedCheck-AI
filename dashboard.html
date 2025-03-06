@@ -126,7 +126,7 @@
       color: transparent;
       white-space: nowrap;
     }
-    /* Horizontal nav: only Logout remains */
+    /* Horizontal navigation: only Logout remains */
     .nav-links {
       display: flex;
       gap: 15px;
@@ -165,7 +165,8 @@
       right: 10px;
       background: none;
       border: none;
-      font-size: 1.8rem;
+      font-size: 1.4rem;  /* Smaller font size */
+      font-weight: bold;  /* More bold */
       color: #fff;
       cursor: pointer;
     }
@@ -184,9 +185,11 @@
     }
     .vertical-nav ul li a:hover {
       background: #26418f;
+      border-radius: 10px; /* Increased border radius on hover */
     }
     .vertical-nav ul li.active a {
       background: var(--teal);
+      border-radius: 10px; /* Increased border radius for active */
     }
     
     /* --------------------------------------
@@ -204,7 +207,7 @@
       overflow-y: auto;
       transition: transform 0.3s;
     }
-    /* Ensure no list markers appear */
+    /* Remove any default bullet markers */
     .sidebar ul {
       list-style: none;
     }
@@ -218,13 +221,15 @@
       padding: 10px;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, border-radius 0.3s;
     }
     .sidebar ul li:hover {
-      background: #26418f;
+      background-color: #26418f;
+      border-radius: 10px;  /* Increased border radius on hover */
     }
     .sidebar ul li.active {
-      background: var(--teal);
+      background-color: var(--teal);
+      border-radius: 10px;  /* Increased border radius for active item */
     }
     
     /* --------------------------------------
