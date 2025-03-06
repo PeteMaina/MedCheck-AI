@@ -40,9 +40,10 @@
         <div class="dashboard-grid">
             <!-- Tasks Card -->
             <div class="card tasks-card">
-                <h2>Tasks</h2>
+                <h2>Notes</h2>
+                <h4>Your Personal notes here</h4>
                     <button class="add-task-btn">
-                        <i class="fas fa-plus"></i> Add New Task
+                        <i class="fas fa-plus"></i> Add New Note
                     </button>
                 <div class="tasks-list">
                         <!-- Tasks will be added here -->
@@ -236,13 +237,13 @@
             <div id="addTaskModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header" style="background: var(--primary-blue);">
-                        <h2><i class="fas fa-tasks"></i> Add New Task</h2>
+                        <h2><i class="fas fa-tasks"></i> Add New Note</h2>
                         <button class="close-modal-btn">&times;</button>
                     </div>
                     <div class="modal-body">
                         <form id="addTaskForm" class="task-form">
                             <div class="form-group">
-                                <label for="taskName">Task Name</label>
+                                <label for="taskName">Note Name</label>
                                 <input type="text" id="taskName" required placeholder="Enter task name">
                             </div>
 
@@ -274,7 +275,7 @@
 
                             <div class="form-actions">
                                 <button type="button" class="cancel-btn">Cancel</button>
-                                <button type="submit" class="submit-btn" style="background: var(--primary-blue);">Add Task</button>
+                                <button type="submit" class="submit-btn" style="background: var(--primary-blue);">Add Note</button>
                             </div>
                         </form>
                 </div>

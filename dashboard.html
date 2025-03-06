@@ -12,14 +12,14 @@
     -------------------------------------- */
     :root {
       --dark-blue: #0A3D62;          /* Primary Dark */
-      --sidebar-bg: #18364a;         /* Sidebar background */
+      --sidebar-bg: #18364a;         /* Sidebar background color */
       --teal: #009688;               /* Active color (teal) */
       --light-bg: #F0F5F9;           /* Light background */
       --card-bg: #ffffff;            /* White panels/cards */
       --text-color: #333;            /* Primary text color */
       --button-color: #3da066;       /* Global button color */
       --button-hover: #37985e;        /* Global button hover */
-      --color4: #027c97;             /* Secondary Accent (used for welcome card background) */
+      --color4: #027c97;             /* Secondary Accent (for welcome card background) */
     }
 
     /* --------------------------------------
@@ -42,9 +42,8 @@
       color: inherit;
       transition: color 0.3s;
     }
-    a:hover {
-      color: var(--teal);
-    }
+    /* Override global hover for sidebar links later */
+    
     .container {
       width: 90%;
       max-width: 1200px;
@@ -143,7 +142,7 @@
     }
     
     /* --------------------------------------
-       MOBILE NAVIGATION PANEL
+       MOBILE NAVIGATION PANEL (Vertical Nav)
     -------------------------------------- */
     .vertical-nav {
       position: fixed;
@@ -166,8 +165,8 @@
       right: 10px;
       background: none;
       border: none;
-      font-size: 1.4rem; /* Smaller font size */
-      font-weight: bold; /* Bold */
+      font-size: 1.4rem;
+      font-weight: bold;
       color: #fff;
       cursor: pointer;
     }
@@ -178,20 +177,26 @@
       gap: 10px;
       padding: 0 10px;
     }
+    /* Make entire area clickable */
+    .vertical-nav ul li {
+      margin-bottom: 10px;
+    }
     .vertical-nav ul li a {
-      color: #fff;
-      padding: 10px 12px;
-      border-radius: 5px;
       display: block;
-      font-weight: 600; /* Increased text weight */
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: 600;
+      color: #fff; /* Force text color to white */
     }
     .vertical-nav ul li a:hover {
       background: #26418f;
       border-radius: 10px;
+      color: #fff; /* Keep text white */
     }
     .vertical-nav ul li.active a {
       background: var(--teal);
       border-radius: 10px;
+      color: #fff;
     }
     
     /* --------------------------------------
@@ -217,21 +222,26 @@
         display: none;
       }
     }
+    /* Make entire area clickable */
     .sidebar ul li {
       margin-bottom: 15px;
+    }
+    .sidebar ul li a {
+      display: block;
       padding: 10px;
       border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s, border-radius 0.3s;
-      font-weight: 600; /* Increased text weight */
+      font-weight: 600;
+      color: #fff;
     }
-    .sidebar ul li:hover {
+    .sidebar ul li a:hover {
       background: #26418f;
       border-radius: 10px;
+      color: #fff;
     }
-    .sidebar ul li.active {
+    .sidebar ul li.active a {
       background: var(--teal);
       border-radius: 10px;
+      color: #fff;
     }
     
     /* --------------------------------------
@@ -279,7 +289,7 @@
       margin-bottom: 10px;
       font-size: 1.4rem;
       color: var(--dark-blue);
-      font-weight: 600; /* Increased text weight */
+      font-weight: 600;
     }
     .card p {
       font-size: 0.95rem;
@@ -306,7 +316,7 @@
     .welcome-card {
       margin-top: 10px;
       grid-column: 1 / -1;
-      background: var(--color4);  /* Uses secondary accent */
+      background: var(--color4);
       color: #fff;
       text-align: center;
       padding: 20px;
@@ -322,12 +332,12 @@
     .welcome-card h2 {
       font-size: 1.8rem;
       margin-bottom: 8px;
-      font-weight: 700; /* Increased weight */
+      font-weight: 700;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
     }
     .welcome-card p {
       font-size: 0.95rem;
-      font-weight: 700; /* Increased weight */
+      font-weight: 700;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
     }
     
@@ -344,7 +354,6 @@
       width: 100%;
     }
   </style>
-  <!-- Local Chart.js (No external links) -->
   <script src="chart.min.js"></script>
 </head>
 <body>
