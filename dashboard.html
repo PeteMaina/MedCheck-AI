@@ -11,14 +11,14 @@
        COLORS & ROOT VARIABLES
     -------------------------------------- */
     :root {
-      --dark-blue: #0A3D62;
-      --sidebar-bg: #18364a;
-      --teal: #009688;
-      --light-bg: #F0F5F9;
-      --card-bg: #ffffff;
-      --text-color: #333;
-      --button-color: #3da066;
-      --button-hover: #37985e;
+      --dark-blue: #0A3D62;          /* Primary Dark */
+      --sidebar-bg: #18364a;         /* Sidebar background color */
+      --teal: #009688;               /* Active color (teal) */
+      --light-bg: #F0F5F9;           /* Light background */
+      --card-bg: #ffffff;            /* White panels/cards */
+      --text-color: #333;            /* Primary text color */
+      --button-color: #3da066;       /* Global button color */
+      --button-hover: #37985e;        /* Global button hover */
     }
 
     /* --------------------------------------
@@ -33,26 +33,74 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--light-bg);
       color: var(--text-color);
+      line-height: 1.6;
+      padding-bottom: 60px; /* For footer */
     }
     a {
       text-decoration: none;
       color: inherit;
+      transition: color 0.3s;
     }
-
+    a:hover {
+      color: var(--teal);
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* --------------------------------------
+       BUTTONS
+    -------------------------------------- */
+    button {
+      background: var(--button-color);
+      border: none;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: var(--button-hover);
+    }
+    /* Dedicated styling for the "Get started" button */
+    .get-started-btn {
+      background: linear-gradient(to right, var(--dark-blue), var(--teal));
+      border: none;
+      border-radius: 50px;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .get-started-btn:hover {
+      background: linear-gradient(to right, var(--teal), var(--dark-blue));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+    
     /* --------------------------------------
        HEADER & HORIZONTAL NAVIGATION
     -------------------------------------- */
-    header {
-      background-color: var(--dark-blue);
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
+    header.top-nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
+      background: var(--dark-blue);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       z-index: 1000;
     }
     .header-left {
@@ -60,7 +108,7 @@
       align-items: center;
       gap: 20px;
     }
-    /* Menu toggle icon – visible on mobile */
+    /* Menu toggle icon – visible on small screens */
     .toggle-btn {
       background: none;
       border: none;
@@ -135,6 +183,9 @@
       display: block;
     }
     .vertical-nav ul li a:hover {
+      background: #26418f;
+    }
+    .vertical-nav ul li.active a {
       background: var(--teal);
     }
     
@@ -153,6 +204,10 @@
       overflow-y: auto;
       transition: transform 0.3s;
     }
+    /* Ensure no list markers appear */
+    .sidebar ul {
+      list-style: none;
+    }
     @media (max-width: 768px) {
       .sidebar {
         display: none;
@@ -166,6 +221,9 @@
       transition: background 0.3s;
     }
     .sidebar ul li:hover {
+      background: #26418f;
+    }
+    .sidebar ul li.active {
       background: var(--teal);
     }
     
@@ -173,8 +231,8 @@
        MAIN CONTENT
     -------------------------------------- */
     .main-content {
-      margin-top: 60px;
-      margin-left: 250px;
+      margin-top: 60px; /* header height */
+      margin-left: 250px; /* desktop sidebar width */
       padding: 20px;
       transition: margin-left 0.3s;
     }
@@ -191,7 +249,7 @@
     }
     
     /* --------------------------------------
-       CARD GRID & CARD STYLES (Preserving Original Styling)
+       CARD GRID & CARD STYLES (Original Styling Preserved)
     -------------------------------------- */
     .card-grid {
       display: grid;
@@ -293,7 +351,7 @@
   <nav class="vertical-nav" id="verticalNav">
     <button class="close-nav" onclick="toggleMobileNav()">X</button>
     <ul>
-      <li><a href="dashboard.html" onclick="toggleMobileNav()">Dashboard</a></li>
+      <li class="active"><a href="dashboard.html" onclick="toggleMobileNav()">Dashboard</a></li>
       <li><a href="Medicationschedule.html" onclick="toggleMobileNav()">Medications</a></li>
       <li><a href="diagnostics.html" onclick="toggleMobileNav()">Diagnostics</a></li>
       <li><a href="profile.html" onclick="toggleMobileNav()">Profile</a></li>
@@ -304,7 +362,7 @@
   <!-- DESKTOP SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <ul>
-      <li><a href="dashboard.html">Dashboard</a></li>
+      <li class="active"><a href="dashboard.html">Dashboard</a></li>
       <li><a href="Medicationschedule.html">Medications</a></li>
       <li><a href="diagnostics.html">Diagnostics</a></li>
       <li><a href="profile.html">Profile</a></li>
@@ -320,7 +378,7 @@
         <div class="welcome-card">
           <h2>Welcome, Leakey Maina!</h2>
           <p>Your personalized health dashboard is here. Our AI continuously monitors your symptoms and adjusts your care plan—ensuring you get timely medication, accurate diagnostics, and essential reminders.</p>
-          <button onclick="navigate('diagnostics.html')">Get started</button>
+          <button class="get-started-btn" onclick="navigate('diagnostics.html')">Get started</button>
         </div>
         <div class="card-grid">
           <div class="card">
@@ -360,7 +418,7 @@
   </footer>
   
   <script>
-    // Toggle mobile navigation panel (overlay, not shifting content)
+    // Toggle mobile navigation panel (overlay, not shifting main content)
     function toggleMobileNav() {
       const vNav = document.getElementById("verticalNav");
       vNav.classList.toggle("active");
