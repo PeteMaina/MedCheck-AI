@@ -8,15 +8,15 @@
   <style>
     /* ---------------------- COLORS & ROOT VARIABLES ---------------------- */
     :root {
-      --dark-blue: #19335d;        /* Darker shade for nav/sidebar */
+      --dark-blue: #19335d;        /* Dark blue for nav and sidebar */
       --sidebar-bg: #1f3251;       /* Sidebar background */
       --teal: #009688;             /* Teal accent color */
       --light-bg: #f5f5f5;         /* Page background */
-      --card-bg: #ffffff;          /* Card background */
+      --card-bg: #ffffff;          /* White panels/cards */
       --text-color: #333;          /* Primary text color */
       --active-bg: #26418f;        /* Active link highlight */
     }
-    /* ---------------------- GLOBAL STYLES ---------------------- */
+    /* ---------------------- GLOBAL & RESET ---------------------- */
     * {
       margin: 0;
       padding: 0;
@@ -26,30 +26,44 @@
     body {
       background-color: var(--light-bg);
       color: var(--text-color);
-      padding-bottom: 60px; /* Extra space for footer */
+      padding-bottom: 60px; /* Space for footer */
     }
-    /* ---------------------- TOP NAVIGATION ---------------------- */
-    .top-nav {
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    /* ---------------------- HEADER ---------------------- */
+    header {
+      background-color: var(--dark-blue);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 50px;
-      background: var(--dark-blue);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      padding: 0 1rem;
       z-index: 1000;
     }
-    /* Menu toggle positioned to the left of the brand text */
-    .top-nav .menu-toggle {
-      display: none; /* Hidden on large screens */
-      cursor: pointer;
-      font-size: 1.5rem;
-      margin-right: 0.5rem;
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .top-nav .brand {
+    /* Toggle button visible only on small screens */
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+    .logo {
       background: linear-gradient(to right, red, blue);
       background-clip: text;
       -webkit-background-clip: text;
@@ -57,72 +71,111 @@
       white-space: nowrap;
       font-size: 1.6rem;
       font-weight: bold;
-      flex-grow: 1;
+      white-space: nowrap;
     }
-    .top-nav nav {
+    /* Desktop nav-links */
+    .nav-links {
       display: flex;
+      gap: 15px;
     }
-    .top-nav nav a {
+    .nav-links a {
       color: #fff;
-      text-decoration: none;
-      margin-left: 1rem;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
     }
-    /* ---------------------- SIDEBAR ---------------------- */
-    .sidebar {
+    .nav-links a:hover {
+      background-color: var(--active-bg);
+    }
+    /* ---------------------- MOBILE NAVIGATION (Off-canvas) ---------------------- */
+    .mobile-nav {
+      background-color: var(--dark-blue);
+      color: #fff;
       position: fixed;
-      top: 50px;
+      top: 60px; /* below header */
       left: 0;
       width: 250px;
-      height: calc(100% - 50px);
-      background: var(--sidebar-bg);
-      color: #fff;
-      padding-top: 1rem;
-      transition: transform 0.3s ease;
+      height: 100vh;
+      padding: 20px;
+      transform: translateX(-100%);
+      transition: transform 0.3s;
       z-index: 999;
     }
-    /* Hidden by default on small screens */
-    .sidebar.hidden {
-      transform: translateX(-250px);
+    .mobile-nav.open {
+      transform: translateX(0);
     }
-    .sidebar a {
-      display: block;
+    .mobile-nav ul li {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+    .mobile-nav ul li:hover {
+      background-color: var(--active-bg);
+    }
+    .mobile-nav ul li.active {
+      background-color: var(--teal);
+    }
+    /* ---------------------- DESKTOP SIDEBAR ---------------------- */
+    .sidebar {
+      background-color: var(--dark-blue);
       color: #fff;
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      transition: background 0.2s;
+      width: 250px;
+      height: calc(100vh - 60px);
+      position: fixed;
+      top: 60px;
+      left: 0;
+      padding: 20px;
+      overflow-y: auto;
+      transition: transform 0.3s;
     }
-    .sidebar a:hover {
-      background: rgba(255,255,255,0.1);
-      border-radius: 15px;
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
     }
-    .sidebar a.active {
-      background: var(--active-bg);
-      border-radius: 15px;
+    .sidebar ul li {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+    .sidebar ul li:hover {
+      background-color: var(--active-bg);
+    }
+    .sidebar ul li.active {
+      background-color: var(--teal);
     }
     /* ---------------------- MAIN CONTENT ---------------------- */
     .main-content {
-      margin-top: 50px;
-      margin-left: 250px;
-      padding: 1rem;
-      transition: margin-left 0.3s ease;
+      margin-top: 60px; /* header height */
+      margin-left: 250px; /* desktop sidebar width */
+      padding: 20px;
+      transition: margin-left 0.3s;
     }
-    /* ---------------------- GRID CONTAINER ---------------------- */
+    @media (max-width: 768px) {
+      .main-content {
+        margin-left: 0;
+      }
+    }
+    /* ---------------------- CONTAINER & CARD STYLES ---------------------- */
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
-      width: 100%;
       max-width: 1200px;
       margin: 0 auto;
     }
-    /* ---------------------- CARD STYLES ---------------------- */
     .card {
       background: var(--card-bg);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    /* ---------------------- PROFILE CARD ---------------------- */
     .profile-card {
       text-align: center;
     }
@@ -142,7 +195,6 @@
       border-radius: 15px;
       cursor: pointer;
     }
-    /* ---------------------- COMMON CARD HEADINGS & STYLES ---------------------- */
     h3 {
       text-align: center;
       margin-bottom: 1rem;
@@ -153,7 +205,6 @@
       margin: auto;
       height: 300px;
     }
-    /* ---------------------- MEDICAL INFORMATION CARD ---------------------- */
     .medical-info p {
       margin: 0.5rem 0;
     }
@@ -176,7 +227,7 @@
       border-radius: 15px;
       cursor: pointer;
     }
-    /* ---------------------- CALCULATOR CARDS ---------------------- */
+    /* Calculator Cards (common styles) */
     .health-calculator,
     .additional-metrics,
     .ideal-weight-calculator,
@@ -235,19 +286,16 @@
     }
     /* ---------------------- MEDIA QUERIES ---------------------- */
     @media (max-width: 768px) {
-      .menu-toggle {
+      /* On small screens, show only the logo and toggle button */
+      .toggle-btn {
         display: block;
       }
-      /* Hide nav links on small screens */
-      .top-nav nav {
+      .nav-links {
         display: none;
       }
-      /* Sidebar is hidden by default on small screens */
-      .sidebar {
-        transform: translateX(-250px);
-      }
-      .main-content {
-        margin-left: 0;
+      /* Mobile Navigation Off-canvas */
+      .mobile-nav {
+        display: block;
       }
     }
   </style>
@@ -255,30 +303,41 @@
   <script src="chart.min.js"></script>
 </head>
 <body>
-  <!-- Top Navigation -->
-  <header class="top-nav">
-    <!-- Menu toggle on small screens positioned to the left -->
-    <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
-    <span class="brand">MedCheck AI</span>
-    <nav>
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <button class="toggle-btn" onclick="toggleMobileNav()">&#9776;</button>
+      <div class="logo">MedCheck AI</div>
+    </div>
+    <nav class="nav-links">
       <a href="dashboard.html">Dashboard</a>
       <a href="Medicationschedule.html">Medications</a>
-      <a href="#">Diagnostics</a>
-      <a href="#">Profile</a>
-      <a href="#" onclick="logout()">Logout</a>
+      <a href="diagnostics.html">Diagnostics</a>
+      <a href="profile.html">Profile</a>
+      <a href="auth.html">Logout</a>
     </nav>
   </header>
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="symptom.html">Symptom Checker</a>
-    <a href="Medicationschedule.html">Medication Schedule</a>
-    <a href="">Diagnostics &amp; Analysis</a>
-    <a href="#">Health Trends</a>
-    <a href="#">Upcoming Appointments</a>
-    <a href="#" class="active">Profile</a>
+  <!-- MOBILE NAVIGATION (Off-canvas) -->
+  <nav class="mobile-nav" id="mobileNav">
+    <ul>
+      <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
+      <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medications</a></li>
+      <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</a></li>
+      <li class="active" onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
+      <li onclick="closeMobileNav()"><a href="auth.html">Logout</a></li>
+    </ul>
+  </nav>
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="sidebar">
+    <ul>
+      <a href="dashboard.html"><li>Dashboard</li></a>
+      <a href="symptom.html"><li>Symptoms</li></a>
+      <a href="Medicationschedule.html"><li>Medications</li></a>
+      <a href="diagnostics.html"><li>Diagnostics</li></a>
+      <a href="profile.html" class="active"><li class="active">Profile</li></a>
+    </ul>
   </aside>
-  <!-- Main Content -->
+  <!-- MAIN CONTENT -->
   <main class="main-content" id="mainContent">
     <div class="container">
       <!-- Profile Card -->
@@ -295,10 +354,10 @@
           <canvas id="healthChart"></canvas>
         </div>
       </div>
-      <!-- Medical Information Card (Editable Height & Weight) -->
+      <!-- Medical Information Card -->
       <div class="card medical-info">
         <h3>Medical Information</h3>
-        <p><strong>Age:</strong> 35</p>
+        <p><strong>Age:</strong> 20</p>
         <p><strong>Blood Type:</strong> O+</p>
         <label for="height">Height (cm):</label>
         <input type="number" id="height" placeholder="Enter your height">
@@ -363,28 +422,19 @@
       <p class="result" id="tdeeResult"></p>
     </div>
   </main>
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Medicheck Inc. All rights reserved</p>
   </footer>
   <script>
-    // On page load, load data and render the chart
-    document.addEventListener('DOMContentLoaded', () => {
-      loadUserProfile();
-      loadMedicalInfo();
-      loadAdditionalMetrics();
-      loadIdealWeightInfo();
-      loadTDEEInfo();
-      renderChart();
-    });
-    // Sidebar toggle function (for small screens)
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      if (sidebar.classList.contains('hidden')) {
-        sidebar.classList.remove('hidden');
-      } else {
-        sidebar.classList.add('hidden');
-      }
+    // Mobile navigation functions
+    function toggleMobileNav() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.classList.toggle('open');
+    }
+    function closeMobileNav() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.classList.remove('open');
     }
     // Profile Functions
     function loadUserProfile() {
@@ -402,7 +452,7 @@
       if (newEmail) localStorage.setItem('userEmail', newEmail);
       loadUserProfile();
     }
-    // Medical Information Functions (Editable Height & Weight)
+    // Medical Information Functions
     function loadMedicalInfo() {
       const height = localStorage.getItem('height') || '';
       const weight = localStorage.getItem('weight') || '';
@@ -415,7 +465,6 @@
       localStorage.setItem('height', height);
       localStorage.setItem('weight', weight);
       alert('Medical information saved.');
-      // Pre-fill the Body Fat Calculator if empty
       if (!document.getElementById('calc-height').value) {
         document.getElementById('calc-height').value = height;
       }

@@ -104,7 +104,8 @@
        MOBILE NAVIGATION (Off-canvas)
     ------------------------------------------------------------ */
     .mobile-nav {
-      background-color: rgba(10, 61, 98, 0.95);
+      background-color: var(--color1);
+      color: #fff;
       backdrop-filter: blur(10px);
       position: fixed;
       top: 60px; /* below header */
@@ -480,7 +481,7 @@
   <nav class="mobile-nav" id="mobileNav">
     <ul>
       <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
-      <li onclick="closeMobileNav()"><a href="symptom.html">Symptom Checker</li>
+      <li class="active" onclick="closeMobileNav()"><a href="symptom.html">Symptom Checker</li>
         <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medication Schedule</a></li>
       <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</li>
       <li onclick="closeMobileNav()"><a href="trends.html">Health Trends</li>
@@ -493,7 +494,7 @@
   <aside class="sidebar">
     <ul>
       <a href="dashboard.html"><li onclick="setActive(this)"><span>Dashboard</span></li></a>
-      <a href="symptom.html"><li onclick="setActive(this)"><span>Symptom Checker</span></li></a>
+      <a href="symptom.html" class="active"><li onclick="setActive(this)"><span>Symptom Checker</span></li></a>
       <a href="Medicationschedule.html"><li onclick="setActive(this)"><span>Medication Schedule</span></li></a>
       <li onclick="setActive(this)"><span>Diagnostics </span></li>
       <li onclick="setActive(this)"><span>Health Trends</span></li>
