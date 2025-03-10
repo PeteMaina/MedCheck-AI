@@ -1,606 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MedCheck AI - Profile</title>
-  <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
-  <style>
-    /* ---------------------- COLORS & ROOT VARIABLES ---------------------- */
-    :root {
-      --dark-blue: #19335d;        /* Dark blue for nav and sidebar */
-      --sidebar-bg: #1f3251;       /* Sidebar background */
-      --teal: #009688;             /* Teal accent color */
-      --light-bg: #f5f5f5;         /* Page background */
-      --card-bg: #ffffff;          /* White panels/cards */
-      --text-color: #333;          /* Primary text color */
-      --active-bg: #26418f;        /* Active link highlight */
-    }
-    /* ---------------------- GLOBAL & RESET ---------------------- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background-color: var(--light-bg);
-      color: var(--text-color);
-      padding-bottom: 60px; /* Space for footer */
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    ul {
-      list-style: none;
-    }
-    /* ---------------------- HEADER ---------------------- */
-    header {
-      background-color: var(--dark-blue);
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    /* Toggle button visible only on small screens */
-    .toggle-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-      display: none;
-    }
-    .logo {
-      background: linear-gradient(to right, red, blue);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      white-space: nowrap;
-      font-size: 1.6rem;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-    /* Desktop nav-links */
-    .nav-links {
-      display: flex;
-      gap: 15px;
-    }
-    .nav-links a {
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    .nav-links a:hover {
-      background-color: var(--active-bg);
-    }
-    /* ---------------------- MOBILE NAVIGATION (Off-canvas) ---------------------- */
-    .mobile-nav {
-      background-color: var(--dark-blue);
-      color: #fff;
-      position: fixed;
-      top: 60px; /* below header */
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      padding: 20px;
-      transform: translateX(-100%);
-      transition: transform 0.3s;
-      z-index: 999;
-    }
-    .mobile-nav.open {
-      transform: translateX(0);
-    }
-    .mobile-nav ul li {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      white-space: nowrap;
-    }
-    .mobile-nav ul li:hover {
-      background-color: var(--active-bg);
-    }
-    .mobile-nav ul li.active {
-      background-color: var(--teal);
-    }
-    /* ---------------------- DESKTOP SIDEBAR ---------------------- */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Profile - Medical Diagnostic System</title>
+<script>
+// ECharts library code would go here
+// For brevity, we're not including the full library code
+// In a real implementation, you would need to include the complete ECharts library code here
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+:root {
+--primary: #0EA5E9;
+--secondary: #64748B;
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: system-ui, -apple-system, sans-serif;
+background-color: rgb(249, 250, 251);
+min-height: 100vh;
+color: #1f2937;
+}
+.max-w-7xl {
+max-width: 80rem;
+margin: 0 auto;
+padding: 2rem 1rem;
+}
+.flex {
+display: flex;
+}
+.items-center {
+align-items: center;
+}
+.justify-between {
+justify-content: space-between;
+}
+.gap-2 {
+gap: 0.5rem;
+}
+.gap-4 {
+gap: 1rem;
+}
+.gap-6 {
+gap: 1.5rem;
+}
+.gap-8 {
+gap: 2rem;
+}
+.mb-4 {
+margin-bottom: 1rem;
+}
+.mb-6 {
+margin-bottom: 1.5rem;
+}
+.mb-8 {
+margin-bottom: 2rem;
+}
+.mt-1 {
+margin-top: 0.25rem;
+}
+.mt-2 {
+margin-top: 0.5rem;
+}
+.w-20 {
+width: 5rem;
+}
+.h-20 {
+height: 5rem;
+}
+.w-4 {
+width: 1rem;
+}
+.h-4 {
+height: 1rem;
+}
+.w-5 {
+height: 1.25rem;
+}
+.h-5 {
+height: 1.25rem;
+}
+.rounded-full {
+border-radius: 9999px;
+}
+.rounded-lg {
+border-radius: 0.75rem;
+}
+.rounded-button {
+border-radius: 12px;
+}
+.overflow-hidden {
+overflow: hidden;
+}
+.bg-white {
+background-color: white;
+}
+.bg-gray-50 {
+background-color: rgb(249, 250, 251);
+}
+.bg-gray-200 {
+background-color: rgb(229, 231, 235);
+}
+.bg-green-100 {
+background-color: rgb(220, 252, 231);
+}
+.text-green-800 {
+color: rgb(22, 101, 52);
+}
+.text-gray-500 {
+color: rgb(107, 114, 128);
+}
+.text-gray-600 {
+color: rgb(75, 85, 99);
+}
+.text-gray-700 {
+color: rgb(55, 65, 81);
+}
+.text-primary {
+color: #3da066;
+}
+.text-white {
+color: white;
+}
+.text-xs {
+font-size: 0.75rem;
+}
+.text-sm {
+font-size: 0.875rem;
+}
+.text-lg {
+font-size: 1.125rem;
+}
+.text-xl {
+font-size: 1.25rem;
+}
+.font-medium {
+font-weight: 500;
+}
+.font-semibold {
+font-weight: 600;
+}
+.px-2\.5 {
+padding-left: 0.625rem;
+padding-right: 0.625rem;
+}
+.py-0\.5 {
+padding-top: 0.125rem;
+padding-bottom: 0.125rem;
+}
+.px-3 {
+padding-left: 0.75rem;
+padding-right: 0.75rem;
+}
+.py-1\.5 {
+padding-top: 0.375rem;
+padding-bottom: 0.375rem;
+}
+.px-4 {
+padding-left: 1rem;
+padding-right: 1rem;
+}
+.py-2 {
+padding-top: 0.5rem;
+padding-bottom: 0.5rem;
+}
+.p-8 {
+padding: 2rem;
+}
+.grid {
+display: grid;
+}
+.grid-cols-12 {
+grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.grid-cols-3 {
+grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.col-span-8 {
+grid-column: span 8 / span 8;
+}
+.col-span-4 {
+grid-column: span 4 / span 4;
+}
+.shadow-sm {
+box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.space-y-6 > * + * {
+margin-top: 1.5rem;
+}
+button {
+cursor: pointer;
+border: none;
+background: none;
+font-family: inherit;
+}
+button.primary {
+background-color: #3da066;
+}
+button.primary:hover {
+background-color: rgba(61, 160, 102, 0.9);
+}
+button.secondary {
+background-color: white;
+border: 1px solid rgb(209, 213, 219);
+}
+button.secondary:hover {
+background-color: rgb(249, 250, 251);
+}
+.relative {
+position: relative;
+}
+.absolute {
+position: absolute;
+}
+.border-l-2 {
+border-left-width: 2px;
+}
+.border-primary {
+border-color: #3da066;
+}
+.border-gray-200 {
+border-color: rgb(229, 231, 235);
+}
+.-left-2\.5 {
+left: -0.625rem;
+}
+.top-0 {
+top: 0;
+}
+.pb-4 {
+padding-bottom: 1rem;
+}
+.pl-6 {
+padding-left: 1.5rem;
+}
+img {
+max-width: 100%;
+height: auto;
+object-fit: cover;
+}
+.chart-container {
+width: 100%;
+height: 240px;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+[class^="ri-"] {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+}
+[class^="ri-"]::before {
+content: "\f3c2";
+}
+.hover\:bg-gray-50:hover {
+background-color: rgb(249, 250, 251);
+}
+.hover\:bg-primary\/90:hover {
+background-color: rgba(14, 165, 233, 0.9);
+}
+.hover\:text-primary\/80:hover {
+color: rgba(61, 160, 102, 0.8);
+}
+
+/* Add these sidebar styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #18364a;
+    padding: 20px 0;
+    z-index: 1000;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Adjust main content margin to accommodate sidebar */
+.max-w-7xl {
+    margin-left: 250px;
+    max-width: calc(80rem - 250px);
+    padding: 2rem 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
     .sidebar {
-      background-color: var(--dark-blue);
-      color: #fff;
-      width: 250px;
-      height: calc(100vh - 60px);
-      position: fixed;
-      top: 60px;
-      left: 0;
-      padding: 20px;
-      overflow-y: auto;
-      transition: transform 0.3s;
+        width: 70px;
     }
-    @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
+    
+    .sidebar a {
+        padding: 15px;
+        text-align: center;
+        font-size: 14px;
     }
-    .sidebar ul li {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      white-space: nowrap;
+    
+    .max-w-7xl {
+        margin-left: 70px;
+        max-width: calc(100% - 70px);
     }
-    .sidebar ul li:hover {
-      background-color: var(--active-bg);
-    }
-    .sidebar ul li.active {
-      background-color: var(--teal);
-    }
-    /* ---------------------- MAIN CONTENT ---------------------- */
-    .main-content {
-      margin-top: 60px; /* header height */
-      margin-left: 250px; /* desktop sidebar width */
-      padding: 20px;
-      transition: margin-left 0.3s;
-    }
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 0;
-      }
-    }
-    /* ---------------------- CONTAINER & CARD STYLES ---------------------- */
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .profile-card {
-      text-align: center;
-    }
-    .profile-card img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 3px solid var(--teal);
-      margin-bottom: 1rem;
-    }
-    .profile-card button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    h3 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .chart-container {
-      width: 100%;
-      max-width: 500px;
-      margin: auto;
-      height: 300px;
-    }
-    .medical-info p {
-      margin: 0.5rem 0;
-    }
-    .medical-info label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .medical-info input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .medical-info button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    /* Calculator Cards (common styles) */
-    .health-calculator,
-    .additional-metrics,
-    .ideal-weight-calculator,
-    .tdee-calculator {
-      margin: 20px auto;
-      max-width: 1200px;
-    }
-    .health-calculator label,
-    .additional-metrics label,
-    .ideal-weight-calculator label,
-    .tdee-calculator label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .health-calculator input,
-    .additional-metrics input,
-    .additional-metrics select,
-    .ideal-weight-calculator input,
-    .ideal-weight-calculator select,
-    .tdee-calculator input,
-    .tdee-calculator select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .health-calculator button,
-    .additional-metrics button,
-    .ideal-weight-calculator button,
-    .tdee-calculator button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: var(--teal);
-      color: #fff;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .health-calculator p.result,
-    .additional-metrics p.result,
-    .ideal-weight-calculator p.result,
-    .tdee-calculator p.result {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    /* ---------------------- FOOTER ---------------------- */
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: var(--dark-blue);
-      color: #fff;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-    /* ---------------------- MEDIA QUERIES ---------------------- */
-    @media (max-width: 768px) {
-      /* On small screens, show only the logo and toggle button */
-      .toggle-btn {
-        display: block;
-      }
-      .nav-links {
-        display: none;
-      }
-      /* Mobile Navigation Off-canvas */
-      .mobile-nav {
-        display: block;
-      }
-    }
-  </style>
-  <!-- Local Chart.js (No external links) -->
-  <script src="chart.min.js"></script>
+}
+
+/* Update the timeline dot color */
+.relative .absolute.bg-primary {
+    background-color: #3da066;
+}
+</style>
 </head>
-<body>
-  <!-- HEADER -->
-  <header>
-    <div class="header-left">
-      <button class="toggle-btn" onclick="toggleMobileNav()">&#9776;</button>
-      <div class="logo">MedCheck AI</div>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Add sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="symptom.html">Symptom Checker</a>
+        <a href="Medicationschedule.html">Medication Schedule</a>
+        <a href="Diagnostics.html">Diagnostics</a>
+        <a href="#">Health Trends</a>
+        <a href="profile.html" class="active">Profile</a>
+        <a href="index.html">Logout</a>
+    </aside>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-6">
+    <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-200">
+    <img src="https://cdn.fastpixel.io/fp/ret_img+v_ef8e+w_990+h_1484+q_glossy+to_webp/www.sosfactory.com/wp-content/uploads/2020/08/cartoon-boy-character-sketch.png"
+    class="w-full h-full object-cover" alt="Patient Photo">
     </div>
-    <nav class="nav-links">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="Medicationschedule.html">Medications</a>
-      <a href="diagnostics.html">Diagnostics</a>
-      <a href="profile.html">Profile</a>
-      <a href="auth.html">Logout</a>
-    </nav>
-  </header>
-  <!-- MOBILE NAVIGATION (Off-canvas) -->
-  <nav class="mobile-nav" id="mobileNav">
-    <ul>
-      <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
-      <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medications</a></li>
-      <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</a></li>
-      <li class="active" onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
-      <li onclick="closeMobileNav()"><a href="auth.html">Logout</a></li>
-    </ul>
-  </nav>
-  <!-- DESKTOP SIDEBAR -->
-  <aside class="sidebar">
-    <ul>
-      <a href="dashboard.html"><li>Dashboard</li></a>
-      <a href="symptom.html"><li>Symptoms</li></a>
-      <a href="Medicationschedule.html"><li>Medications</li></a>
-      <a href="diagnostics.html"><li>Diagnostics</li></a>
-      <a href="profile.html" class="active"><li class="active">Profile</li></a>
-    </ul>
-  </aside>
-  <!-- MAIN CONTENT -->
-  <main class="main-content" id="mainContent">
-    <div class="container">
-      <!-- Profile Card -->
-      <div class="card profile-card">
-        <img src="Images/profile_image.png" alt="User Avatar">
-        <h2 id="user-name">John Doe</h2>
-        <p id="user-email">johndoe@example.com</p>
-        <button onclick="editProfile()">Edit Profile</button>
-      </div>
-      <!-- Health Metrics Card -->
-      <div class="card health-metrics">
-        <h3>Health Metrics</h3>
-        <div class="chart-container">
-          <canvas id="healthChart"></canvas>
-        </div>
-      </div>
-      <!-- Medical Information Card -->
-      <div class="card medical-info">
-        <h3>Medical Information</h3>
-        <p><strong>Age:</strong> 20</p>
-        <p><strong>Blood Type:</strong> O+</p>
-        <label for="height">Height (cm):</label>
-        <input type="number" id="height" placeholder="Enter your height">
-        <label for="weight">Weight (kg):</label>
-        <input type="number" id="weight" placeholder="Enter your weight">
-        <p><strong>Allergies:</strong> Penicillin, Nuts</p>
-        <p><strong>Chronic Conditions:</strong> Hypertension</p>
-        <p><strong>Last Checkup:</strong> 2025-02-15</p>
-        <button onclick="saveMedicalInfo()">Save Medical Info</button>
-      </div>
+    <div>
+    <h1 class="text-xl font-semibold">Maina Leakey</h1>
+    <p class="text-gray-600">Patient ID: #PA-238491</p>
+    <div class="flex items-center gap-2 mt-2">
+    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+    Active Patient
+    </span>
     </div>
-    <!-- Body Fat Calculator Card -->
-    <div class="health-calculator">
-      <h3>Body Fat Calculator (For Men)</h3>
-      <label for="calc-height">Height (cm):</label>
-      <input type="number" id="calc-height" placeholder="Enter height">
-      <label for="neck">Neck Circumference (cm):</label>
-      <input type="number" id="neck" placeholder="Enter neck circumference">
-      <label for="waist">Waist Circumference (cm):</label>
-      <input type="number" id="waist" placeholder="Enter waist circumference">
-      <button onclick="calculateBodyFat()">Calculate Body Fat</button>
-      <p class="result" id="bodyFatResult"></p>
     </div>
-    <!-- Additional Body Metrics Card (BMI & BMR Calculator) -->
-    <div class="additional-metrics">
-      <h3>Additional Body Metrics</h3>
-      <label for="age">Age (years):</label>
-      <input type="number" id="age" placeholder="Enter your age">
-      <label for="gender">Gender:</label>
-      <select id="gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-      <button onclick="calculateAdditionalMetrics()">Calculate BMI & BMR</button>
-      <p class="result" id="additionalMetricsResult"></p>
     </div>
-    <!-- Ideal Body Weight Calculator Card -->
-    <div class="ideal-weight-calculator">
-      <h3>Ideal Body Weight Calculator</h3>
-      <label for="ideal-height">Height (cm):</label>
-      <input type="number" id="ideal-height" placeholder="Enter your height">
-      <label for="ideal-gender">Gender:</label>
-      <select id="ideal-gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-      <button onclick="calculateIdealWeight()">Calculate Ideal Weight</button>
-      <p class="result" id="idealWeightResult"></p>
+    <div class="flex gap-4">
+    <button class="secondary flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 rounded-button">
+    <i class="ri-share-line w-4 h-4 flex items-center justify-center"></i>
+    Share Records
+    </button>
+    <button class="primary flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-button">
+    <i class="ri-edit-line w-4 h-4 flex items-center justify-center"></i>
+    Edit Profile
+    </button>
     </div>
-    <!-- TDEE Calculator Card -->
-    <div class="tdee-calculator">
-      <h3>Total Daily Energy Expenditure (TDEE) Calculator</h3>
-      <label for="activity-level">Activity Level:</label>
-      <select id="activity-level">
-        <option value="1.2">Sedentary (little or no exercise)</option>
-        <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
-        <option value="1.55">Moderately active (moderate exercise 3-5 days/week)</option>
-        <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
-        <option value="1.9">Extra active (very hard exercise &amp; physical job)</option>
-      </select>
-      <button onclick="calculateTDEE()">Calculate TDEE</button>
-      <p class="result" id="tdeeResult"></p>
+    </header>
+    <div class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-8 bg-white rounded-lg p-8 shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold">Patient Information</h2>
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-edit-line w-5 h-5 flex items-center justify-center"></i>
+    </button>
     </div>
-  </main>
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Medicheck Inc. All rights reserved</p>
-  </footer>
-  <script>
-    // Mobile navigation functions
-    function toggleMobileNav() {
-      const mobileNav = document.getElementById('mobileNav');
-      mobileNav.classList.toggle('open');
-    }
-    function closeMobileNav() {
-      const mobileNav = document.getElementById('mobileNav');
-      mobileNav.classList.remove('open');
-    }
-    // Profile Functions
-    function loadUserProfile() {
-      const name = localStorage.getItem('userName') || 'John Doe';
-      const email = localStorage.getItem('userEmail') || 'johndoe@example.com';
-      document.getElementById('user-name').textContent = name;
-      document.getElementById('user-email').textContent = email;
-    }
-    function editProfile() {
-      const currentName = document.getElementById('user-name').textContent;
-      const currentEmail = document.getElementById('user-email').textContent;
-      const newName = prompt('Enter new name:', currentName);
-      const newEmail = prompt('Enter new email:', currentEmail);
-      if (newName) localStorage.setItem('userName', newName);
-      if (newEmail) localStorage.setItem('userEmail', newEmail);
-      loadUserProfile();
-    }
-    // Medical Information Functions
-    function loadMedicalInfo() {
-      const height = localStorage.getItem('height') || '';
-      const weight = localStorage.getItem('weight') || '';
-      document.getElementById('height').value = height;
-      document.getElementById('weight').value = weight;
-    }
-    function saveMedicalInfo() {
-      const height = document.getElementById('height').value;
-      const weight = document.getElementById('weight').value;
-      localStorage.setItem('height', height);
-      localStorage.setItem('weight', weight);
-      alert('Medical information saved.');
-      if (!document.getElementById('calc-height').value) {
-        document.getElementById('calc-height').value = height;
-      }
-    }
-    // Body Fat Calculator Functions
-    function calculateBodyFat() {
-      const calcHeight = document.getElementById('calc-height').value;
-      const neck = document.getElementById('neck').value;
-      const waist = document.getElementById('waist').value;
-      localStorage.setItem('calcHeight', calcHeight);
-      localStorage.setItem('neck', neck);
-      localStorage.setItem('waist', waist);
-      if (!calcHeight || !neck || !waist) {
-        alert('Please enter height, neck, and waist measurements.');
-        return;
-      }
-      const height = parseFloat(calcHeight);
-      const neckVal = parseFloat(neck);
-      const waistVal = parseFloat(waist);
-      const log10 = Math.log10 || function(x){ return Math.log(x) / Math.LN10; };
-      const bodyFat = 495 / (1.0324 - 0.19077 * log10(waistVal - neckVal) + 0.15456 * log10(height)) - 450;
-      const bodyFatRounded = Math.round(bodyFat * 10) / 10;
-      document.getElementById('bodyFatResult').textContent = 'Estimated Body Fat: ' + bodyFatRounded + '%';
-    }
-    // Additional Body Metrics Functions (BMI & BMR Calculator)
-    function loadAdditionalMetrics() {
-      const age = localStorage.getItem('age') || '35';
-      const gender = localStorage.getItem('gender') || 'Male';
-      document.getElementById('age').value = age;
-      document.getElementById('gender').value = gender;
-    }
-    function calculateAdditionalMetrics() {
-      const age = parseFloat(document.getElementById('age').value);
-      const gender = document.getElementById('gender').value;
-      const height = parseFloat(document.getElementById('height').value);
-      const weight = parseFloat(document.getElementById('weight').value);
-      if (!age || !height || !weight) {
-        alert('Please ensure Age, Height, and Weight are entered.');
-        return;
-      }
-      localStorage.setItem('age', age);
-      localStorage.setItem('gender', gender);
-      const heightInMeters = height / 100;
-      const bmi = weight / (heightInMeters * heightInMeters);
-      const bmiRounded = Math.round(bmi * 10) / 10;
-      let bmr;
-      if (gender === 'Male') {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-      } else {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-      }
-      const bmrRounded = Math.round(bmr);
-      document.getElementById('additionalMetricsResult').textContent = 'BMI: ' + bmiRounded + ' | BMR: ' + bmrRounded + ' kcal/day';
-    }
-    // Ideal Body Weight Calculator Functions
-    function loadIdealWeightInfo() {
-      const idealHeight = localStorage.getItem('idealHeight') || localStorage.getItem('height') || '';
-      const idealGender = localStorage.getItem('idealGender') || 'Male';
-      document.getElementById('ideal-height').value = idealHeight;
-      document.getElementById('ideal-gender').value = idealGender;
-    }
-    function calculateIdealWeight() {
-      const heightInput = document.getElementById('ideal-height').value;
-      const gender = document.getElementById('ideal-gender').value;
-      if (!heightInput) {
-        alert('Please enter your height in cm.');
-        return;
-      }
-      const height = parseFloat(heightInput);
-      const heightInInches = height / 2.54;
-      let idealWeight;
-      if (gender === 'Male') {
-        idealWeight = 50 + 2.3 * Math.max(0, (heightInInches - 60));
-      } else {
-        idealWeight = 45.5 + 2.3 * Math.max(0, (heightInInches - 60));
-      }
-      idealWeight = Math.round(idealWeight * 10) / 10;
-      document.getElementById('idealWeightResult').textContent = 'Ideal Body Weight: ' + idealWeight + ' kg';
-      localStorage.setItem('idealHeight', height);
-      localStorage.setItem('idealGender', gender);
-    }
-    // TDEE Calculator Functions
-    function loadTDEEInfo() {
-      const activityLevel = localStorage.getItem('activityLevel') || '1.2';
-      document.getElementById('activity-level').value = activityLevel;
-    }
-    function calculateTDEE() {
-      const age = parseFloat(document.getElementById('age').value);
-      const gender = document.getElementById('gender').value;
-      const height = parseFloat(document.getElementById('height').value);
-      const weight = parseFloat(document.getElementById('weight').value);
-      const activityMultiplier = parseFloat(document.getElementById('activity-level').value);
-      if (!age || !height || !weight) {
-        alert('Please ensure Age, Height, and Weight are entered.');
-        return;
-      }
-      localStorage.setItem('activityLevel', activityMultiplier);
-      let bmr;
-      if (gender === 'Male') {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-      } else {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-      }
-      const tdee = bmr * activityMultiplier;
-      const tdeeRounded = Math.round(tdee);
-      document.getElementById('tdeeResult').textContent = 'Estimated TDEE: ' + tdeeRounded + ' kcal/day';
-    }
-    // Render Chart (using local Chart.js)
-    function renderChart() {
-      const ctx = document.getElementById('healthChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-          datasets: [
-            {
-              label: 'Blood Pressure Trends',
-              data: [120, 125, 130, 128, 126],
-              borderColor: '#009688',
-              backgroundColor: 'rgba(0,150,136,0.2)',
-              fill: true
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false
-        }
-      });
-    }
-    // Logout function
-    function logout() {
-      localStorage.clear();
-      alert('You have been logged out.');
-      window.location.href = 'auth.html';
-    }
-  </script>
+    <div class="grid grid-cols-3 gap-6">
+    <div>
+    <p class="text-sm text-gray-500">Date of Birth</p>
+    <p class="font-medium">August 18, 2000 (24 years)</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Gender</p>
+    <p class="font-medium">Male</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Blood Type</p>
+    <p class="font-medium">O Positive</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Height & Weight</p>
+    <p class="font-medium">168 cm / 61 kg</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Insurance Provider</p>
+    <p class="font-medium">BlueCross BlueShield</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Policy Number</p>
+    <p class="font-medium">BSP-9283747</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-span-4 bg-white rounded-lg p-8 shadow-sm">
+    <div class="flex justify-between items-center mb-4">
+    <h2 class="text-lg font-semibold">Contact Information</h2>
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-edit-line w-5 h-5 flex items-center justify-center"></i>
+    </button>
+    </div>
+    <div class="space-y-6">
+    <div>
+    <p class="text-sm text-gray-500">Phone</p>
+    <p class="font-medium flex items-center gap-2">
+    +254 705669923
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-phone-line w-4 h-4 flex items-center justify-center"></i>
+    </button>
+    </p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Email</p>
+    <p class="font-medium">leakeymaina16@gmail.com</p>
+    </div>
+    <div>
+    <p class="text-sm text-gray-500">Address</p>
+    <p class="font-medium">1234 Cedar Street, Suite 567<br>Seattle, WA 98101</p>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-8 bg-white rounded-lg p-8 shadow-sm">
+    <div class="flex justify-between items-center mb-6">
+    <h2 class="text-lg font-semibold">Medical History</h2>
+    <div class="flex gap-2">
+    <button class="secondary px-3 py-1.5 text-sm font-medium text-gray-700 rounded-button">
+    Filter
+    </button>
+    <button class="primary px-3 py-1.5 text-sm font-medium text-white rounded-button">
+    Add Record
+    </button>
+    </div>
+    </div>
+    <div class="space-y-6">
+    <div class="relative pl-6 pb-4 border-l-2 border-primary">
+    <div class="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-primary"></div>
+    <div class="flex justify-between items-start">
+    <div>
+    <p class="text-sm text-gray-500">March 1, 2025</p>
+    <h3 class="font-medium mt-1">Annual Physical Examination</h3>
+    <p class="text-sm text-gray-600 mt-1">Dr. Sarah Johnson - Internal Medicine</p>
+    </div>
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-file-list-line w-5 h-5 flex items-center justify-center"></i>
+    </button>
+    </div>
+    </div>
+    <div class="relative pl-6 pb-4 border-l-2 border-gray-200">
+    <div class="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-gray-200"></div>
+    <div class="flex justify-between items-start">
+    <div>
+    <p class="text-sm text-gray-500">February 15, 2025</p>
+    <h3 class="font-medium mt-1">Dental Check-up</h3>
+    <p class="text-sm text-gray-600 mt-1">Dr. Michael Chen - Dentistry</p>
+    </div>
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-file-list-line w-5 h-5 flex items-center justify-center"></i>
+    </button>
+    </div>
+    </div>
+    <div class="relative pl-6 border-l-2 border-gray-200">
+    <div class="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-gray-200"></div>
+    <div class="flex justify-between items-start">
+    <div>
+    <p class="text-sm text-gray-500">January 5, 2025</p>
+    <h3 class="font-medium mt-1">Blood Work Analysis</h3>
+    <p class="text-sm text-gray-600 mt-1">Dr. Robert Wilson - Laboratory</p>
+    </div>
+    <button class="text-primary hover:text-primary/80">
+    <i class="ri-file-list-line w-5 h-5 flex items-center justify-center"></i>
+    </button>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 </body>
 </html>
