@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Diagnosis & Analysis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@font-face {
+font-family: 'Pacifico';
+font-style: normal;
+font-weight: 400;
+src: url(https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.woff2) format('woff2');
+}
+[class^="ri-"] {
+font-family: 'remixicon' !important;
+font-style: normal;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+.ri-notification-3-line:before { content: "\ef6f"; }
+.ri-settings-3-line:before { content: "\f0ce"; }
+.ri-user-line:before { content: "\f264"; }
+.ri-printer-line:before { content: "\f0a6"; }
+.ri-save-line:before { content: "\f0c5"; }
+.ri-heart-pulse-line:before { content: "\ee4c"; }
+.ri-heart-line:before { content: "\ee44"; }
+.ri-temp-hot-line:before { content: "\f1b4"; }
+.ri-lungs-line:before { content: "\ef0f"; }
+.ri-timer-line:before { content: "\f1d1"; }
+.ri-alert-line:before { content: "\eb24"; }
+.ri-test-tube-line:before { content: "\f1b8"; }
+.ri-restaurant-line:before { content: "\f0b8"; }
+.ri-calendar-line:before { content: "\ec08"; }
+@font-face {
+font-family: 'remixicon';
+src: url('https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.woff2') format('woff2');
+}
+.ri-lg { font-size: 1.3333em; line-height: 0.75em; }
+.ri-fw { text-align: center; width: 1.25em; }
+
+/* Add sidebar styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #18364a;
+    padding: 20px 0;
+    z-index: 1000;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Adjust main content container */
+.min-h-screen {
+    margin-left: 250px;  /* Match sidebar width */
+    width: calc(100% - 250px);  /* Adjust width to account for sidebar */
+}
+
+/* Update header positioning */
+header.bg-white {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 250px;  /* Match sidebar width */
+    z-index: 900;
+}
+
+/* Adjust main content area */
+main.max-w-7xl {
+    padding-top: 80px;  /* Increase to account for fixed header */
+    width: 100%;
+    max-width: none;  /* Remove max-width constraint */
+}
+
+/* Update container width calculations */
+.max-w-7xl {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .min-h-screen {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+
+    header.bg-white {
+        left: 70px;
+    }
+
+    .max-w-7xl {
+        padding: 0 1rem;
+    }
+
+    /* Adjust grid columns for smaller screens */
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .lg\:col-span-8,
+    .lg\:col-span-4 {
+        grid-column: span 12 / span 12;
+    }
+}
+
+/* Ensure grid layout doesn't overflow */
+.grid.grid-cols-12 {
+    width: 100%;
+    margin: 0;
+}
+
+/* Add container transition */
+.min-h-screen {
+    transition: margin-left 0.3s ease;
+}
+
+/* Ensure content tables are responsive */
+.overflow-x-auto {
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Adjust vital signs grid */
+.grid-cols-2.md\:grid-cols-4 {
+    gap: 1rem;
+}
+
+/* Ensure charts are responsive */
+.chart-container, canvas {
+    max-width: 100%;
+    height: auto;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#3da066',
+secondary: '#64748B'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.vital-sign {
+transition: all 0.3s ease;
+}
+.vital-sign:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.notification-dot {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0% { transform: scale(0.95); opacity: 0.9; }
+50% { transform: scale(1); opacity: 0.5; }
+100% { transform: scale(0.95); opacity: 0.9; }
+}
+.text-primary {
+    color: #3da066;
+}
+.bg-primary {
+    background-color: #3da066;
+}
+.hover\:text-primary:hover {
+    color: #3da066;
+}
+.hover\:bg-primary\/90:hover {
+    background-color: rgba(61, 160, 102, 0.9);
+}
+.notification-dot {
+    background-color: #3da066;
+}
+.ri-heart-pulse-line.text-primary,
+.ri-heart-line.text-primary,
+.ri-temp-hot-line.text-primary,
+.ri-lungs-line.text-primary,
+.ri-test-tube-line.text-primary,
+.ri-restaurant-line.text-primary,
+.ri-calendar-line.text-primary {
+    color: #3da066;
+}
+.border-primary {
+    border-color: #3da066;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<aside class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="symptom.html">Symptom Checker</a>
+    <a href="Medicationschedule.html">Medication Schedule</a>
+    <a href="" class="active">Diagnostics &amp; Analysis</a>
+    <a href="#">Health Trends</a>
+    <a href="#">Upcoming Appointments</a>
+    <a href="#">Profile</a>
+</aside>
+<div class="min-h-screen">
+<header class="bg-white shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex justify-between items-center">
+<div class="flex items-center space-x-4">
+<div class="text-2xl font-['Pacifico'] text-primary">MEDCHECK AI</div>
+<nav class="hidden md:flex space-x-8">
+
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary">
+<i class="ri-notification-3-line ri-lg"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary">
+<i class="ri-settings-3-line ri-lg"></i>
+</button>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+<i class="ri-user-line"></i>
+</div>
+<span class="text-sm font-medium text-gray-900">Maina Leakey</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-6">
+<div class="flex justify-between items-center">
+<div>
+<h1 class="text-2xl font-bold text-gray-900">Patient Diagnosis & Analysis</h1>
+<div class="flex items-center space-x-2 mt-1">
+<span class="text-sm text-gray-500">Patient ID: P-20250309-001</span>
+<span class="text-sm text-gray-500">•</span>
+<span class="text-sm text-gray-500">Last updated: March 9, 2025 10:30 AM</span>
+</div>
+</div>
+<div class="flex space-x-3">
+<button class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 !rounded-button hover:bg-gray-50">
+<i class="ri-printer-line mr-2"></i>
+Print Report
+</button>
+<button class="flex items-center px-4 py-2 text-sm font-medium text-white bg-primary !rounded-button hover:bg-primary/90">
+<i class="ri-save-line mr-2"></i>
+Save Changes
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<h2 class="text-lg font-semibold text-gray-900 mb-4">Vital Signs</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="vital-sign bg-blue-50 rounded-lg p-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-gray-600">Blood Pressure</span>
+<i class="ri-heart-pulse-line text-primary"></i>
+</div>
+<div class="text-2xl font-bold text-gray-900">120/80</div>
+<div class="text-sm text-green-600 mt-1">Normal</div>
+</div>
+<div class="vital-sign bg-blue-50 rounded-lg p-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-gray-600">Heart Rate</span>
+<i class="ri-heart-line text-primary"></i>
+</div>
+<div class="text-2xl font-bold text-gray-900">72 BPM</div>
+<div class="text-sm text-green-600 mt-1">Normal</div>
+</div>
+<div class="vital-sign bg-blue-50 rounded-lg p-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-gray-600">Temperature</span>
+<i class="ri-temp-hot-line text-primary"></i>
+</div>
+<div class="text-2xl font-bold text-gray-900">98.6°F</div>
+<div class="text-sm text-green-600 mt-1">Normal</div>
+</div>
+<div class="vital-sign bg-blue-50 rounded-lg p-4">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-medium text-gray-600">Oxygen Level</span>
+<i class="ri-lungs-line text-primary"></i>
+</div>
+<div class="text-2xl font-bold text-gray-900">98%</div>
+<div class="text-sm text-green-600 mt-1">Normal</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold text-gray-900">Lab Results</h2>
+<div class="flex space-x-2">
+<button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200">
+Blood Tests
+</button>
+<button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200">
+Urinalysis
+</button>
+<button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200">
+Imaging
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200">
+<thead>
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Test</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Result</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Range</th>
+<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Hemoglobin</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">14.2 g/dL</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12.0-15.5 g/dL</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+Normal
+</span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">White Blood Cells</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">11.5 K/µL</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">4.5-11.0 K/µL</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+High
+</span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Platelets</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">250 K/µL</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">150-450 K/µL</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+Normal
+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">Test History & Trends</h2>
+        <div class="flex space-x-2">
+            <button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200" onclick="updateChart('temperature')">Temperature</button>
+            <button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200" onclick="updateChart('heartRate')">Heart Rate</button>
+            <button class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200" onclick="updateChart('bloodPressure')">Blood Pressure</button>
+        </div>
+    </div>
+    <div class="h-64">
+        <canvas id="trendsChart"></canvas>
+    </div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4">
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold text-gray-900">Diagnosis Summary</h2>
+<span class="px-2 py-1 text-xs font-medium text-primary bg-blue-50 rounded-full">Updated</span>
+</div>
+<div class="space-y-4">
+<div>
+<h3 class="text-sm font-medium text-gray-900">Current Condition</h3>
+<p class="mt-1 text-sm text-gray-600">Upper respiratory tract infection with mild fever and cough</p>
+</div>
+<div>
+<h3 class="text-sm font-medium text-gray-900">ICD-10 Code</h3>
+<p class="mt-1 text-sm text-gray-600">J06.9 - Acute upper respiratory infection, unspecified</p>
+</div>
+<div>
+<h3 class="text-sm font-medium text-gray-900">Doctor's Notes</h3>
+<p class="mt-1 text-sm text-gray-600">Patient presents with 3-day history of sore throat, nasal congestion, and mild fever. Physical examination reveals pharyngeal erythema without exudates.</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-semibold text-gray-900">Alerts & Notifications</h2>
+<span class="notification-dot w-2 h-2 bg-red-500 rounded-full"></span>
+</div>
+<div class="space-y-4">
+<div class="flex items-start space-x-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-100">
+<i class="ri-timer-line text-yellow-600"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Follow-up Required</p>
+<p class="text-sm text-gray-600">Schedule follow-up appointment in 7 days</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-red-100">
+<i class="ri-alert-line text-red-600"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Elevated WBC Count</p>
+<p class="text-sm text-gray-600">Above normal range - Monitor closely</p>
+</div>
+</div>
+<div class="flex items-start space-x-3">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100">
+<i class="ri-test-tube-line text-blue-600"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Pending Lab Results</p>
+<p class="text-sm text-gray-600">CRP test results expected today</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6">
+<h2 class="text-lg font-semibold text-gray-900 mb-4">Doctor's Recommendations</h2>
+<div class="space-y-6">
+<div>
+<h3 class="text-sm font-medium text-gray-900 mb-3">Lifestyle Changes</h3>
+<div class="space-y-2">
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-heart-pulse-line text-primary"></i>
+<span>30 minutes daily moderate exercise</span>
+</div>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-restaurant-line text-primary"></i>
+<span>Reduce sodium intake to <2300mg/day</span>
+</div>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-test-tube-line text-primary"></i>
+<span>Monitor blood glucose 2x daily</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-sm font-medium text-gray-900 mb-3">Follow-up Plan</h3>
+<div class="space-y-2">
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-calendar-line text-primary"></i>
+<span>Next appointment: Mar 23, 2025</span>
+</div>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-test-tube-line text-primary"></i>
+<span>HbA1c test in 2 weeks</span>
+</div>
+<div class="flex items-center space-x-2 text-sm text-gray-600">
+<i class="ri-heart-pulse-line text-primary"></i>
+<span>Blood pressure check weekly</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-sm font-medium text-gray-900 mb-3">Additional Notes</h3>
+<p class="text-sm text-gray-600">Patient showing good compliance with medication regimen. Continue current treatment plan and monitor for any side effects. Consider dietary consultation if blood glucose remains elevated.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+// Initialize the trends chart
+const ctx = document.getElementById('trendsChart').getContext('2d');
+let trendsChart;
+
+const chartData = {
+    temperature: {
+        labels: ['Mar 3', 'Mar 4', 'Mar 5', 'Mar 6', 'Mar 7', 'Mar 8', 'Mar 9'],
+        data: [98.4, 98.6, 99.1, 99.4, 99.0, 98.8, 98.6],
+        label: 'Temperature (°F)',
+        color: '#3da066'
+    },
+    heartRate: {
+        labels: ['Mar 3', 'Mar 4', 'Mar 5', 'Mar 6', 'Mar 7', 'Mar 8', 'Mar 9'],
+        data: [72, 75, 71, 73, 70, 74, 72],
+        label: 'Heart Rate (BPM)',
+        color: '#3da066'
+    },
+    bloodPressure: {
+        labels: ['Mar 3', 'Mar 4', 'Mar 5', 'Mar 6', 'Mar 7', 'Mar 8', 'Mar 9'],
+        data: [120, 122, 118, 121, 119, 120, 120],
+        label: 'Systolic BP (mmHg)',
+        color: '#3da066'
+    }
+};
+
+function createChart(type = 'temperature') {
+    if (trendsChart) {
+        trendsChart.destroy();
+    }
+
+    trendsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartData[type].labels,
+            datasets: [{
+                label: chartData[type].label,
+                data: chartData[type].data,
+                borderColor: chartData[type].color,
+                backgroundColor: `${chartData[type].color}20`,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: chartData[type].color,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    titleColor: '#1f2937',
+                    bodyColor: '#1f2937',
+                    borderColor: '#e5e7eb',
+                    borderWidth: 1,
+                    padding: 10,
+                    displayColors: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    grid: {
+                        color: '#e5e7eb'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            }
+        }
+    });
+}
+
+function updateChart(type) {
+    createChart(type);
+}
+
+// Initialize with temperature data
+createChart();
+
+// Button click animation
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('click', function() {
+    this.classList.add('scale-95');
+    setTimeout(() => {
+      this.classList.remove('scale-95');
+    }, 100);
+  });
+});
+</script>
+</body>
+</html>
