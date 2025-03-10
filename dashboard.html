@@ -18,7 +18,9 @@
       --card-bg: #ffffff;            /* White panels/cards */
       --text-color: #333;            /* Primary text color */
       --button-color: #3da066;       /* Global button color */
-      --button-hover: #37985e;        /* Global button hover */
+      --button-hover: #37985e;       /* Global button hover */
+      --color1: #0A3D62; 
+      --color3: #1E90FF;     
       --color4: #027c97;             /* Secondary Accent (for welcome card background) */
     }
 
@@ -94,7 +96,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: var(--dark-blue);
+      background-color: rgba(10, 61, 98, 0.95);
       color: #fff;
       padding: 10px 20px;
       display: flex;
@@ -138,7 +140,7 @@
       transition: background 0.3s;
     }
     .nav-links a:hover {
-      background: var(--teal);
+      background: var(--color4);
     }
     
     /* --------------------------------------
@@ -150,7 +152,7 @@
       left: 0;
       width: 250px;
       height: 100%;
-      background: var(--dark-blue);
+      background: var(--color1);
       padding-top: 60px; /* below header */
       transform: translateX(-100%);
       transition: transform 0.3s ease;
@@ -189,12 +191,12 @@
       color: #fff; /* Force text color to white */
     }
     .vertical-nav ul li a:hover {
-      background: #26418f;
+      background-color: var(--color4);
       border-radius: 10px;
       color: #fff; /* Keep text white */
     }
     .vertical-nav ul li.active a {
-      background: var(--teal);
+      background-color: var(--color3);
       border-radius: 10px;
       color: #fff;
     }
@@ -203,7 +205,7 @@
        DESKTOP SIDEBAR
     -------------------------------------- */
     .sidebar {
-      background: var(--sidebar-bg);
+      background-color: rgba(10, 61, 98, 0.95);
       color: #fff;
       width: 250px;
       height: calc(100vh - 60px);
@@ -212,7 +214,7 @@
       left: 0;
       padding: 20px;
       overflow-y: auto;
-      transition: transform 0.3s;
+      transition: transform 0.5s;
     }
     .sidebar ul {
       list-style: none; /* Remove default bullets */
@@ -234,12 +236,12 @@
       color: #fff;
     }
     .sidebar ul li a:hover {
-      background: #26418f;
+      background-color: var(--color4);
       border-radius: 10px;
       color: #fff;
     }
     .sidebar ul li.active a {
-      background: var(--teal);
+      background-color: var(--color3);
       border-radius: 10px;
       color: #fff;
     }
@@ -373,6 +375,7 @@
     <button class="close-nav" onclick="toggleMobileNav()">X</button>
     <ul>
       <li class="active"><a href="dashboard.html" onclick="toggleMobileNav()">Dashboard</a></li>
+      <li><a href="symptom.html" onclick="toggleMobileNav()">Aymptoms</a></li>
       <li><a href="Medicationschedule.html" onclick="toggleMobileNav()">Medications</a></li>
       <li><a href="diagnostics.html" onclick="toggleMobileNav()">Diagnostics</a></li>
       <li><a href="profile.html" onclick="toggleMobileNav()">Profile</a></li>
@@ -384,6 +387,7 @@
   <aside class="sidebar" id="sidebar">
     <ul>
       <li class="active"><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="symptom.html">symptoms checker</a></li>
       <li><a href="Medicationschedule.html">Medications</a></li>
       <li><a href="diagnostics.html">Diagnostics</a></li>
       <li><a href="profile.html">Profile</a></li>
