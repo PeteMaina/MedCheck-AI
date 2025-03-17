@@ -317,51 +317,7 @@
         }
     }
 
-    .message-bot {
-        background: rgba(240, 245, 249, 0.9);
-        border-radius: 15px 15px 15px 0;
-        padding: 3px;
-        width: fit-content;
-        margin-right: 0px;
-    }
-
-    .message-user {
-        background: rgba(30, 144, 255, 0.9);
-        color: white;
-        border-radius: 15px 15px 0 15px;
-        padding: 3px;
-        max-width: 70%;
-        margin-left: 5px;
-    }
-
-    .typing-indicator {
-        display: none;
-        padding: 15px;
-        background: var(--color2);
-        border-radius: 15px;
-        margin-bottom: 15px;
-        width: fit-content;
-    }
-
-    .typing-indicator span {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background: var(--color1);
-        border-radius: 50%;
-        margin-right: 5px;
-        animation: typing 1s infinite;
-    }
-
-    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes typing {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-5px); }
-    }
-
-    .chat-input {
+     .chat-input {
         display: flex;
         padding: 20px;
         border-top: 1px solid #eee;
@@ -434,7 +390,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         border: none;
-        box-shadow: 0 4px 15px rgba(10, 202, 4, 0.527);
+        box-shadow: 0 0px 1px rgba(11, 161, 6, 0.527);
     }
 
     .consult-button:hover {
@@ -518,7 +474,13 @@
         </div>
 
         <div class="chat-input">
+          <button class="image-upload" onclick="uploadImage()" title="Send Image">
+            <i class="fas fa-image"></i>
+        </button>
           <input type="text" id="user-input" placeholder="Type your symptoms here..." />
+          <button class="voice-record" onclick="startRecording()">
+            <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3ZM6 11v1a6 6 0 0 0 12 0v-1h-2v1a4 4 0 0 1-8 0v-1Zm4 8h4v2h-4Z"/></svg>
+        </button>
           <button id="send-button">
             <i class="fas fa-paper-plane"></i>
           </button>
@@ -552,13 +514,3 @@
   </script>
 </body>
 </html>
-
-
-<!--    issues
-  fix links
-  fix css link view after that
- 
-  style the footer
-  reduce noise content
-    implement backernd with AI API
--->
