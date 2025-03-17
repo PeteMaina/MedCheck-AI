@@ -288,7 +288,7 @@
     .chat-container {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
         border-radius: 15px;
         margin: 20px auto;
         max-width: 800px;
@@ -299,8 +299,8 @@
 
     .chat-messages {
         flex: 1;
-        overflow-y: auto;
-        padding: 20px;
+        overflow-y: hidden;
+        padding: 10px;
     }
 
     .message {
@@ -320,18 +320,18 @@
     .message-bot {
         background: rgba(240, 245, 249, 0.9);
         border-radius: 15px 15px 15px 0;
-        padding: 15px;
-        max-width: 80%;
-        margin-right: auto;
+        padding: 3px;
+        width: fit-content;
+        margin-right: 0px;
     }
 
     .message-user {
         background: rgba(30, 144, 255, 0.9);
         color: white;
         border-radius: 15px 15px 0 15px;
-        padding: 15px;
-        max-width: 80%;
-        margin-left: auto;
+        padding: 3px;
+        max-width: 70%;
+        margin-left: 5px;
     }
 
     .typing-indicator {
