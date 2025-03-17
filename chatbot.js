@@ -82,7 +82,7 @@ async function handleMessage(userInput, messageContainer) {
                     messages: [
                         {
                             role: "system",
-                        content: "You are an AI medical assistant. You help analyze symptoms and provide general medical information. Always remind users to consult healthcare professionals for specific medical advice. Be empathetic and thorough in your responses."
+                        content: "You are an AI medical assistant. You help analyze symptoms and provide general medical information. Ask as many questions as you can to narrow down to the specific ailment. Always remind users to consult healthcare professionals for deeper complex medical advice. Be empathetic and thorough in your responses."
                         },
                         {
                             role: "user",
