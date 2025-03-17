@@ -330,6 +330,77 @@ color: rgba(61, 160, 102, 0.8);
     background-color: #3da066;
 }
 </style>
+<style>
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 50%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+</style>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Add sidebar -->
@@ -365,7 +436,7 @@ color: rgba(61, 160, 102, 0.8);
     <i class="ri-share-line w-4 h-4 flex items-center justify-center"></i>
     Share Records
     </button>
-    <button class="primary flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-button">
+    <button id="editProfileBtn" class="primary flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-button">
     <i class="ri-edit-line w-4 h-4 flex items-center justify-center"></i>
     Edit Profile
     </button>
@@ -442,7 +513,7 @@ color: rgba(61, 160, 102, 0.8);
     <button class="secondary px-3 py-1.5 text-sm font-medium text-gray-700 rounded-button">
     Filter
     </button>
-    <button class="primary px-3 py-1.5 text-sm font-medium text-white rounded-button">
+    <button id="addRecordBtn" class="primary px-3 py-1.5 text-sm font-medium text-white rounded-button">
     Add Record
     </button>
     </div>
@@ -490,5 +561,209 @@ color: rgba(61, 160, 102, 0.8);
     </div>
     </div>
     </div>
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-lg font-semibold mb-4">Edit Contact Information</h2>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" value="+254 705669923" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" value="leakeymaina16@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" required>1234 Cedar Street, Suite 567
+Seattle, WA 98101</textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary px-4 py-2 text-sm font-medium text-gray-700 rounded-button" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="primary px-4 py-2 text-sm font-medium text-white rounded-button">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Medical Record Modal -->
+    <div id="addRecordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-lg font-semibold mb-4">Add Medical Record</h2>
+            <form id="addRecordForm">
+                <div class="form-group">
+                    <label for="recordDate">Date</label>
+                    <input type="date" id="recordDate" name="recordDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="recordType">Procedure/Examination</label>
+                    <input type="text" id="recordType" name="recordType" placeholder="e.g. Annual Physical Examination" required>
+                </div>
+                <div class="form-group">
+                    <label for="doctorName">Doctor Name</label>
+                    <input type="text" id="doctorName" name="doctorName" placeholder="e.g. Dr. Sarah Johnson" required>
+                </div>
+                <div class="form-group">
+                    <label for="specialty">Specialty</label>
+                    <input type="text" id="specialty" name="specialty" placeholder="e.g. Internal Medicine" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary px-4 py-2 text-sm font-medium text-gray-700 rounded-button" id="cancelAddRecord">Cancel</button>
+                    <button type="submit" class="primary px-4 py-2 text-sm font-medium text-white rounded-button">Add Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the profile edit modal and button elements
+        const profileModal = document.getElementById("editProfileModal");
+        const editBtn = document.getElementById("editProfileBtn");
+        const profileCloseBtn = profileModal.querySelector(".close");
+        const cancelBtn = document.getElementById("cancelEdit");
+        const profileForm = document.getElementById("editProfileForm");
+        
+        // Contact information elements
+        const phoneElement = document.querySelector('.space-y-6 div:nth-child(1) p.font-medium');
+        const emailElement = document.querySelector('.space-y-6 div:nth-child(2) p.font-medium');
+        const addressElement = document.querySelector('.space-y-6 div:nth-child(3) p.font-medium');
+        
+        // Get the medical record modal and button elements
+        const recordModal = document.getElementById("addRecordModal");
+        const addRecordBtn = document.getElementById("addRecordBtn");
+        const recordCloseBtn = recordModal.querySelector(".close");
+        const cancelAddRecordBtn = document.getElementById("cancelAddRecord");
+        const recordForm = document.getElementById("addRecordForm");
+        
+        // Get the medical history container
+        const medicalHistoryContainer = document.querySelector('.col-span-8 .space-y-6');
+        
+        // Open the profile modal when the edit button is clicked
+        editBtn.onclick = function() {
+            profileModal.style.display = "block";
+        }
+        
+        // Open the record modal when the add record button is clicked
+        addRecordBtn.onclick = function() {
+            recordModal.style.display = "block";
+            // Set default date to today
+            document.getElementById("recordDate").valueAsDate = new Date();
+        }
+        
+        // Close the profile modal when the close button is clicked
+        profileCloseBtn.onclick = function() {
+            profileModal.style.display = "none";
+        }
+        
+        // Close the record modal when the close button is clicked
+        recordCloseBtn.onclick = function() {
+            recordModal.style.display = "none";
+        }
+        
+        // Close the profile modal when the cancel button is clicked
+        cancelBtn.onclick = function() {
+            profileModal.style.display = "none";
+        }
+        
+        // Close the record modal when the cancel button is clicked
+        cancelAddRecordBtn.onclick = function() {
+            recordModal.style.display = "none";
+        }
+        
+        // Close the modals when clicking outside of them
+        window.onclick = function(event) {
+            if (event.target == profileModal) {
+                profileModal.style.display = "none";
+            }
+            if (event.target == recordModal) {
+                recordModal.style.display = "none";
+            }
+        }
+        
+        // Format date from YYYY-MM-DD to Month DD, YYYY
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+        
+        // Handle profile form submission
+        profileForm.onsubmit = function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const phone = document.getElementById("phone").value;
+            const email = document.getElementById("email").value;
+            const address = document.getElementById("address").value;
+            
+            // Update the displayed information
+            phoneElement.innerHTML = phone + '<button class="text-primary hover:text-primary/80"><i class="ri-phone-line w-4 h-4 flex items-center justify-center"></i></button>';
+            emailElement.textContent = email;
+            addressElement.innerHTML = address.replace(/\n/g, '<br>');
+            
+            // Close the modal
+            profileModal.style.display = "none";
+            
+            // Show a success message
+            alert("Profile updated successfully!");
+        }
+        
+        // Handle medical record form submission
+        recordForm.onsubmit = function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const date = document.getElementById("recordDate").value;
+            const recordType = document.getElementById("recordType").value;
+            const doctorName = document.getElementById("doctorName").value;
+            const specialty = document.getElementById("specialty").value;
+            
+            // Create new record HTML
+            const newRecord = document.createElement('div');
+            newRecord.className = 'relative pl-6 pb-4 border-l-2 border-primary';
+            newRecord.innerHTML = `
+                <div class="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-primary"></div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-sm text-gray-500">${formatDate(date)}</p>
+                        <h3 class="font-medium mt-1">${recordType}</h3>
+                        <p class="text-sm text-gray-600 mt-1">${doctorName} - ${specialty}</p>
+                    </div>
+                    <button class="text-primary hover:text-primary/80">
+                        <i class="ri-file-list-line w-5 h-5 flex items-center justify-center"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Add the new record to the top of the medical history
+            medicalHistoryContainer.insertBefore(newRecord, medicalHistoryContainer.firstChild);
+            
+            // Update the styling of other records
+            const allRecords = medicalHistoryContainer.querySelectorAll('.relative');
+            allRecords.forEach((record, index) => {
+                if (index > 0) {
+                    record.className = 'relative pl-6 pb-4 border-l-2 border-gray-200';
+                    record.querySelector('.absolute').className = 'absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-gray-200';
+                }
+                // Remove pb-4 from the last record
+                if (index === allRecords.length - 1) {
+                    record.classList.remove('pb-4');
+                } else {
+                    record.classList.add('pb-4');
+                }
+            });
+            
+            // Reset the form
+            recordForm.reset();
+            
+            // Close the modal
+            recordModal.style.display = "none";
+            
+            // Show a success message
+            alert("Medical record added successfully!");
+        }
+    </script>
 </body>
 </html>
