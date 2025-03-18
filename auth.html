@@ -179,6 +179,10 @@
       outline: none;
     }
 
+    .signUpForm {
+      margin-top: 10px;
+    }
+
     button {
       width: 100%;
       padding: 12px;
@@ -284,7 +288,7 @@
         <h1 class="logo">MedCheck AI</h1>
         
         <!-- Sign In Form -->
-        <form id="signInForm">
+        <div id="signInForm">
           <h2>Sign in</h2>
           <div class="form-group">
             <label for="email">Email</label>
@@ -296,31 +300,92 @@
           </div>
           <a href="dashboard.html">
             <button type="button">Sign In</button>
-        </a>
-
-
-        <!-- Social Buttons -->
-        <div class="social-buttons">
-          <button><i class="fab fa-google"></i> Google</button>
-          <button><i class="fab fa-facebook-f"></i> Facebook</button>
-          <button><i class="fab fa-twitter"></i> Twitter</button>
-        </div>
-
-        <!-- Toggle Sections -->
-        <div class="toggle-section">
-          <p>Don't have an account? <a href="#" id="toSignUp">Sign Up</a></p>
-          <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
-        </div>
-
-        <div class="social-buttons">
-            <a href="index.html">
-              <button type="button"> Back to Home > > </button>
           </a>
 
-          <a href="index.html">
-            <button type="button">Sign in as guest > > </button>
-        </a>
+          <!-- Social Buttons -->
+          <div class="social-buttons">
+            <button><i class="fab fa-google"></i> Google</button>
+            <button><i class="fab fa-facebook-f"></i> Facebook</button>
+            <button><i class="fab fa-twitter"></i> Twitter</button>
+          </div>
+
+          <!-- Toggle Sections -->
+          <div class="toggle-section">
+            <p>Don't have an account? <a href="#" id="toSignUp">Sign Up</a></p>
+            <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
+          </div>
+
+          <div class="social-buttons">
+            <a href="index.html">
+              <button type="button"> Back to Home > > </button>
+            </a>
+            <a href="symptom.html">
+              <button type="button">Sign in as guest > > </button>
+            </a>
+          </div>
         </div>
+
+        <!-- Sign Up Form -->
+        <div id="signUpForm" style="display: none;">
+          <h2>Create an Account</h2>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+          </div>
+          <div class="form-group">
+            <label for="signupEmail">Email</label>
+            <input type="email" id="signupEmail" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="Create a password">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password">
+          </div>
+          <button type="button">Sign Up</button>
+
+          <!-- Social Buttons -->
+          <div class="social-buttons">
+            <button><i class="fab fa-google"></i> Google</button>
+            <button><i class="fab fa-facebook-f"></i> Facebook</button>
+            <button><i class="fab fa-twitter"></i> Twitter</button>
+          </div>
+
+          <!-- Toggle Sections -->
+          <div class="toggle-section">
+            <p>Already have an account? <a href="#" id="toSignIn">Sign In</a></p>
+          </div>
+
+          <div class="social-buttons">
+            <a href="index.html">
+              <button type="button"> Back to Home > > </button>
+            </a>
+          </div>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgotPassword" style="display: none;">
+          <h2>Reset Password</h2>
+          <div class="form-group">
+            <label for="resetEmail">Email</label>
+            <input type="email" id="resetEmail" placeholder="Enter your email">
+          </div>
+          <button type="button">Send Reset Link</button>
+
+          <!-- Toggle Sections -->
+          <div class="toggle-section">
+            <p>Remember your password? <a href="#" id="backToSignIn">Back to Sign In</a></p>
+          </div>
+
+          <div class="social-buttons">
+            <a href="index.html">
+              <button type="button"> Back to Home > > </button>
+            </a>
+          </div>
+        </div>
+
         <footer>
           <p>&copy; 2025 MedCheck. All rights reserved.</p>
         </footer>
@@ -333,19 +398,10 @@
     </div>
   </div>
 
-  <!-- Other forms (Sign Up, Forgot Password) remain the same but hidden -->
-  <div id="signUpForm" style="display: none;">
-    <!-- Sign Up form content -->
-  </div>
-
-  <div id="forgotPassword" style="display: none;">
-    
-    <!-- Forgot Password form content -->
-  </div>
-
   <script>
     // Toggle between sections
     const toSignIn = document.getElementById('toSignIn');
+    const backToSignIn = document.getElementById('backToSignIn');
     const toSignUp = document.getElementById('toSignUp');
     const toForgotPassword = document.getElementById('toForgotPassword');
 
@@ -353,26 +409,45 @@
     const signUpForm = document.getElementById('signUpForm');
     const forgotPassword = document.getElementById('forgotPassword');
 
-    toSignIn.addEventListener('click', (e) => {
-      e.preventDefault();
-      signInForm.style.display = 'block';
-      signUpForm.style.display = 'none';
-      forgotPassword.style.display = 'none';
-    });
+    // Sign In buttons
+    if (toSignIn) {
+      toSignIn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signInForm.style.display = 'block';
+        signUpForm.style.display = 'none';
+        forgotPassword.style.display = 'none';
+      });
+    }
 
-    toSignUp.addEventListener('click', (e) => {
-      e.preventDefault();
-      signInForm.style.display = 'none';
-      signUpForm.style.display = 'block';
-      forgotPassword.style.display = 'none';
-    });
+    // Back to Sign In from forgot password
+    if (backToSignIn) {
+      backToSignIn.addEventListener('click', (e) => {
+        e.preventDefault();
+        signInForm.style.display = 'block';
+        signUpForm.style.display = 'none';
+        forgotPassword.style.display = 'none';
+      });
+    }
 
-    toForgotPassword.addEventListener('click', (e) => {
-      e.preventDefault();
-      signInForm.style.display = 'none';
-      signUpForm.style.display = 'none';
-      forgotPassword.style.display = 'block';
-    });
+    // Sign Up button
+    if (toSignUp) {
+      toSignUp.addEventListener('click', (e) => {
+        e.preventDefault();
+        signInForm.style.display = 'none';
+        signUpForm.style.display = 'block';
+        forgotPassword.style.display = 'none';
+      });
+    }
+
+    // Forgot Password button
+    if (toForgotPassword) {
+      toForgotPassword.addEventListener('click', (e) => {
+        e.preventDefault();
+        signInForm.style.display = 'none';
+        signUpForm.style.display = 'none';
+        forgotPassword.style.display = 'block';
+      });
+    }
   </script>
 
 </body>
