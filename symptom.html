@@ -299,8 +299,10 @@
 
     .chat-messages {
         flex: 1;
-        overflow-y: hidden;
+        overflow-y: auto;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
     }
 
     .message {
@@ -323,6 +325,7 @@
         border-top: 1px solid #eee;
         background: white;
         border-radius: 0 0 15px 15px;
+        gap: 10px;
     }
 
     .chat-input input {
@@ -437,11 +440,11 @@
   <nav class="mobile-nav" id="mobileNav">
     <ul>
       <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
-      <li class="active" onclick="closeMobileNav()"><a href="symptom.html">Symptom Checker</li>
-        <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medication Schedule</a></li>
-      <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</li>
-      <li onclick="closeMobileNav()"><a href="trends.html">Health Trends</li>
-      <li onclick="closeMobileNav()"><a href="profile.html">Profile</li>
+      <li class="active" onclick="closeMobileNav()"><a href="symptom.html">Symptom Checker</a></li>
+      <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medication Schedule</a></li>
+      <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</a></li>
+      <li onclick="closeMobileNav()"><a href="trends.html">Health Trends</a></li>
+      <li onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
     </ul>
   </nav>
 
@@ -476,12 +479,12 @@
         <div class="chat-input">
           <button class="image-upload" onclick="uploadImage()" title="Send Image">
             <i class="fas fa-image"></i>
-        </button>
+          </button>
           <input type="text" id="user-input" placeholder="Type your symptoms here..." />
-          <button class="voice-record" onclick="startRecording()">
+          <button class="voice-record" onclick="startRecording()" title="Send Voice Message">
             <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3ZM6 11v1a6 6 0 0 0 12 0v-1h-2v1a4 4 0 0 1-8 0v-1Zm4 8h4v2h-4Z"/></svg>
-        </button>
-          <button id="send-button">
+          </button>
+          <button id="send-button" onclick="sendMessage()" title="Send Message">
             <i class="fas fa-paper-plane"></i>
           </button>
         </div>
@@ -510,6 +513,37 @@
     function toggleMobileNav() {
         const mobileNav = document.getElementById('mobileNav');
         mobileNav.classList.toggle('open');
+    }
+
+    // Chat functionality
+    function uploadImage() {
+      alert('Image upload functionality to be implemented');
+    }
+    function startRecording() {
+      alert('Voice recording functionality to be implemented');
+    }
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const chat = document.getElementById('chat-messages');
+      const messageText = input.value.trim();
+      if (messageText === "") return;
+      
+      // Create user message element (aligned right)
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user-message';
+      userMsg.textContent = messageText;
+      chat.appendChild(userMsg);
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+      
+      // Simulate bot reply after 1 second (aligned left)
+      setTimeout(function() {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message message-bot';
+        botMsg.textContent = "I'm analyzing your symptoms...";
+        chat.appendChild(botMsg);
+        chat.scrollTop = chat.scrollHeight;
+      }, 1000);
     }
   </script>
 </body>
