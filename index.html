@@ -153,15 +153,194 @@
        HERO SECTION
     ------------------------------------------------------------ */
     .hero {
-      margin-top: 60px; /* push hero content below fixed header */
-      height: 60vh;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: url(Images/revo.jpg) no-repeat center center/cover;
+    margin-top: 60px;
+    height: 65vh; /* Increased height to accommodate floating elements */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url(Images/revo.jpg) no-repeat center center/cover;
+    overflow: hidden; /* Contain the floating elements */
     }
+
+    
+  /* Floating Elements Container */
+  .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow clicks to pass through */
+  }
+  
+  /* Base Floating Element Style */
+  .floating-element {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    color: white;
+    text-align: center;
+    animation: float 8s infinite ease-in-out;
+    z-index: 2;
+  }
+  
+  .inner-content {
+    padding: 15px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .floating-element h4 {
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+  }
+  
+  .floating-element p {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.3;
+  }
+  
+  /* Circle Element */
+  .circle-element {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    top: 20%;
+    left: 15%;
+    background: linear-gradient(135deg, rgba(66, 153, 225, 0.7), rgba(56, 178, 172, 0.7));
+    animation-delay: 0s;
+  }
+  
+  /* Rectangle Element */
+  .rectangle-element {
+    width: 180px;
+    height: 100px;
+    border-radius: 12px;
+    top: 25%;
+    right: 15%;
+    background: linear-gradient(135deg, rgba(72, 187, 120, 0.7), rgba(56, 178, 172, 0.7));
+    animation-delay: 2s;
+  }
+  
+  /* Pill Element */
+  .pill-element {
+    width: 200px;
+    height: 90px;
+    border-radius: 45px;
+    bottom: 20%;
+    left: 12%;
+    background: linear-gradient(135deg, rgba(44, 82, 130, 0.7), rgba(66, 153, 225, 0.7));
+    animation-delay: 1s;
+  }
+  
+  /* Diamond Element */
+  .diamond-element {
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    bottom: 25%;
+    right: 18%;
+    background: linear-gradient(135deg, rgba(246, 173, 85, 0.7), rgba(72, 187, 120, 0.7));
+    transform: rotate(45deg);
+    animation-delay: 3s;
+  }
+  
+  .diamond-element .inner-content {
+    transform: rotate(-45deg);
+  }
+  
+  /* Floating Animation */
+  @keyframes float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+    50% {
+      transform: translateY(5px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-5px) rotate(1deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+  
+  /* Adjust Diamond Element Animation */
+  @keyframes floatDiamond {
+    0% {
+      transform: translateY(0) rotate(45deg);
+    }
+    25% {
+      transform: translateY(-10px) rotate(47deg);
+    }
+    50% {
+      transform: translateY(5px) rotate(44deg);
+    }
+    75% {
+      transform: translateY(-5px) rotate(46deg);
+    }
+    100% {
+      transform: translateY(0) rotate(45deg);
+    }
+  }
+  
+  .diamond-element {
+    animation: floatDiamond 8s infinite ease-in-out;
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .floating-element {
+      transform: scale(0.8);
+    }
+    
+    .circle-element {
+      top: 15%;
+      left: 5%;
+    }
+    
+    .rectangle-element {
+      top: 15%;
+      right: 5%;
+    }
+    
+    .pill-element {
+      bottom: 12%;
+      left: 3%;
+    }
+    
+    .diamond-element {
+      bottom: 15%;
+      right: 5%;
+    }
+    
+    .diamond-element {
+      animation: floatDiamond 8s infinite ease-in-out;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .floating-elements {
+      display: none; /* Hide on very small screens to avoid clutter */
+    }
+  }
+
     .hero::before {
       content: "";
       position: absolute;
@@ -172,11 +351,16 @@
       background: rgba(2, 34, 56, 0.91);
     }
     .hero-content {
-      position: relative;
-      z-index: 1;
-      color: #fff;
-      padding: 20px;
-    }
+    position: relative;
+    z-index: 10; /* Higher z-index to stay above floating elements */
+    color: #fff;
+    padding: 20px;
+    background: rgba(2, 34, 56, 0.7); /* Semi-transparent background for better text readability */
+    border-radius: 15px;
+    backdrop-filter: blur(3px);
+    width: 80%;
+    max-width: 600px;
+  }
     .hero-content h1 {
       font-size: 3rem;
       margin-bottom: 20px;
@@ -546,13 +730,45 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <h1>Revolutionizing Healthcare with AI</h1>
-      <p>Advanced medical solutions powered by cutting-edge artificial intelligence.</p>
-      <a class="btn-get-started" href="auth.html">Get Started</a>
+  <!-- Hero Section with Floating Elements -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Revolutionizing Healthcare with AI</h1>
+    <p>Advanced medical solutions powered by cutting-edge artificial intelligence.</p>
+    <a class="btn-get-started" href="auth.html">Get Started</a>
+  </div>
+  
+  <!-- Floating Elements -->
+  <div class="floating-elements">
+    <div class="floating-element circle-element">
+      <div class="inner-content">
+        <h4>98%</h4>
+        <p>Diagnostic<br>Accuracy</p>
+      </div>
     </div>
-  </section>
+    
+    <div class="floating-element rectangle-element">
+      <div class="inner-content">
+        <h4>Real-time</h4>
+        <p>Analysis &<br>Monitoring</p>
+      </div>
+    </div>
+    
+    <div class="floating-element pill-element">
+      <div class="inner-content">
+        <h4>AI-Powered</h4>
+        <p>Personalized<br>Treatment Plans</p>
+      </div>
+    </div>
+    
+    <div class="floating-element diamond-element">
+      <div class="inner-content">
+        <h4>5x</h4>
+        <p>Faster<br>Diagnostics</p>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- About Section -->
   <section class="container" id="about">
