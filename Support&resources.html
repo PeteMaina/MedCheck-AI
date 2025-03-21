@@ -305,7 +305,7 @@ border-radius: 3px;
   <a href="dashboard.html">Dashboard</a>
   <a href="symptom.html">Symptom Checker</a>
   <a href="Medicationschedule.html">Medication Schedule</a>
-  <a href="Diagnostics.html" class="active">Diagnostics</a>
+  <a href="Diagnostics.html">Diagnostics</a>
   <a href="Support&resources.html">Support & Resources</a>
   <a href="profile.html">Profile</a>
   <a href="index.html">Logout</a>
@@ -395,24 +395,59 @@ border-radius: 3px;
       </div>
       <div class="lg:col-span-1">
         <div class="bg-white rounded-lg shadow-sm p-6 sticky top-4">
-          <h2 class="text-2xl font-semibold mb-6">AI Assistant</h2>
-          <div class="chat-container h-96 overflow-y-auto mb-4">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold flex items-center">
+              <i class="ri-robot-line text-primary mr-2"></i>
+              AI Assistant
+            </h2>
+            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs font-medium rounded-full flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+              Online
+            </span>
+          </div>
+          
+          <div class="chat-container h-96 overflow-y-auto mb-4 px-2">
             <div class="space-y-4" id="chatMessages">
-              <div class="flex items-start">
-                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <i class="ri-robot-line text-blue-600"></i>
+              <div class="flex items-start space-x-2">
+                <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <i class="ri-robot-line text-primary"></i>
                 </div>
-                <div class="ml-3 bg-gray-100 rounded-lg p-3 max-w-[80%]">
-                  <p class="text-gray-700">Hello! I'm here to help answer your questions about diabetes management. What would you like to know?</p>
+                <div class="flex flex-col space-y-2 max-w-[80%]">
+                  <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+                    <p class="text-gray-700">Hello! I'm your AI health assistant. I can help you with:</p>
+                    <ul class="mt-2 space-y-1 text-gray-600">
+                      <li>• Understanding medical terms</li>
+                      <li>• Basic health guidance</li>
+                      <li>• Medication information</li>
+                      <li>• Lifestyle recommendations</li>
+                    </ul>
+                  </div>
+                  <span class="text-xs text-gray-400">AI Assistant • Just now</span>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="relative">
-            <input type="text" id="chatInput" placeholder="Type your question..." class="w-full border border-gray-300 rounded-lg pl-4 pr-12 py-2 focus:outline-none focus:ring-2" style="--ring-color: var(--primary);">
-            <button onclick="sendMessage()" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center text-primary hover:bg-gray-100 rounded-full cursor-pointer">
-              <i class="ri-send-plane-line"></i>
-            </button>
+            <div class="flex items-center bg-gray-50 rounded-xl p-2">
+              <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="Type your question..." 
+                class="flex-1 bg-transparent border-0 focus:ring-0 focus:outline-none px-2 py-1 text-gray-700 placeholder-gray-400"
+              >
+              <div class="flex items-center space-x-2">
+                <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary rounded-full hover:bg-gray-100 transition-colors">
+                  <i class="ri-attachment-2-line"></i>
+                </button>
+                <button 
+                  onclick="sendMessage()" 
+                  class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-primary/90 transition-colors"
+                >
+                  <i class="ri-send-plane-line"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -441,6 +476,42 @@ border-radius: 3px;
   </div>
 </div>
 
+<style>
+.chat-container {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 20px;
+}
+
+/* Message animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  animation: slideIn 0.3s ease-out;
+}
+</style>
+
 <script>
 const mockResponses = {
   "blood sugar": "A blood sugar reading of 200 mg/dL or higher may indicate hyperglycemia. It's recommended to consult your healthcare provider for proper interpretation and advice.",
@@ -459,50 +530,83 @@ function closeEmergencyModal() {
 
 function sendMessage() {
   const input = document.getElementById('chatInput');
-  const message = input.value.trim().toLowerCase();
+  const message = input.value.trim();
   if (!message) return;
   
   const chatMessages = document.getElementById('chatMessages');
+  const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  // Add user message
   chatMessages.innerHTML += `
-    <div class="flex items-start justify-end mb-4">
-      <div style="background-color: var(--primary);" class="text-white rounded-lg p-3 max-w-[80%]">
-        <p>${input.value}</p>
+    <div class="flex items-start justify-end space-x-2 chat-message">
+      <div class="flex flex-col items-end space-y-2 max-w-[80%]">
+        <div class="bg-primary text-white rounded-2xl rounded-tr-none p-4">
+          <p>${input.value}</p>
+        </div>
+        <span class="text-xs text-gray-400">You • ${timestamp}</span>
+      </div>
+      <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+        <i class="ri-user-line text-white"></i>
       </div>
     </div>
   `;
   
+  // Show typing indicator
+  chatMessages.innerHTML += `
+    <div id="typingIndicator" class="flex items-start space-x-2 chat-message">
+      <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+        <i class="ri-robot-line text-primary"></i>
+      </div>
+      <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+        <div class="flex space-x-1">
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Scroll to bottom
+  const container = document.querySelector('.chat-container');
+  container.scrollTop = container.scrollHeight;
+  
   setTimeout(() => {
+    // Remove typing indicator
+    document.getElementById('typingIndicator').remove();
+    
+    // Get response based on message content
     let response = "I apologize, but I don't have specific information about that. Please consult your healthcare provider for accurate medical advice.";
+    const messageLower = message.toLowerCase();
+    
     for (const [key, value] of Object.entries(mockResponses)) {
-      if (message.includes(key)) {
+      if (messageLower.includes(key)) {
         response = value;
         break;
       }
     }
     
+    // Add AI response
     chatMessages.innerHTML += `
-      <div class="flex items-start mb-4">
-        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-          <i class="ri-robot-line text-blue-600"></i>
+      <div class="flex items-start space-x-2 chat-message">
+        <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+          <i class="ri-robot-line text-primary"></i>
         </div>
-        <div class="ml-3 bg-gray-100 rounded-lg p-3 max-w-[80%]">
-          <p class="text-gray-700">${response}</p>
+        <div class="flex flex-col space-y-2 max-w-[80%]">
+          <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+            <p class="text-gray-700">${response}</p>
+          </div>
+          <span class="text-xs text-gray-400">AI Assistant • ${timestamp}</span>
         </div>
       </div>
     `;
     
-    const container = document.querySelector('.chat-container');
+    // Scroll to bottom again after response
     container.scrollTop = container.scrollHeight;
-  }, 1000);
+  }, 1500);
   
   input.value = '';
 }
-
-document.getElementById('chatInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    sendMessage();
-  }
-});
 
 // Sidebar toggle functionality
 document.getElementById('sidebarToggle').addEventListener('click', function() {
