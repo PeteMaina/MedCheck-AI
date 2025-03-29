@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDCHECK AI Symptom Checker</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #18364a;
+    padding: 20px 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: linear-gradient(to right, red, blue);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px; /* Ensure main content is offset by the width of the sidebar */
+    overflow: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-weight: bold;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+button {
+    background-color: #3da066;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.symptom-checker {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 250px);
+}
+
+.symptom-list {
+    flex: 1;
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+.symptom-list h2 {
+    margin-top: 0;
+}
+
+.symptom-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.symptom-list li {
+    margin-bottom: 10px;
+}
+
+.chat-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.4;
+}
+
+.user-message {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+    margin-right: auto;
+    background-color: #e9ecef;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+}
+
+.system-message {
+    margin: 10px auto;
+    text-align: center;
+    color: #dc3545;
+    font-style: italic;
+}
+
+.chat-input-container {
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.chat-input {
+    flex-grow: 1;
+    min-height: 44px;
+    max-height: 200px;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    resize: none;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-y: auto;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.send-button {
+    padding: 1rem 2rem;
+    font-weight: 700;
+    background: rgb(255, 255, 255);
+    color: blueviolet;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border-bottom: 2px solid blueviolet;
+    border-right: 2px solid blueviolet;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    transition-duration: 1s;
+    transition-property: border-top, border-left, border-bottom, border-right, box-shadow;
+}
+
+.send-button:hover {
+    border-top: 2px solid blueviolet;
+    border-left: 2px solid blueviolet;
+    border-bottom: 2px solid rgb(238, 103, 238);
+    border-right: 2px solid rgb(238, 103, 238);
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px;
+}
+
+footer {
+    background-color: #18364a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
+}
+
+/* New styles for the Send button */
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  width: 170px;
+  height: 60px;
+  font-size: 18px;
+  background: #fff;
+  border: none;
+  border-radius: 50px;
+  color: #000;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btn:hover {
+  box-shadow: inset 0 0 0 4px #ef476f, 
+              inset 0 0 0 8px #ffd166, 
+              inset 0 0 0 12px #06d6a0,
+              inset 0 0 0 16px #118ab2;
+  background: #073b4c;
+  color: #fff;
+}
+
+.header-right button {
+  --glow-color: rgb(217, 176, 255);
+  --glow-spread-color: rgba(191, 123, 255, 0.781);
+  --enhanced-glow-color: rgb(231, 206, 255);
+  --btn-color: rgb(100, 61, 136);
+  border: .25em solid var(--glow-color);
+  padding: 1em 3em;
+  color: var(--glow-color);
+  font-size: 15px;
+  font-weight: bold;
+  background-color: var(--btn-color);
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 1em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+  text-shadow: 0 0 .5em var(--glow-color);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.header-right button::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 120%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--glow-spread-color);
+  filter: blur(2em);
+  opacity: .7;
+  transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+}
+
+.header-right button:hover {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 2em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+}
+
+.header-right button:active {
+  box-shadow: 0 0 0.6em .25em var(--glow-color),
+         0 0 2.5em 2em var(--glow-spread-color),
+         inset 0 0 .5em .25em var(--glow-color);
+}
+
+/* Add these message styles */
+.message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.4;
+}
+
+.message.user {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+    margin-right: auto;
+    background-color: #e9ecef;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+}
+
+.message.system {
+    margin: 10px auto;
+    text-align: center;
+    color: #dc3545;
+    font-style: italic;
+}
+
+/* Typing indicator styles */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #90949c;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="symptom.html">Symptom Checker</a>
+    <a href="Medicationschedule.html">Medication Schedule</a>
+    <a href="Diagnostics.html" class="active">Diagnostics</a>
+    <a href="Support&resources.html">Support & Resources</a>
+    <a href="profile.html">Profile</a>
+    <a href="index.html">Logout</a>
+</aside>
+
+<main>
+    <header>
+        <div class="header-left">
+            <div class="logo">MedCheck AI</div>
+        </div>
+        <div class="header-right">
+            <button>DOCTOR</button>
+        </div>
+    </header>
+
+    <section class="intro">
+        <h1>MEDCHECK AI Symptom Checker</h1>
+        <p>Get instant Diagnosis and health insights powered by advanced AI technology.</p>
+    </section>
+
+    <section class="symptom-checker">
+        <div class="symptom-list">
+            <h2>Common Symptoms</h2>
+            <input type="text" id="symptom-search" placeholder="Search symptoms...">
+            <ul>
+                <li><input type="checkbox"> Headache</li>
+                <li><input type="checkbox"> Fever</li>
+                <li><input type="checkbox"> Cough</li>
+                <li><input type="checkbox"> Fatigue</li>
+                <li><input type="checkbox"> Shortness of breath</li>
+                <li><input type="checkbox"> Muscle aches</li>
+                <li><input type="checkbox"> Chills</li>
+                <li><input type="checkbox"> Sore throat</li>
+                <li><input type="checkbox"> Loss of taste or smell</li>
+                <li><input type="checkbox"> Nausea</li>
+                <li><input type="checkbox"> Vomiting</li>
+                <li><input type="checkbox"> Diarrhea</li>
+                <li><input type="checkbox"> Chest pain</li>
+                <li><input type="checkbox"> Confusion</li>
+                <li><input type="checkbox"> Dizziness</li>
+            </ul>
+        </div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message ai-message">
+                    <p>Hello! I'm your AI health assistant. Please describe your symptoms or select them from the list.</p>
+                </div>
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea id="user-input" class="chat-input" placeholder="Describe your symptoms..."></textarea>
+                    <button id="send-button" class="send-button" onclick="sendWithSymptoms()">Send</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 MEDCHECKAI. All rights reserved.</p>
+</footer>
+
+<script>
+function sendWithSymptoms() {
+    const userInput = document.getElementById('user-input');
+    const checkedSymptoms = Array.from(document.querySelectorAll('.symptom-list input:checked'))
+        .map(checkbox => checkbox.parentNode.textContent.trim());
+    
+    // Combine symptoms and user input
+    let message = userInput.value.trim();
+    if (checkedSymptoms.length > 0) {
+        message = `Selected symptoms: ${checkedSymptoms.join(', ')}\n${message}`;
+    }
+    
+    // Update the input value with combined message
+    userInput.value = message;
+    
+    // Trigger the chatbot's send message function
+    document.getElementById('send-button').click();
+    
+    // Clear checkboxes after sending
+    document.querySelectorAll('.symptom-list input:checked').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Clear the input after the message is sent
+    setTimeout(() => {
+        userInput.value = '';
+    }, 100);
+}
+
+// Add search functionality for symptoms
+document.getElementById('symptom-search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const symptoms = document.querySelectorAll('.symptom-list li');
+    
+    symptoms.forEach(symptom => {
+        const text = symptom.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+            symptom.style.display = '';
+        } else {
+            symptom.style.display = 'none';
+        }
+    });
+});
+</script>
+
+<script src="chatbot.js"></script>
+</body>
+</html>

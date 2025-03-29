@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support & Resources</title>
+<style>
+:root {
+--primary: #16A34A;
+--secondary: #60A5FA;
+--chat-bg: #ffffff;
+--message-bg: #f7f7f8;
+--user-message-bg: #16a34a15;
+--white: hsl(0, 0%, 100%);
+--black: hsl(240, 15%, 9%);
+--paragraph: hsl(0, 0%, 83%);
+--line: hsl(240, 9%, 17%);
+--card-primary: hsl(189, 92%, 58%);
+}
+
+.card {
+position: relative;
+display: flex;
+flex-direction: column;
+gap: 1rem;
+padding: 1rem;
+width: 100%;
+background-color: hsla(240, 15%, 9%, 1);
+background-image: radial-gradient(at 88% 40%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+  radial-gradient(at 49% 30%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+  radial-gradient(at 14% 26%, hsla(240, 15%, 9%, 1) 0px, transparent 85%),
+  radial-gradient(at 0% 64%, hsl(189, 99%, 26%) 0px, transparent 85%),
+  radial-gradient(at 41% 94%, hsl(189, 97%, 36%) 0px, transparent 85%),
+  radial-gradient(at 100% 99%, hsl(188, 94%, 13%) 0px, transparent 85%);
+border-radius: 1rem;
+box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
+}
+
+.card .card__border {
+overflow: hidden;
+pointer-events: none;
+position: absolute;
+z-index: -10;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: calc(100% + 2px);
+height: calc(100% + 2px);
+background-image: linear-gradient(0deg, hsl(0, 0%, 100%) -50%, hsl(0, 0%, 40%) 100%);
+border-radius: 1rem;
+}
+
+.card .card__border::before {
+content: "";
+pointer-events: none;
+position: fixed;
+z-index: 200;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 200%;
+height: 10rem;
+background-image: linear-gradient(0deg, hsla(0, 0%, 100%, 0) 0%, hsl(189, 100%, 50%) 40%, hsl(189, 100%, 50%) 60%, hsla(0, 0%, 40%, 0) 100%);
+animation: rotate 8s linear infinite;
+}
+
+@keyframes rotate {
+to {
+  transform: rotate(360deg);
+}
+}
+
+.card .card_title__container .card_title {
+font-size: 1.25rem;
+color: var(--white);
+font-weight: 600;
+}
+
+.card .card_title__container .card_paragraph {
+margin-top: 0.5rem;
+width: 100%;
+font-size: 0.875rem;
+color: var(--paragraph);
+}
+
+.card .line {
+width: 100%;
+height: 0.1rem;
+background-color: var(--line);
+border: none;
+margin: 0.5rem 0;
+}
+
+.card .card__list {
+display: flex;
+flex-direction: column;
+gap: 0.75rem;
+list-style: none;
+padding: 0;
+}
+
+.card .card__list .card__list_item {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+}
+
+.card .card__list .card__list_item .check {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 1.25rem;
+height: 1.25rem;
+background-color: var(--card-primary);
+border-radius: 50%;
+}
+
+.card .card__list .card__list_item .check_svg {
+width: 0.875rem;
+height: 0.875rem;
+color: var(--black);
+}
+
+.card .card__list .card__list_item .list_text {
+color: var(--white);
+font-size: 0.875rem;
+}
+
+.card .button {
+background-color: var(--card-primary);
+color: var(--black);
+padding: 0.75rem 1.5rem;
+border: none;
+border-radius: 0.5rem;
+font-weight: 600;
+cursor: pointer;
+transition: opacity 0.2s ease;
+}
+
+.card .button:hover {
+opacity: 0.9;
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.message-container {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.bg-gray-50 { background-color: #F9FAFB; }
+.bg-white { background-color: #FFFFFF; }
+.bg-blue-50 { background-color: #EFF6FF; }
+.bg-green-50 { background-color: #F0FDF4; }
+.bg-orange-50 { background-color: #FFF7ED; }
+.bg-blue-100 { background-color: #DBEAFE; }
+.bg-green-100 { background-color: #DCFCE7; }
+.bg-orange-100 { background-color: #FFEDD5; }
+.dark\:bg-gray-700 { background-color: #374151; }
+.dark\:bg-gray-800 { background-color: #1F2937; }
+.dark\:bg-blue-900 { background-color: #1E3A8A; }
+.dark\:text-gray-200 { color: #E5E7EB; }
+.dark\:text-blue-400 { color: #60A5FA; }
+.dark\:border-gray-700 { border-color: #374151; }
+.text-white { color: #FFFFFF; }
+.text-gray-500 { color: #6B7280; }
+.text-gray-600 { color: #4B5563; }
+.text-gray-700 { color: #374151; }
+.text-gray-900 { color: #111827; }
+.text-blue-600 { color: #2563EB; }
+.text-green-600 { color: #16A34A; }
+.text-orange-600 { color: #EA580C; }
+.text-orange-700 { color: #C2410C; }
+.text-orange-900 { color: #7C2D12; }
+.shadow-sm {
+box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.rounded-lg { border-radius: 8px; }
+.rounded-full { border-radius: 9999px; }
+.rounded-button { border-radius: 8px; }
+.max-w-7xl { max-width: 80rem; }
+.max-w-md { max-width: 28rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-4 { margin-left: 1rem; margin-right: 1rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.ml-3 { margin-left: 0.75rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.pl-4 { padding-left: 1rem; }
+.pr-12 { padding-right: 3rem; }
+.flex { display: flex; }
+.grid { display: grid; }
+.hidden { display: none; }
+.h-8 { height: 2rem; }
+.h-10 { height: 2.5rem; }
+.h-12 { height: 3rem; }
+.h-96 { height: 24rem; }
+.min-h-screen { min-height: 100vh; }
+.w-8 { width: 2rem; }
+.w-10 { width: 2.5rem; }
+.w-12 { width: 3rem; }
+.w-full { width: 100%; }
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-items: end; }
+.space-x-1 > * + * { margin-left: 0.25rem; }
+.space-x-2 > * + * { margin-left: 0.5rem; }
+.space-x-4 > * + * { margin-left: 1rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.cursor-pointer { cursor: pointer; }
+.overflow-y-auto { overflow-y: auto; }
+.sticky { position: sticky; }
+.fixed { position: fixed; }
+.absolute { position: absolute; }
+.relative { position: relative; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.top-4 { top: 1rem; }
+.right-2 { right: 0.5rem; }
+.transform { transform: translateY(-50%); }
+.bg-opacity-50 { background-color: rgba(0, 0, 0, 0.5); }
+.border { border-width: 1px; }
+.border-gray-300 { border-color: #D1D5DB; }
+.border-orange-200 { border-color: #FDBA74; }
+.focus\:outline-none:focus { outline: none; }
+.focus\:ring-2:focus { box-shadow: 0 0 0 2px var(--primary); }
+.hover\:bg-gray-50:hover { background-color: #F9FAFB; }
+.hover\:bg-gray-100:hover { background-color: #F3F4F6; }
+
+/* Removed hover states for all button colors */
+
+/* Green button styles */
+.btn-green {
+  background-color: #f70b0b;
+  color: white;
+}
+
+/* Updated Sidebar Styles */
+body {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex-grow: 1;
+  width: calc(100% - 250px);
+  transition: width 0.3s ease;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  min-width: 250px;
+  background-color: #18364a;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 100px;
+  z-index: 10;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar a {
+  padding: 12px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--secondary);
+}
+
+.sidebar a.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 20px;
+  left: 250px;
+  z-index: 20;
+  background: #18364a;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  padding: 8px;
+  cursor: pointer;
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sidebar.collapsed + .content-wrapper {
+  width: 100%;
+}
+
+.sidebar.collapsed ~ .sidebar-toggle {
+  left: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    position: fixed;
+    height: 100vh;
+    width: 250px;
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.collapsed {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.expanded {
+    transform: translateX(0);
+  }
+  
+  .content-wrapper {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .sidebar-toggle {
+    left: 0;
+  }
+}
+
+@media (min-width: 640px) {
+.sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media (min-width: 768px) {
+.md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+.lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+.lg\:col-span-1 { grid-column: span 1 / span 1; }
+.lg\:col-span-2 { grid-column: span 2 / span 2; }
+.lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+</style>
+<style>
+/* Inter Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Remix Icon */
+@font-face {
+  font-family: "remixicon";
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.eot');
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.eot#iefix') format('embedded-opentype'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.woff2') format('woff2'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.woff') format('woff'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.ttf') format('truetype'),
+  url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.svg#remixicon') format('svg');
+  font-display: swap;
+}
+[class^="ri-"],
+[class*=" ri-"] {
+  font-family: 'remixicon' !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ri-lg { font-size: 1.3333em; line-height: 0.75em; vertical-align: -.0667em; }
+.ri-xl { font-size: 1.5em; line-height: 0.6666em; vertical-align: -.075em; }
+.ri-2x { font-size: 2em; }
+.ri-3x { font-size: 3em; }
+.ri-fw { text-align: center; width: 1.25em; }
+.ri-admin-line:before { content: "\eb94"; }
+.ri-article-line:before { content: "\eb97"; }
+.ri-video-line:before { content: "\f34d"; }
+.ri-user-line:before { content: "\f264"; }
+.ri-heart-line:before { content: "\ee0e"; }
+.ri-message-2-line:before { content: "\ef16"; }
+.ri-robot-line:before { content: "\f06e"; }
+.ri-send-plane-line:before { content: "\f090"; }
+.ri-emergency-line:before { content: "\ed4c"; }
+.ri-phone-line:before { content: "\efdb"; }
+.ri-user-star-line:before { content: "\f27f"; }
+.ri-phone-fill:before { content: "\efda"; }
+.ri-menu-line:before { content: "\ef3e"; }
+.ri-close-line:before { content: "\eb99"; }
+</style>
+
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body { font-family: 'Inter', sans-serif; }
+.chat-container::-webkit-scrollbar {
+width: 6px;
+}
+.chat-container::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+.chat-container::-webkit-scrollbar-thumb {
+background: #888;
+border-radius: 3px;
+}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<aside class="sidebar" id="sidebar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="symptom.html">Symptom Checker</a>
+  <a href="Medicationschedule.html">Medication Schedule</a>
+  <a href="Diagnostics.html">Diagnostics</a>
+  <a href="Support&resources.html">Support & Resources</a>
+  <a href="profile.html">Profile</a>
+  <a href="index.html">Logout</a>
+</aside>
+
+<button id="sidebarToggle" class="sidebar-toggle">
+  <i class="ri-menu-line"></i>
+</button>
+
+<div class="content-wrapper">
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-900">Support & Resources</h1>
+        <button onclick="showEmergencyModal()" class="!rounded-button btn-green px-6 py-2 flex items-center space-x-2 cursor-pointer">
+          <i class="ri-phone-fill ri-lg"></i>
+          <span class="font-semibold">Call Doctor</span>
+        </button>
+      </div>
+      <div class="mt-4 bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <div class="flex items-center space-x-4">
+          <div class="w-10 h-10 flex items-center justify-center bg-orange-100 rounded-full">
+            <i class="ri-emergency-line text-orange-600 ri-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-semibold text-orange-900">Emergency Contacts</h3>
+            <p class="text-orange-700">Emergency: 911 | Crisis Hotline: +254794797796</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <section class="bg-white rounded-lg shadow-sm p-6 mb-8">
+          <h2 class="text-2xl font-semibold mb-6">Educational Resources</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="card">
+              <div class="card__border"></div>
+              <div class="card_title__container">
+                <span class="card_title">Diabetes Management</span>
+                <p class="card_paragraph">Learn about blood sugar monitoring, diet planning, and lifestyle adjustments.</p>
+              </div>
+              <hr class="line" />
+              <ul class="card__list">
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Blood Sugar Monitoring</span>
+                </li>
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Diet Planning</span>
+                </li>
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Lifestyle Adjustments</span>
+                </li>
+              </ul>
+              <a href="https://www.diabetes.org/diabetes" target="_blank" class="button" style="text-decoration: none; display: inline-block;">Learn More</a>
+            </div>
+            <div class="card">
+              <div class="card__border"></div>
+              <div class="card_title__container">
+                <span class="card_title">Video Tutorials</span>
+                <p class="card_paragraph">Watch step-by-step guides on injection techniques and device usage.</p>
+              </div>
+              <hr class="line" />
+              <ul class="card__list">
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Injection Techniques</span>
+                </li>
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Device Usage</span>
+                </li>
+                <li class="card__list_item">
+                  <span class="check"><svg class="check_svg" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" fill-rule="evenodd"></path></svg></span>
+                  <span class="list_text">Maintenance Tips</span>
+                </li>
+              </ul>
+              <a href="https://youtu.be/MIc299Flibs?si=Ka3FDROcFBjwqYut" target="_blank" class="button" style="text-decoration: none; display: inline-block;">Watch Videos</a>
+            </div>
+          </div>
+        </section>
+        <section class="bg-white rounded-lg shadow-sm p-6">
+          <h2 class="text-2xl font-semibold mb-6">Community Forum</h2>
+          <div class="card">
+            <div class="card__border"></div>
+            <div class="card_title__container">
+              <span class="card_title">Community Discussion</span>
+              <p class="card_paragraph">Connect with others, share experiences, and get support from the community.</p>
+            </div>
+            <hr class="line" />
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 flex items-center justify-center bg-card-primary rounded-full">
+                  <i class="ri-user-line text-black"></i>
+                </div>
+                <div>
+                  <h4 class="text-white font-semibold">Peter Maina</h4>
+                  <p class="text-sm text-paragraph">2 hours ago</p>
+                </div>
+              </div>
+              <p class="text-white text-sm">Tips for managing blood sugar levels during exercise? I've been struggling lately.</p>
+              <div class="flex items-center gap-4">
+                <button class="flex items-center gap-2 text-paragraph hover:text-card-primary transition-colors">
+                  <i class="ri-heart-line"></i>
+                  <span>24</span>
+                </button>
+                <button class="flex items-center gap-2 text-paragraph hover:text-card-primary transition-colors">
+                  <i class="ri-message-2-line"></i>
+                  <span>12 replies</span>
+                </button>
+              </div>
+            </div>
+            <a href="https://youtu.be/MIc299Flibs?si=Ka3FDROcFBjwqYut" target="_blank" class="button" style="text-decoration: none; display: inline-block;">Join Discussion</a>
+          </div>
+        </section>
+      </div>
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-sm p-6 sticky top-4">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold flex items-center">
+              <i class="ri-robot-line text-primary mr-2"></i>
+              AI Assistant
+            </h2>
+            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs font-medium rounded-full flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+              Online
+            </span>
+          </div>
+          
+          <div class="chat-container h-[calc(100vh-250px)] overflow-y-auto mb-4 bg-white dark:bg-gray-800 shadow-lg rounded-xl">
+            <div class="space-y-6 p-6" id="chatMessages">
+              <div class="flex items-start space-x-4 message-container animate-fade-in">
+                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <i class="ri-robot-line text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <div class="flex flex-col space-y-2 max-w-[80%]">
+                  <div class="bg-blue-50 dark:bg-gray-700 rounded-2xl rounded-tl-none p-5 shadow-sm transform transition-all duration-200 hover:shadow-md">
+                    <p class="text-gray-800 dark:text-gray-200 text-[15px] leading-relaxed"></p>
+
+                  </div>
+                  <span class="text-xs text-gray-400">AI Assistant</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-sm sticky bottom-0">
+              <input 
+                type="text" 
+                id="chatInput" 
+                placeholder="Type your question..." 
+                class="flex-1 bg-transparent border-0 focus:ring-2 focus:ring-blue-500/20 focus:outline-none px-4 py-2 text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-[15px]"
+              >
+              <div class="flex items-center space-x-2">
+                <button class="attachment-button w-10 h-10 flex items-center justify-center text-black bg-white rounded-full transition-all duration-300 cursor-pointer outline-none border-none shadow-[0px_8px_15px_rgba(0,0,0,0.1)] hover:bg-[#23c483] hover:shadow-[0px_15px_20px_rgba(46,229,157,0.4)] hover:text-white hover:translate-y-[-7px] active:translate-y-[-1px]">
+                  <i class="ri-attachment-2-line text-lg"></i>
+                </button>
+                <button 
+                  onclick="sendMessage()" 
+                  class="send-button w-10 h-10 flex items-center justify-center text-black bg-white rounded-full transition-all duration-300 cursor-pointer outline-none border-none shadow-[0px_8px_15px_rgba(0,0,0,0.1)] hover:bg-[#23c483] hover:shadow-[0px_15px_20px_rgba(46,229,157,0.4)] hover:text-white hover:translate-y-[-7px] active:translate-y-[-1px]"
+                >
+                  <i class="ri-send-plane-line text-lg"></i>
+                </button>
+              </div>
+            </div>
+            <style>
+              .chat-container::-webkit-scrollbar {
+                width: 6px;
+              }
+              .chat-container::-webkit-scrollbar-track {
+                background: transparent;
+              }
+              .chat-container::-webkit-scrollbar-thumb {
+                background-color: rgba(156, 163, 175, 0.5);
+                border-radius: 3px;
+              }
+              .chat-container::-webkit-scrollbar-thumb:hover {
+                background-color: rgba(156, 163, 175, 0.7);
+              }
+            </style>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="emergencyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+    <h3 class="text-xl font-semibold mb-4">Emergency Contact</h3>
+    <div class="space-y-4">
+      <button onclick="window.location.href='tel:911'" class="!rounded-button w-full btn-green py-3 flex items-center justify-center space-x-2 cursor-pointer">
+        <i class="ri-emergency-line"></i>
+        <span>Call Emergency (911)</span>
+      </button>
+      <button onclick="window.location.href='tel:18002738255'" class="!rounded-button w-full btn-green py-3 flex items-center justify-center space-x-2 cursor-pointer">
+        <i class="ri-phone-line"></i>
+        <span>Crisis Hotline</span>
+      </button>
+      <button onclick="window.location.href='tel:5551234567'" class="!rounded-button w-full btn-green py-3 flex items-center justify-center space-x-2 cursor-pointer">
+        <i class="ri-user-star-line"></i>
+        <span>Call My Doctor</span>
+      </button>
+      <button onclick="closeEmergencyModal()" class="!rounded-button w-full border border-gray-300 bg-gray-50 py-3 cursor-pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.chat-container {
+  background: var(--chat-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 20px;
+}
+
+/* Message animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  max-width: 85%;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  line-height: 1.6;
+  font-size: 1rem;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+  color: #343541;
+  background: var(--message-bg);
+  margin-bottom: 1.5rem;
+}
+</style>
+
+<script>
+let isTyping = false;
+
+const mockResponses = {
+  "blood sugar": "A blood sugar reading of 200 mg/dL or higher may indicate hyperglycemia. It's recommended to consult your healthcare provider for proper interpretation and advice.",
+  "exercise": "Regular exercise can help control blood sugar levels. Start slowly and monitor your levels before, during, and after activity. Always carry a fast-acting carbohydrate with you.",
+  "diet": "A balanced diet is crucial for diabetes management. Focus on whole grains, lean proteins, healthy fats, and plenty of vegetables. Monitor portion sizes and track carbohydrate intake.",
+  "medication": "Take medications as prescribed by your doctor. Don't skip doses, and make sure to store them properly. Contact your healthcare provider if you experience any side effects."
+};
+
+function showEmergencyModal() {
+  document.getElementById('emergencyModal').style.display = 'flex';
+}
+
+function closeEmergencyModal() {
+  document.getElementById('emergencyModal').style.display = 'none';
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message || isTyping) return;
+  
+  const chatMessages = document.getElementById('chatMessages');
+  const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  // Add user message
+  chatMessages.innerHTML += `
+    <div class="flex items-start justify-end space-x-2 chat-message animate-fade-in">
+      <div class="flex flex-col items-end space-y-2 max-w-[80%]">
+        <div class="bg-primary text-white rounded-2xl rounded-tr-none p-4">
+          <p>${input.value}</p>
+        </div>
+        <span class="text-xs text-gray-400">You • ${timestamp}</span>
+      </div>
+      <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+        <i class="ri-user-line text-white"></i>
+      </div>
+    </div>
+  `;
+  
+  isTyping = true;
+  
+  // Show typing indicator
+  chatMessages.innerHTML += `
+    <div id="typingIndicator" class="flex items-start space-x-2 chat-message animate-fade-in">
+      <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+        <i class="ri-robot-line text-primary"></i>
+      </div>
+      <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+        <div class="flex space-x-1">
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Scroll to bottom
+  const container = document.querySelector('.chat-container');
+  container.scrollTop = container.scrollHeight;
+  
+  setTimeout(() => {
+    // Remove typing indicator
+    document.getElementById('typingIndicator').remove();
+    
+    // Get response based on message content
+    let response = "I apologize, but I don't have specific information about that. Please consult your healthcare provider for accurate medical advice.";
+    const messageLower = message.toLowerCase();
+    
+    for (const [key, value] of Object.entries(mockResponses)) {
+      if (messageLower.includes(key)) {
+        response = value;
+        break;
+      }
+    }
+    
+    // Add AI response
+    chatMessages.innerHTML += `
+      <div class="flex items-start space-x-2 chat-message">
+        <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+          <i class="ri-robot-line text-primary"></i>
+        </div>
+        <div class="flex flex-col space-y-2 max-w-[80%]">
+          <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+            <p class="text-gray-700">${response}</p>
+          </div>
+          <span class="text-xs text-gray-400">AI Assistant • ${timestamp}</span>
+        </div>
+      </div>
+    `;
+    
+    // Scroll to bottom again after response
+    container.scrollTop = container.scrollHeight;
+  }, 1500);
+  
+  input.value = '';
+}
+
+// Sidebar toggle functionality
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('collapsed');
+  
+  // Change icon based on sidebar state
+  const icon = this.querySelector('i');
+  if (sidebar.classList.contains('collapsed')) {
+    icon.className = 'ri-menu-line';
+  } else {
+    icon.className = 'ri-close-line';
+  }
+});
+
+// For mobile responsive behavior
+function checkWindowSize() {
+  const sidebar = document.getElementById('sidebar');
+  if (window.innerWidth <= 768) {
+    sidebar.classList.add('collapsed');
+  } else {
+    sidebar.classList.remove('collapsed');
+  }
+}
+
+// Check window size on load and resize
+window.addEventListener('load', checkWindowSize);
+window.addEventListener('resize', checkWindowSize);
+</script>
+</body>
+</html>
