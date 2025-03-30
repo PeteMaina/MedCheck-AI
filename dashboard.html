@@ -268,48 +268,90 @@
     }
     
     /* --------------------------------------
-       CARD GRID & CARD STYLES (Original Styling Preserved)
+       CARD GRID & CARD STYLES
     -------------------------------------- */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
     .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      border-radius: 0.25rem;
+      background-color: var(--dark-blue);
+      padding: 1.5rem;
       transition: transform 0.3s, box-shadow 0.3s;
+      width: 100%;
     }
     .card:hover {
       transform: translateY(-10px);
       box-shadow: 0 12px 24px rgba(0,0,0,0.3);
     }
-    .card h3 {
-      margin-bottom: 10px;
-      font-size: 1.4rem;
-      color: var(--dark-blue);
-      font-weight: 600;
+    .card .header {
+      display: flex;
+      flex-direction: column;
     }
-    .card p {
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      color: #555;
-    }
-    .card button {
-      background: var(--button-color);
-      border: none;
+    .card .title {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-weight: 700;
       color: #fff;
-      padding: 10px 20px;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.3s;
     }
-    .card button:hover {
-      background: var(--button-hover);
-      transform: scale(1.05);
+    .card .price {
+      font-size: 1.75rem;
+      line-height: 1;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 0.5rem;
+    }
+    .card .desc {
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.625;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .card .lists {
+      margin-bottom: 1.5rem;
+      flex: 1 1 0%;
+      color: rgba(255, 255, 255, 0.8);
+      list-style: none;
+      padding: 0;
+    }
+    .card .list {
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      margin-left: 0.5rem;
+    }
+    .card .list svg {
+      height: 1.5rem;
+      width: 1.5rem;
+      flex-shrink: 0;
+      margin-right: 0.5rem;
+      color: var(--teal);
+    }
+    .card .action {
+      border: none;
+      outline: none;
+      display: inline-block;
+      border-radius: 0.25rem;
+      background-color: var(--teal);
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .card .action:hover {
+      background-color: var(--button-hover);
+      transform: none;
     }
     
     /* --------------------------------------
@@ -409,31 +451,120 @@
         </div>
         <div class="card-grid">
           <div class="card">
-            <h3>Symptom Checker</h3>
-            <p>Review your current symptoms. Let our AI analyze them to catch any potential issues early.</p>
-            <button onclick="navigate('symptom.html')">Check Now</button>
+            <div class="header">
+              <span class="title">Symptom Checker</span>
+              <span class="price">AI-Powered</span>
+            </div>
+            <p class="desc">Review your current symptoms. Let our AI analyze them to catch any potential issues early.</p>
+            <ul class="lists">
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Real-time Analysis</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Instant Results</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Smart Recommendations</span>
+              </li>
+            </ul>
+            <button class="action" onclick="navigate('symptom.html')">Check Now</button>
           </div>
+
           <div class="card">
-            <h3>Medication Reminders</h3>
-            <p>View your upcoming medication schedule with precise timing and dosages to stay on track.</p>
-            <button onclick="navigate('Medicationschedule.html')">View Reminders</button>
+            <div class="header">
+              <span class="title">Medication Reminders</span>
+              <span class="price">Smart Tracking</span>
+            </div>
+            <p class="desc">View your upcoming medication schedule with precise timing and dosages to stay on track.</p>
+            <ul class="lists">
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Timely Reminders</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Dosage Tracking</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Schedule Management</span>
+              </li>
+            </ul>
+            <button class="action" onclick="navigate('Medicationschedule.html')">View Reminders</button>
           </div>
+
           <div class="card">
-            <h3>Diagnostics &amp; Analysis</h3>
-            <p>Get detailed, AI‑driven analysis and diagnosis based on your reported symptoms and history.</p>
-            <button onclick="navigate('diagnostics.html')">View Analysis</button>
+            <div class="header">
+              <span class="title">Diagnostics & Analysis</span>
+              <span class="price">AI-Enhanced</span>
+            </div>
+            <p class="desc">Get detailed, AI‑driven analysis and diagnosis based on your reported symptoms and history.</p>
+            <ul class="lists">
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Smart Analysis</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Detailed Reports</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Health Insights</span>
+              </li>
+            </ul>
+            <button class="action" onclick="navigate('diagnostics.html')">View Analysis</button>
           </div>
+
           <div class="card">
-            <h3>Health Trends</h3>
-            <p>Track your wellness progress over time with interactive insights and charts.</p>
-            <button onclick="navigate('trends.html')">View Trends</button>
+            <div class="header">
+              <span class="title">Support & Resources</span>
+              <span class="price">Access to resources</span>
+            </div>
+            <p class="desc">Get access to resources and support to help you manage your health.</p>
+            <ul class="lists">
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Health Tips</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Join a community</span>
+              </li>
+              <li class="list">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Tutorials and guides</span>
+              </li>
+            </ul>
+            <button class="action" onclick="navigate('Support&resources.html')">View Resources</button>
           </div>
-          <div class="card">
-            <h3>Appointments</h3>
-            <p>Stay updated with your scheduled appointments and follow-up consultations.</p>
-            <button onclick="navigate('appointments.html')">View Appointments</button>
-          </div>
-          <!-- Recent Activity card removed as requested -->
         </div>
       </div>
     </main>
