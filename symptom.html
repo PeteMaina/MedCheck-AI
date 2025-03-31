@@ -1,550 +1,644 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MedCheck AI - Symptom Checker</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="chatbot.js" defer></script>
-  <style>
-    /* ------------------------------------------------------------
-       COLOR PALETTE
-    ------------------------------------------------------------ */
-    :root {
-      --color1: #0A3D62;  /* Primary Dark: Trustworthy deep blue */
-      --color2: #F0F5F9;  /* Light Background */
-      --color3: #1E90FF;  /* Bright Blue Accent */
-      --color4: #027c97;  /* Secondary Accent */
-      --color5: #FF6B6B;  /* Call-to-Action Red */
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEDCHECK AI Symptom Checker</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-    /* ------------------------------------------------------------
-       GLOBAL & RESET
-    ------------------------------------------------------------ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      color: var(--color1);
-      line-height: 1.6;
-      overflow-x: hidden;
-      background: linear-gradient(
-        rgba(240, 245, 249, 0.85),
-        rgba(10, 61, 98, 0.7)
-      ),
-      url('hmm.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    ul {
-      list-style: none;
-    }
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #18364a;
+    padding: 20px 0;
+    z-index: 1000;
+}
 
-    /* ------------------------------------------------------------
-       HEADER
-    ------------------------------------------------------------ */
-    header {
-      background-color: rgba(10, 61, 98, 0.95);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-    /* Toggle button visible only on small screens */
-    .toggle-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-      display: none;
-    }
-    /* Full navigation menu */
-    .nav-links {
-      display: flex;
-      gap: 15px;
-    }
-    .nav-links a {
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    .nav-links a:hover {
-      background-color: var(--color4);
-    }
+.logo {
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: linear-gradient(to right, red, blue);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
 
-    /* ------------------------------------------------------------
-       MOBILE NAVIGATION (Off-canvas)
-    ------------------------------------------------------------ */
-    .mobile-nav {
-      background-color: var(--color1);
-      color: #fff;
-      backdrop-filter: blur(10px);
-      position: fixed;
-      top: 60px; /* below header */
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      padding: 20px;
-      transform: translateX(-100%);
-      transition: transform 0.3s;
-      z-index: 999;
-    }
-    .mobile-nav.open {
-      transform: translateX(0);
-    }
-    .mobile-nav ul li {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .mobile-nav ul li:hover {
-      background-color: var(--color4);
-    }
-    .mobile-nav ul li.active {
-      background-color: var(--color3);
-    }
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
 
-    /* ------------------------------------------------------------
-       SIDEBAR (Desktop only)
-    ------------------------------------------------------------ */
-    .sidebar {
-      background-color: rgba(10, 61, 98, 0.95);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      width: 250px;
-      height: calc(100vh - 60px);
-      position: fixed;
-      top: 60px;
-      left: 0;
-      padding: 20px;
-      overflow-y: auto;
-      transition: transform 0.5s;
-    }
-    /* Hide desktop sidebar on small screens */
-    @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-    }
-    .sidebar ul li {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .sidebar ul li:hover {
-      background-color: var(--color4);
-    }
-    .sidebar ul li.active {
-      background-color: var(--color3);
-    }
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
 
-    /* ------------------------------------------------------------
-       MAIN CONTENT
-    ------------------------------------------------------------ */
-    .main-content {
-      margin-top: 60px; /* for header */
-      margin-left: 250px; /* for desktop sidebar */
-      padding: 20px;
-      transition: margin-left 0.3s;
-    }
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 0;
-      }
-    }
+.sidebar a.active {
+    background-color: #1E90FF;
+    border-radius: 10px;
+}
 
-    /* Symptom Checker Card */
-    .symptom-card {
-      background-color: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    }
-    .symptom-card h2 {
-      margin-bottom: 15px;
-    }
-    .symptom-card input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--color1);
-      border-radius: 5px;
-      margin-bottom: 15px;
-      font-size: 1rem;
-    }
-    .symptom-card button {
-      background-color: var(--color5);
-      border: none;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .symptom-card button:hover {
-      background-color: #e05555;
-    }
+main {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px; /* Ensure main content is offset by the width of the sidebar */
+    overflow: auto;
+}
 
-    /* Results Grid */
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .result-card {
-      background-color: var(--color2);
-      border: 1px solid var(--color1);
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .result-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    .result-card h3 {
-      margin-bottom: 10px;
-      color: var(--color1);
-    }
-    .result-card p {
-      font-size: 0.95rem;
-      color: var(--color1);
-      margin-bottom: 10px;
-    }
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    /* ------------------------------------------------------------
-       FOOTER
-    ------------------------------------------------------------ */
-    footer {
-      background-color: rgba(10, 61, 98, 0.95);
-      backdrop-filter: blur(10px);
-      color: #fff;
-      text-align: center;
-      padding: 15px;
-      margin-top: 30px;
-      border-radius: 5px 5px 0 0;
-    }
+.logo {
+    font-weight: bold;
+}
 
-    /* ------------------------------------------------------------
-       RESPONSIVE DESIGN
-    ------------------------------------------------------------ */
-    @media (max-width: 768px) {
-      /* Show hamburger and hide desktop nav */
-      .toggle-btn {
-        display: block;
-      }
-      .nav-links {
-        display: none;
-      }
-    }
-    @media (min-width: 769px) {
-      /* Hide mobile nav on larger screens */
-      .mobile-nav {
-        display: none;
-      }
-    }
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+}
 
-    /* Chat Interface Styles */
-    .chat-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
-        border-radius: 15px;
-        margin: 20px auto;
-        max-width: 800px;
-        height: 500px;
-        display: flex;
-        flex-direction: column;
-    }
+button {
+    background-color: #3da066;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
 
-    .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-    }
+.intro {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-    .message {
-        margin-bottom: 15px;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: messageAppear 0.3s forwards;
-    }
+.symptom-checker {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 250px);
+}
 
-    @keyframes messageAppear {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.symptom-list {
+    flex: 1;
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    max-height: 400px; /* Limit height for better scrolling */
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #b2ebf2;
+}
 
-     .chat-input {
-        display: flex;
-        padding: 20px;
-        border-top: 1px solid #eee;
-        background: white;
-        border-radius: 0 0 15px 15px;
-        gap: 10px;
-    }
+.symptom-list:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 
-    .chat-input input {
-        flex: 1;
-        padding: 15px;
-        border: 2px solid var(--color2);
-        border-radius: 25px;
-        margin-right: 10px;
-        font-size: 1rem;
-        transition: border-color 0.3s;
-    }
+.symptom-list h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #00796b;
+    text-align: center;
+    font-weight: bold;
+}
 
-    .chat-input input:focus {
-        border-color: var(--color3);
-        outline: none;
-    }
+#symptom-search {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #80cbc4;
+    outline: none;
+    transition: 0.3s;
+}
 
-    .chat-input button {
-        background: var(--color3);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+#symptom-search:focus {
+    border-color: #00796b;
+    box-shadow: 0 0 6px rgba(0, 121, 107, 0.5);
+}
 
-    .chat-input button:hover {
-        transform: scale(1.1);
-    }
+.symptom-list ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    /* Floating Action Button */
-    .fab {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: var(--color3);
-        color: white;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        transition: transform 0.3s, background 0.3s;
-    }
+.symptom-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    border-radius: 8px;
+    transition: 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
 
-    .fab:hover {
-        transform: scale(1.1);
-        background: var(--color4);
-    }
+.symptom-list li:hover {
+    background: #b2dfdb;
+    transform: scale(1.03);
+}
 
-    /* Update the consult-button styles */
-    .consult-button {
-        background: #2bd10a;  /* Medical green */
-        color: rgb(12, 182, 20);
-        padding: 15px 30px;
-        border-radius: 30px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        margin-top: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        box-shadow: 0 0px 1px rgba(11, 161, 6, 0.527);
-    }
+.symptom-list li input[type="checkbox"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #00796b;
+    border-radius: 4px;
+    margin-right: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-    .consult-button:hover {
-        background: #1b9e59;  /* Darker shade for hover */
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(32, 191, 107, 0.4);
-    }
+.symptom-list li input[type="checkbox"]:checked {
+    background-color: #00796b;
+    border-color: #00796b;
+}
 
-    .consult-button i {
-        margin-right: 10px;
-    }
+.symptom-list li input[type="checkbox"]::after {
+    content: "✔";
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 0.3s ease-in-out;
+}
 
-    .logo {
-      background: linear-gradient(to right, red, blue);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      white-space: nowrap;
-      font-size: 1.6rem;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-  </style>
+.symptom-list li input[type="checkbox"]:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Custom scrollbar */
+.symptom-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.symptom-list::-webkit-scrollbar-track {
+    background: #e0f7fa;
+    border-radius: 10px;
+}
+
+.symptom-list::-webkit-scrollbar-thumb {
+    background: #00796b;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.symptom-list::-webkit-scrollbar-thumb:hover {
+    background: #004d40;
+}
+
+
+.chat-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    
+    box-shadow: rgba(0, 0, 0, 1) 0px 14px 28px, rgba(0, 0, 0, 0.8) 0px 10px 10px;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 14px 28px, rgba(0, 0, 0, 0.4) 0px 10px 10px;
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.4;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 14px 28px, rgba(0, 0, 0, 0.4) 0px 10px 10px;
+}
+
+.user-message {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 14px 28px, rgba(0, 0, 0, 0.4) 0px 10px 10px;
+}
+
+.ai-message {
+    margin-right: auto;
+    background-color: #e9ecef;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+}
+
+.system-message {
+    margin: 10px auto;
+    text-align: center;
+    color: #dc3545;
+    font-style: italic;
+}
+
+.chat-input-container {
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+}
+
+.chat-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.chat-input {
+    flex-grow: 1;
+    min-height: 44px;
+    max-height: 200px;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    resize: none;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-y: auto;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.send-button {
+    padding: 1rem 2rem;
+    font-weight: 700;
+    background: rgb(255, 255, 255);
+    color: blueviolet;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border-bottom: 2px solid blueviolet;
+    border-right: 2px solid blueviolet;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    transition-duration: 1s;
+    transition-property: border-top, border-left, border-bottom, border-right, box-shadow;
+}
+
+.send-button:hover {
+    border-top: 2px solid blueviolet;
+    border-left: 2px solid blueviolet;
+    border-bottom: 2px solid rgb(238, 103, 238);
+    border-right: 2px solid rgb(238, 103, 238);
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px;
+}
+
+footer {
+    background-color: #18364a;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 10px;
+}
+
+/* New styles for the Send button */
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  width: 170px;
+  height: 60px;
+  font-size: 18px;
+  background: #fff;
+  border: none;
+  border-radius: 50px;
+  color: #000;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btn:hover {
+  box-shadow: inset 0 0 0 4px #ef476f, 
+              inset 0 0 0 8px #ffd166, 
+              inset 0 0 0 12px #06d6a0,
+              inset 0 0 0 16px #118ab2;
+  background: #073b4c;
+  color: #fff;
+}
+
+.header-right button {
+    margin-right: 40px;
+  --glow-color: rgb(217, 176, 255);
+  --glow-spread-color: rgba(191, 123, 255, 0.781);
+  --enhanced-glow-color: rgb(231, 206, 255);
+  --btn-color: rgb(100, 61, 136);
+  border: .25em solid var(--glow-color);
+  padding: 1em 3em;
+  color: var(--glow-color);
+  font-size: 15px;
+  font-weight: bold;
+  background-color: var(--btn-color);
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 1em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+  text-shadow: 0 0 .5em var(--glow-color);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.header-right button::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 120%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--glow-spread-color);
+  filter: blur(2em);
+  opacity: .7;
+  transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+}
+
+.header-right button:hover {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 2em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+}
+
+.header-right button:active {
+  box-shadow: 0 0 0.6em .25em var(--glow-color),
+         0 0 2.5em 2em var(--glow-spread-color),
+         inset 0 0 .5em .25em var(--glow-color);
+}
+
+/* Add these message styles */
+.message {
+    margin-bottom: 15px;
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.4;
+}
+
+.message.user {
+    margin-left: auto;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+    margin-right: auto;
+    background-color: #e9ecef;
+    color: #212529;
+    border-bottom-left-radius: 4px;
+}
+
+.message.system {
+    margin: 10px auto;
+    text-align: center;
+    color: #dc3545;
+    font-style: italic;
+}
+
+/* Typing indicator styles */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #90949c;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Define height */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #18364a;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1100; /* Ensure header is above sidebar */
+}
+.sidebar {
+    margin-top: 30px;
+    margin-bottom: 30px; 
+    position: fixed;
+    left: 0;
+    top: 60px; 
+    bottom: 60px; 
+    width: 250px;
+    height: calc(100vh - 120px); /* Full height minus header & footer */
+    background-color: #18364a;
+    padding: 20px 1px;
+    z-index: 1000;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+    
+    left: 0;
+    bottom: 60px; /* Creates space above footer */
+    width: 100%;
+    height: 60px; /* Same height as header */
+    background-color: #18364a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-top: 20px; /* Creates space above footer */
+}
+
+
+.footer-content {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+</style>
 </head>
 <body>
-  <!-- HEADER -->
-  <header>
+<header>
     <div class="header-left">
-      <!-- Toggle button (only on small screens) -->
-      <button class="toggle-btn" onclick="toggleMobileNav()">&#9776;</button>
-      <div class="logo">MedCheck AI </div>
+        <h1><div class="logo">MedCheck AI</div></h1>
     </div>
-    <!-- Top Navigation for larger screens -->
-    <nav class="nav-links">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="Medicationschedule.html">Medications</a>
-      <a href="Diagnostics.html">Diagnostics</a>
-      <a href="profile.html">Profile</a>
-      <a href="index.html">Logout</a>
-    </nav>
-  </header>
+    <div class="header-right">
+        <button>DOCTOR</button>
+    </div>
+</header>
+<div class="sidebar">
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="symptom.html" class="active">Symptom Checker</a>
+        <a href="Medicationschedule.html">Medication Schedule</a>
+        <a href="Diagnostics.html">Diagnostics</a>
+        <a href="Support&resources.html">Support & Resources</a>
+        <a href="profile.html">Profile</a>
+        <a href="index.html">Logout</a>
+    </aside>
+</div>
+<main>
+    
 
-  <!-- MOBILE NAVIGATION (Off-canvas) -->
-  <nav class="mobile-nav" id="mobileNav">
-    <ul>
-      <li onclick="closeMobileNav()"><a href="dashboard.html">Dashboard</a></li>
-      <li class="active" onclick="closeMobileNav()"><a href="symptom.html">Symptom Checker</a></li>
-      <li onclick="closeMobileNav()"><a href="Medicationschedule.html">Medication Schedule</a></li>
-      <li onclick="closeMobileNav()"><a href="diagnostics.html">Diagnostics</a></li>
-      <li onclick="closeMobileNav()"><a href="trends.html">Health Trends</a></li>
-      <li onclick="closeMobileNav()"><a href="profile.html">Profile</a></li>
-    </ul>
-  </nav>
 
-  <!-- DESKTOP SIDEBAR -->
-  <aside class="sidebar">
-    <ul>
-      <a href="dashboard.html"><li onclick="setActive(this)"><span>Dashboard</span></li></a>
-      <a href="symptom.html" class="active"><li onclick="setActive(this)"><span>Symptom Checker</span></li></a>
-      <a href="Medicationschedule.html"><li onclick="setActive(this)"><span>Medication Schedule</span></li></a>
-      <a href="Diagnostics.html"><li onclick="setActive(this)"><span>Diagnostics </span></li></a>
-      <a href="Support&resources.html"><li onclick="setActive(this)"><span>Support & Resources</span></li></a>
-      <a href="profile.html"><li onclick="setActive(this)"><span>Profile</span></li></a>
-      <a href="index.html"><li onclick="setActive(this)"><span>Logout</span></li></a>
-    </ul>
-  </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content" id="mainContent">
-    <!-- Symptom Checker Card -->
-    <div class="symptom-card">
-      <h2>MedCheck AI</h2>
-      <p>Describe your symptoms and I'll help analyze them.</p>
-      
-      <div class="chat-container" id="chat-interface">
-        <div class="chat-messages" id="chat-messages">
-          <div class="message message-bot">
-            We’re here to help you better understand your health. <br>
-            To start, could you please share any symptoms you're experiencing?
-          </div>
+    <section class="intro">
+       
+
+<h1>MEDCHECK AI Symptom Checker</h1>
+        <p>Get instant Diagnosis and health insights powered by advanced AI technology.</p>
+    </section>
+
+    <section class="symptom-checker">
+        <div class="symptom-list">
+            <h2>Common Symptoms</h2>
+            <input type="text" id="symptom-search" placeholder="Search symptoms...">
+
+            <p>Select carefully then click send</p>
+
+            <ul>
+                <li><input type="checkbox"> Headache</li>
+                <li><input type="checkbox"> Fever</li>
+                <li><input type="checkbox"> Cough</li>
+                <li><input type="checkbox"> Fatigue</li>
+                <li><input type="checkbox"> Shortness of breath</li>
+                <li><input type="checkbox"> Muscle aches</li>
+                <li><input type="checkbox"> Chills</li>
+                <li><input type="checkbox"> Sore throat</li>
+                <li><input type="checkbox"> Loss of taste or smell</li>
+                <li><input type="checkbox"> Nausea</li>
+                <li><input type="checkbox"> Vomiting</li>
+                <li><input type="checkbox"> Diarrhea</li>
+                <li><input type="checkbox"> Chest pain</li>
+                <li><input type="checkbox"> Confusion</li>
+                <li><input type="checkbox"> Dizziness</li>
+            </ul>
         </div>
-
-        <div class="chat-input">
-          <button class="image-upload" onclick="uploadImage()" title="Send Image">
-            <i class="fas fa-image"></i>
-          </button>
-          <input type="text" id="user-input" placeholder="Type your symptoms here..." />
-          <button class="voice-record" onclick="startRecording()" title="Send Voice Message">
-            <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 0 0-6 0v4a3 3 0 0 0 3 3ZM6 11v1a6 6 0 0 0 12 0v-1h-2v1a4 4 0 0 1-8 0v-1Zm4 8h4v2h-4Z"/></svg>
-          </button>
-          <button id="send-button" onclick="sendMessage()" title="Send Message">
-            <i class="fas fa-paper-plane"></i>
-          </button>
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message ai-message">
+                    <p>Hello! I'm your AI health assistant. Please describe your symptoms or select them from the list.</p>
+                </div>
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <textarea id="user-input" class="chat-input" placeholder="Describe your symptoms..."></textarea>
+                    <button id="send-button" class="send-button" onclick="sendWithSymptoms()">Send</button>
+                </div>
+            </div>
         </div>
+    </section>
+</main>
 
-      </div>
+<footer>
+    <div class="footer-content">© 2025 MedCheck AI. All Rights Reserved.</div>
+</footer>
 
-      <button class="consult-button" onclick="window.location.href='#'">
-        <i class="fas fa-user-md"></i>
-        FIND A DOCTOR
-      </button>
-    </div>
-
-    <!-- Add this floating action button before the footer -->
-    <div class="fab" onclick="scrollToTop()">
-      <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-      <p>&copy; 2025 MedCheck AI. All rights reserved.</p>
-    </footer>
-  </main>
-
-  <script>
-    // Navigation functions needed for the base layout
-    function toggleMobileNav() {
-        const mobileNav = document.getElementById('mobileNav');
-        mobileNav.classList.toggle('open');
+<script>
+function sendWithSymptoms() {
+    const userInput = document.getElementById('user-input');
+    const checkedSymptoms = Array.from(document.querySelectorAll('.symptom-list input:checked'))
+        .map(checkbox => checkbox.parentNode.textContent.trim());
+    
+    // Combine symptoms and user input
+    let message = userInput.value.trim();
+    if (checkedSymptoms.length > 0) {
+        message = `Selected symptoms: ${checkedSymptoms.join(', ')}\n${message}`;
     }
+    
+    // Update the input value with combined message
+    userInput.value = message;
+    
+    // Trigger the chatbot's send message function
+    document.getElementById('send-button').click();
+    
+    // Clear checkboxes after sending
+    document.querySelectorAll('.symptom-list input:checked').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    
+    // Clear the input after the message is sent
+    setTimeout(() => {
+        userInput.value = '';
+    }, 100);
+}
 
-    // Chat functionality
-    function uploadImage() {
-      alert('Image upload functionality to be implemented');
-    }
-    function startRecording() {
-      alert('Voice recording functionality to be implemented');
-    }
-    function sendMessage() {
-      const input = document.getElementById('user-input');
-      const chat = document.getElementById('chat-messages');
-      const messageText = input.value.trim();
-      if (messageText === "") return;
-      
-      // Create user message element (aligned right)
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user-message';
-      userMsg.textContent = messageText;
-      chat.appendChild(userMsg);
-      input.value = "";
-      chat.scrollTop = chat.scrollHeight;
-      
-      // Simulate bot reply after 1 second (aligned left)
-      setTimeout(function() {
-        const botMsg = document.createElement('div');
-        botMsg.className = 'message message-bot';
-        botMsg.textContent = "I'm analyzing your symptoms...";
-        chat.appendChild(botMsg);
-        chat.scrollTop = chat.scrollHeight;
-      }, 1000);
-    }
-  </script>
+// Add search functionality for symptoms
+document.getElementById('symptom-search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const symptoms = document.querySelectorAll('.symptom-list li');
+    
+    symptoms.forEach(symptom => {
+        const text = symptom.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+            symptom.style.display = '';
+        } else {
+            symptom.style.display = 'none';
+        }
+    });
+});
+</script>
+
+<script src="chatbot.js"></script>
 </body>
 </html>
