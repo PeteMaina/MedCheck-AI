@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MedCheck AI Dashboard</title>
   <link rel="shortcut icon" href="Images/AI_doc.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <style>
     /* --------------------------------------
@@ -92,6 +93,8 @@
        HEADER & HORIZONTAL NAVIGATION
     -------------------------------------- */
     header.top-nav {
+      margin-top: 0px; /* below header */
+      height: 60px;
       position: fixed;
       top: 0;
       left: 0;
@@ -205,6 +208,8 @@
        DESKTOP SIDEBAR
     -------------------------------------- */
     .sidebar {
+      margin-top: 30px; /* below header */
+      border-radius: 10px;
       background-color: rgba(10, 61, 98, 0.95);
       color: #fff;
       width: 250px;
@@ -408,6 +413,11 @@
       <div class="logo">MedCheck AI</div>
     </div>
     <nav class="nav-links">
+      <a href="profile.html">
+        <button class="profile-btn">
+           <i class="fas fa-user"></i>
+       </button>
+   </a> 
       <a href="index.html">Logout</a>
     </nav>
   </header>
@@ -422,7 +432,7 @@
       <li><a href="diagnostics.html" onclick="toggleMobileNav()">Diagnostics</a></li>
       <li><a href="Support&resources.html" onclick="toggleMobileNav()">Support & Resources</a></li>
       <li><a href="profile.html" onclick="toggleMobileNav()">Profile</a></li>
-      <li><a href="index.html" onclick="toggleMobileNav()">Logout</a></li>
+      <li><a href="auth.html" onclick="toggleMobileNav()">Logout</a></li>
     </ul>
   </nav>
   
@@ -435,7 +445,7 @@
       <li><a href="diagnostics.html">Diagnostics</a></li>
       <li><a href="Support&resources.html">Support & Resources</a></li>
       <li><a href="profile.html">Profile</a></li>
-      <li><a href="index.html">Logout</a></li>
+      <li><a href="auth.html">Logout</a></li>
     </ul>
   </aside>
   
