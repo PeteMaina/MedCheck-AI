@@ -11,6 +11,63 @@
     <script src="schedulescript.js" defer></script>
     <script src="chatbot.js" defer></script>
 </head>
+
+<style>
+    /* Add your custom styles here */
+    :root {
+        --color1: #0A3D62; 
+      --color3: #1E90FF;     
+      --color4: #027c97; 
+    }
+
+    body {
+        font-family: arial, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    .sidebar {
+        margin-top: 30px;
+        margin-bottom: 30px; 
+        position: fixed;
+        left: 0;
+        top: 60px; 
+        bottom: 60px; 
+        width: 250px;
+        height: calc(100vh - 120px);
+        background-color: rgba(10, 61, 98, 0.95);
+        padding: 20px 1px;
+        z-index: 1001;
+        border-radius: 0 20px 20px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        color: #fff;
+    }
+    
+    .sidebar ul li {
+      margin-bottom: 10px;
+    }
+    .sidebar ul li a {
+      display: block;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .sidebar ul li a:hover {
+      background-color: var(--color4);
+      border-radius: 10px;
+      color: #fff;
+    }
+    .sidebar ul li.active a {
+      background-color: var(--color3);
+      border-radius: 10px;
+      color: #fff;
+    }
+
+
+</style>
+
 <body>
     <!-- Add sidebar before navbar -->
     <aside class="sidebar">
