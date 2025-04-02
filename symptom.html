@@ -561,6 +561,131 @@
         }
     }
 
+    /* Add Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .modal.show {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal.show .modal-content {
+        transform: translateY(0);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+        color: #00796b;
+        margin: 0;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.3s;
+    }
+
+    .close-modal:hover {
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #00796b;
+        box-shadow: 0 0 0 2px rgba(0, 121, 107, 0.1);
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .form-group .error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: none;
+    }
+
+    .submit-ticket {
+        background-color: #00796b;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+    }
+
+    .submit-ticket:hover {
+        background-color: #00635a;
+    }
+
+    .submit-ticket:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
 </style>
 </head>
 <body>
@@ -648,6 +773,42 @@
     <div class="footer-content">© 2025 MedCheck AI. All Rights Reserved.</div>
 </footer>
 
+<div id="ticketModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create Ticket</h2>
+            <button class="close-modal">&times;</button>
+        </div>
+        <form id="ticketForm">
+            <div class="form-group">
+                <label for="patientId">Patient ID(check your profile)</label>
+                <input type="text" id="patientId" required pattern="[A-Za-z0-9]+" minlength="4">
+                <div class="error">Please enter a valid Patient ID (minimum 4 alphanumeric characters)</div>
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select id="priority" required>
+                    <option value="">Select Priority</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+                <div class="error">Please select a priority level</div>
+            </div>
+            <div class="form-group">
+                <label for="systemTime">System Time</label>
+                <input type="text" id="systemTime" readonly>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" required minlength="10"></textarea>
+                <div class="error">Please enter a description (minimum 10 characters)</div>
+            </div>
+            <button type="submit" class="submit-ticket">Send Ticket</button>
+        </form>
+    </div>
+</div>
+
 <script>
 function sendWithSymptoms() {
     const userInput = document.getElementById('user-input');
@@ -729,7 +890,109 @@ sidebarLinks.forEach(link => {
         });
     });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('ticketModal');
+    const doctorButton = document.querySelector('.header-right button');
+    const closeModal = document.querySelector('.close-modal');
+    const ticketForm = document.getElementById('ticketForm');
+    const systemTimeInput = document.getElementById('systemTime');
 
+    // Update system time
+    function updateSystemTime() {
+        const now = new Date();
+        systemTimeInput.value = now.toLocaleString();
+    }
+
+    // Show modal
+    function showModal() {
+        modal.classList.add('show');
+        updateSystemTime();
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Hide modal
+    function hideModal() {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+        ticketForm.reset();
+        clearErrors();
+    }
+
+    // Clear form errors
+    function clearErrors() {
+        document.querySelectorAll('.error').forEach(error => {
+            error.style.display = 'none';
+        });
+    }
+
+    // Validate form
+    function validateForm() {
+        let isValid = true;
+        const patientId = document.getElementById('patientId');
+        const priority = document.getElementById('priority');
+        const description = document.getElementById('description');
+
+        clearErrors();
+
+        if (!patientId.checkValidity()) {
+            patientId.nextElementSibling.style.display = 'block';
+            isValid = false;
+        }
+
+        if (!priority.value) {
+            priority.nextElementSibling.style.display = 'block';
+            isValid = false;
+        }
+
+        if (!description.checkValidity()) {
+            description.nextElementSibling.style.display = 'block';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Event Listeners
+    doctorButton.addEventListener('click', showModal);
+    closeModal.addEventListener('click', hideModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideModal();
+    });
+
+    ticketForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateForm()) {
+            // Here you would typically send the form data to your backend
+            console.log({
+                patientId: document.getElementById('patientId').value,
+                priority: document.getElementById('priority').value,
+                systemTime: systemTimeInput.value,
+                description: document.getElementById('description').value
+            });
+            alert('Ticket submitted successfully!');
+            hideModal();
+        }
+    });
+
+    // Input validation events
+    document.getElementById('patientId').addEventListener('input', function() {
+        if (this.checkValidity()) {
+            this.nextElementSibling.style.display = 'none';
+        }
+    });
+
+    document.getElementById('priority').addEventListener('change', function() {
+        if (this.value) {
+            this.nextElementSibling.style.display = 'none';
+        }
+    });
+
+    document.getElementById('description').addEventListener('input', function() {
+        if (this.checkValidity()) {
+            this.nextElementSibling.style.display = 'none';
+        }
+    });
+});
 
 </script>
 
