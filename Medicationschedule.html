@@ -15,9 +15,10 @@
 <style>
     /* Add your custom styles here */
     :root {
-        --color1: #0A3D62; 
+        --color1: #2C5282;; 
       --color3: #1E90FF;     
-      --color4: #027c97; 
+      --color4: #027c97;
+
     }
 
     body {
@@ -64,11 +65,40 @@
       border-radius: 10px;
       color: #fff;
     }
+    .nav-container {
+      
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    .logo {
+        position: fixed;
+        margin-left: 10px;
+        display: inline-block;
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      font-size: 1.6rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+   
+    footer {
+      background: var(--color1);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
 
 
 </style>
 
 <body>
+    <div class="container nav-container">
+        <div class="logo">MedCheck AI</div>
+        <nav>
     <!-- Add sidebar before navbar -->
     <aside class="sidebar">
         <ul>
@@ -342,4 +372,9 @@
     </main>
     </div>
 </body>
+
+<footer>
+    <p>&copy; 2025 MedCheck. All rights reserved.</p>
+</footer>
+
 </html> 
