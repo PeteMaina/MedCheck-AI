@@ -452,6 +452,28 @@ border-radius: 3px;
 </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+<header class="fixed top-0 left-0 width-100 shadow-sm z-50" style="
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(3, 32, 53, 0.95);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1100;
+  box-sizing: border-box;">
+</header>
+
+<div class="logo" style="
+  position: fixed;
+  top: 10px;
+  left: 20px;
+  z-index: 1200;
+  margin: 0;
+  padding: 10px;">MEDCHECK AI</div>
+
 <aside class="sidebar" id="sidebar">
   <a href="dashboard.html">Dashboard</a>
   <a href="symptom.html">Symptom Checker</a>
@@ -854,5 +876,48 @@ function checkWindowSize() {
 window.addEventListener('load', checkWindowSize);
 window.addEventListener('resize', checkWindowSize);
 </script>
+
+<style>
+.content-wrapper {
+  margin-top: 60px;
+}
+
+@media (max-width: 768px) {
+  header.fixed {
+    margin-left: 0;
+  }
+}
+</style>
+
+<style>
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #ff0000, #0000ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #ff3333, #3333ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    left: 70px; /* Adjust for collapsed sidebar on mobile */
+  }
+}
+</style>
 </body>
 </html>
