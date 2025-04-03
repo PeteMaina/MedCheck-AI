@@ -640,40 +640,29 @@ border-radius: 3px;
           </div>
 
           <div class="relative">
-            <div class="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 shadow-sm sticky bottom-0">
-              <input 
-                type="text" 
-                id="chatInput" 
-                placeholder="Type your question..." 
-                class="flex-1 bg-transparent border-0 focus:ring-2 focus:ring-blue-500/20 focus:outline-none px-4 py-2 text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 text-[15px]"
-              >
-              <div class="flex items-center space-x-2">
-                <button class="attachment-button w-10 h-10 flex items-center justify-center text-black bg-white rounded-full transition-all duration-300 cursor-pointer outline-none border-none shadow-[0px_8px_15px_rgba(0,0,0,0.1)] hover:bg-[#23c483] hover:shadow-[0px_15px_20px_rgba(46,229,157,0.4)] hover:text-white hover:translate-y-[-7px] active:translate-y-[-1px]">
-                  <i class="ri-attachment-2-line text-lg"></i>
+            <div class="chat-input-container">
+              <textarea 
+                id="chatInput"
+                class="chat-input"
+                placeholder="Type your message..."
+                rows="1"
+                data-min-rows="1"
+                oninput="this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 120) + 'px'"
+              ></textarea>
+              <div class="chat-actions">
+                <button class="attachment-button" title="Attach file">
+                  <i class="ri-attachment-2-line"></i>
                 </button>
                 <button 
-                  onclick="sendMessage()" 
-                  class="send-button w-10 h-10 flex items-center justify-center text-black bg-white rounded-full transition-all duration-300 cursor-pointer outline-none border-none shadow-[0px_8px_15px_rgba(0,0,0,0.1)] hover:bg-[#23c483] hover:shadow-[0px_15px_20px_rgba(46,229,157,0.4)] hover:text-white hover:translate-y-[-7px] active:translate-y-[-1px]"
+                  id="sendButton"
+                  class="chat-button"
+                  onclick="sendMessage()"
+                  title="Send message"
                 >
-                  <i class="ri-send-plane-line text-lg"></i>
+                  <i class="ri-send-plane-fill"></i>
                 </button>
               </div>
             </div>
-            <style>
-              .chat-container::-webkit-scrollbar {
-                width: 6px;
-              }
-              .chat-container::-webkit-scrollbar-track {
-                background: transparent;
-              }
-              .chat-container::-webkit-scrollbar-thumb {
-                background-color: rgba(156, 163, 175, 0.5);
-                border-radius: 3px;
-              }
-              .chat-container::-webkit-scrollbar-thumb:hover {
-                background-color: rgba(156, 163, 175, 0.7);
-              }
-            </style>
           </div>
         </div>
       </div>
@@ -756,28 +745,138 @@ border-radius: 3px;
 }
 </style>
 
+<style>
+/* Add new styles for improved chat input */
+.chat-input-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 16px;
+  transition: all 0.2s ease;
+}
+
+.chat-input-container:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  font-size: 15px;
+  background: transparent;
+  color: #374151;
+  min-height: 24px;
+  max-height: 120px;
+  resize: none;
+  line-height: 1.5;
+}
+
+.chat-input::placeholder {
+  color: #9CA3AF;
+}
+
+.chat-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.chat-button:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.chat-button:active {
+  transform: translateY(0);
+}
+
+.chat-button i {
+  font-size: 20px;
+}
+
+.chat-button.disabled {
+  background: #E5E7EB;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.chat-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.attachment-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.attachment-button:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  color: #374151;
+}
+
+/* Improve scrollbar styling */
+.chat-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+</style>
+
+<script src="chatbot.js"></script>
+
 <script>
 let isTyping = false;
 
-const mockResponses = {
-  "blood sugar": "A blood sugar reading of 200 mg/dL or higher may indicate hyperglycemia. It's recommended to consult your healthcare provider for proper interpretation and advice.",
-  "exercise": "Regular exercise can help control blood sugar levels. Start slowly and monitor your levels before, during, and after activity. Always carry a fast-acting carbohydrate with you.",
-  "diet": "A balanced diet is crucial for diabetes management. Focus on whole grains, lean proteins, healthy fats, and plenty of vegetables. Monitor portion sizes and track carbohydrate intake.",
-  "medication": "Take medications as prescribed by your doctor. Don't skip doses, and make sure to store them properly. Contact your healthcare provider if you experience any side effects."
-};
-
-function showEmergencyModal() {
-  document.getElementById('emergencyModal').style.display = 'flex';
-}
-
-function closeEmergencyModal() {
-  document.getElementById('emergencyModal').style.display = 'none';
-}
-
 function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const message = input.value.trim();
-  if (!message || isTyping) return;
+  const chatInput = document.getElementById('chatInput');
+  const message = chatInput.value.trim();
+  
+  if (!message) return;
+  
+  // Reset textarea height
+  chatInput.style.height = '';
+  chatInput.rows = 1;
   
   const chatMessages = document.getElementById('chatMessages');
   const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -787,7 +886,7 @@ function sendMessage() {
     <div class="flex items-start justify-end space-x-2 chat-message animate-fade-in">
       <div class="flex flex-col items-end space-y-2 max-w-[80%]">
         <div class="bg-primary text-white rounded-2xl rounded-tr-none p-4">
-          <p>${input.value}</p>
+          <p>${message}</p>
         </div>
         <span class="text-xs text-gray-400">You • ${timestamp}</span>
       </div>
@@ -796,9 +895,12 @@ function sendMessage() {
       </div>
     </div>
   `;
-  
-  isTyping = true;
-  
+
+  // Clear input and scroll to bottom
+  chatInput.value = '';
+  const container = document.querySelector('.chat-container');
+  container.scrollTop = container.scrollHeight;
+
   // Show typing indicator
   chatMessages.innerHTML += `
     <div id="typingIndicator" class="flex items-start space-x-2 chat-message animate-fade-in">
@@ -815,46 +917,115 @@ function sendMessage() {
     </div>
   `;
 
-  // Scroll to bottom
-  const container = document.querySelector('.chat-container');
-  container.scrollTop = container.scrollHeight;
-  
-  setTimeout(() => {
+  // Call the API using fetch
+  fetch('http://localhost:1234/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: "mistral-7b-instruct-v0.2.Q4_K_M",
+      messages: [
+        {
+          role: "system",
+          content: "You are an AI medical assistant. You help analyze symptoms and provide general medical information. Ask many questions to narrow down to the specific ailment. Always remind users to consult healthcare professionals for deeper complex medical advice. Be empathetic and thorough in your responses. space your response with 2 new lines."
+        },
+        {
+          role: "user",
+          content: message
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 500,
+      stream: true
+    })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Network response was not ok');
+    const reader = response.body.getReader();
+    let partialResponse = '';
+    
     // Remove typing indicator
-    document.getElementById('typingIndicator').remove();
-    
-    // Get response based on message content
-    let response = "I apologize, but I don't have specific information about that. Please consult your healthcare provider for accurate medical advice.";
-    const messageLower = message.toLowerCase();
-    
-    for (const [key, value] of Object.entries(mockResponses)) {
-      if (messageLower.includes(key)) {
-        response = value;
-        break;
-      }
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) typingIndicator.remove();
+
+    // Create AI response container
+    const aiResponseContainer = document.createElement('div');
+    aiResponseContainer.className = 'flex items-start space-x-2 chat-message';
+    aiResponseContainer.innerHTML = `
+      <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+        <i class="ri-robot-line text-primary"></i>
+      </div>
+      <div class="flex flex-col space-y-2 max-w-[80%]">
+        <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
+          <p class="text-gray-700"></p>
+        </div>
+        <span class="text-xs text-gray-400">AI Assistant • ${timestamp}</span>
+      </div>
+    `;
+    chatMessages.appendChild(aiResponseContainer);
+    const aiMessageText = aiResponseContainer.querySelector('p');
+
+    // Read the stream
+    function readStream() {
+      return reader.read().then(({done, value}) => {
+        if (done) return;
+        
+        const chunk = new TextDecoder().decode(value);
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            if (line.includes('[DONE]')) continue;
+            
+            try {
+              const jsonData = JSON.parse(line.slice(5));
+              if (jsonData.choices[0].delta?.content) {
+                partialResponse += jsonData.choices[0].delta.content;
+                aiMessageText.textContent = partialResponse;
+                container.scrollTop = container.scrollHeight;
+              }
+            } catch (e) {
+              console.error('Error parsing JSON:', e);
+            }
+          }
+        }
+        
+        return readStream();
+      });
     }
+
+    return readStream();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    // Remove typing indicator and show error message
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) typingIndicator.remove();
     
-    // Add AI response
     chatMessages.innerHTML += `
       <div class="flex items-start space-x-2 chat-message">
-        <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-          <i class="ri-robot-line text-primary"></i>
+        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <i class="ri-error-warning-line text-red-500"></i>
         </div>
         <div class="flex flex-col space-y-2 max-w-[80%]">
-          <div class="bg-gray-100 rounded-2xl rounded-tl-none p-4">
-            <p class="text-gray-700">${response}</p>
+          <div class="bg-red-50 rounded-2xl rounded-tl-none p-4">
+            <p class="text-red-600">Sorry, I encountered an error. Please try again.</p>
           </div>
-          <span class="text-xs text-gray-400">AI Assistant • ${timestamp}</span>
+          <span class="text-xs text-gray-400">System • ${timestamp}</span>
         </div>
       </div>
     `;
-    
-    // Scroll to bottom again after response
-    container.scrollTop = container.scrollHeight;
-  }, 1500);
-  
-  input.value = '';
+  });
 }
+
+// Add event listener for Enter key
+document.getElementById('chatInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
 // Sidebar toggle functionality
 document.getElementById('sidebarToggle').addEventListener('click', function() {
@@ -883,6 +1054,38 @@ function checkWindowSize() {
 // Check window size on load and resize
 window.addEventListener('load', checkWindowSize);
 window.addEventListener('resize', checkWindowSize);
+
+// Add this to your existing script section
+document.addEventListener('DOMContentLoaded', function() {
+  const chatInput = document.getElementById('chatInput');
+  const sendButton = document.getElementById('sendButton');
+
+  // Function to update send button state
+  function updateSendButtonState() {
+    const isEmpty = !chatInput.value.trim();
+    sendButton.classList.toggle('disabled', isEmpty);
+  }
+
+  // Auto-resize textarea as user types
+  chatInput.addEventListener('input', function() {
+    this.style.height = '';
+    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    updateSendButtonState();
+  });
+
+  // Handle Enter key (Send on Enter, new line on Shift+Enter)
+  chatInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (chatInput.value.trim()) {
+        sendMessage();
+      }
+    }
+  });
+
+  // Initial button state
+  updateSendButtonState();
+});
 </script>
 
 <style>
