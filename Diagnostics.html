@@ -42,11 +42,13 @@ src: url('https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.woff2') f
 /* Add sidebar styles */
 .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
+    background-color: rgba(10, 61, 98, 0.95);
+    border-radius: 10px;
+    left: 10px;
+    top: 60px;
+    bottom: 0;
     width: 250px;
-    height: 100vh;
-    background-color: #18364a;
+    height: 80vh;
     padding: 20px 0;
     z-index: 1000;
 }
@@ -347,8 +349,27 @@ animation: pulse 2s infinite;
 .border-primary {
     border-color: #3da066;
 }
+
+.logo {
+        position: fixed;
+        left: 10px;
+        font-size: 1.6rem;
+        font-weight: bold;
+        background: linear-gradient(to right, red, blue);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 10px;
+    }
+
 </style>
 </head>
+
+<h1><div class="logo">MedCheck AI</div></h1>
+
 <body class="bg-gray-50">
 <aside class="sidebar" id="sidebar">
     <a href="dashboard.html">Dashboard</a>
