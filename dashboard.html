@@ -389,6 +389,43 @@
       font-weight: 700;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
     }
+
+    #news-card-container {
+  position: relative;
+  margin-top: 20px;
+  height: 80px;
+  overflow: hidden;
+}
+
+.news-card {
+  position: absolute;
+  top: 0;
+  right: -50%;
+  width: 100%;
+  max-width: 600px;
+  max-height: 500px;
+  background: rgb(18,7,208);
+  background: linear-gradient(90deg, rgba(18,7,208,1) 0%, rgba(3,3,131,1) 50%, rgba(5,176,50,0.9836309523809523) 100%);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: right 1s ease-in-out;
+}
+
+.news-card.active {
+  right: 100px;
+}
+
+.news-arrow {
+  margin-left: 15px;
+  font-size: 20px;
+  color: #000270;
+  text-decoration: none;
+}
+
     
     /* --------------------------------------
        FOOTER
@@ -459,6 +496,12 @@
           <p>Your personalized health dashboard is here. Our AI continuously monitors your symptoms and adjusts your care plan—ensuring you get timely medication, accurate diagnostics, and essential reminders.</p>
           <button class="get-started-btn" onclick="navigate('diagnostics.html')">Get started</button>
         </div>
+
+        <div id="news-card-container">
+          <!-- Cards will be dynamically injected here -->
+        </div>
+        
+
         <div class="card-grid">
           <div class="card">
             <div class="header">
@@ -600,6 +643,67 @@
         alert("Navigating to " + destination + " section...");
       }
     }
+
+    
+  const newsItems = [
+    {
+      title: "WHO releases new vaccine guidelines",
+      link: "https://www.who.int/news/item/01-04-2025-vaccine-guidelines"
+    },
+    {
+      title: "Breakthrough in cancer research announced",
+      link: "https://www.medicalnews.com/cancer-breakthrough"
+    },
+    {
+      title: "New AI tool assists in faster diagnosis",
+      link: "https://www.healthtech.ai/news-diagnostic-ai"
+    },
+    {
+      title: "Medical workers strike ends in agreement",
+      link: "https://www.bbc.com/news/health/strike-update"
+    },
+    {
+      title: "Global health summit discusses pandemics",
+      link: "https://www.globalhealth.org/summit-2025"
+    },
+    {
+      title: "Kenya launches digital health ID system",
+      link: "https://www.nation.africa/kenya-health-id"
+    },
+    {
+      title: "Heart disease rates decline globally",
+      link: "https://www.lancet.com/global-heart-disease-trends"
+    }
+  ];
+
+  const container = document.getElementById('news-card-container');
+  let index = 0;
+
+  function showCard(i) {
+    container.innerHTML = '';
+    const card = document.createElement('div');
+    card.className = 'news-card active';
+
+    card.innerHTML = `
+      <div>${newsItems[i].title}</div>
+      <a href="${newsItems[i].link}" class="news-arrow" target="_blank">➜</a>
+    `;
+
+    container.appendChild(card);
+
+    setTimeout(() => {
+      card.classList.remove('active');
+      setTimeout(() => {
+        index = (index + 1) % newsItems.length;
+        showCard(index);
+      }, 1000); // Wait for transition
+    }, 5000);
+  }
+
+  showCard(index);
+
+
+
   </script>
 </body>
 </html>

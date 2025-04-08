@@ -1,0 +1,4 @@
+fever,cough,headache,bp,glucose,pulse,diagnosis,recommended_meds
+1,0,1,130,110,80,Hypertension,Lisinopril
+1,1,0,120,90,70,Flu,Paracetamol,Cetirizine
+0,1,1,140,150,85,Diabetes,Metformin,Insulin
