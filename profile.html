@@ -271,17 +271,60 @@ background-color: rgba(14, 165, 233, 0.9);
 color: rgba(61, 160, 102, 0.8);
 }
 
+header.top-nav {
+      margin-top: 0px; /* below header */
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0b2744;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    /* Menu toggle icon – visible on small screens */
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+      background: linear-gradient(to right, red, blue);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
 /* Add these sidebar styles */
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 250px;
-    height: 100vh;
-    background-color: #18364a;
-    padding: 20px 0;
-    z-index: 1000;
-}
+      margin-top: 30px; /* below header */
+      border-radius: 10px;
+      background-color: rgba(10, 61, 98, 0.95);
+      color: #fff;
+      width: 250px;
+      height: calc(100vh - 60px);
+      position: fixed;
+      top: 60px;
+      left: 0;
+      padding: 20px;
+      overflow-y: auto;
+      transition: transform 0.5s;
+    }
 
 .sidebar a {
     display: block;
@@ -294,10 +337,12 @@ color: rgba(61, 160, 102, 0.8);
 
 .sidebar a:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 }
 
 .sidebar a.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #1E90FF;
+    border-radius: 10px;
 }
 
 /* Adjust main content margin to accommodate sidebar */
@@ -403,6 +448,22 @@ color: rgba(61, 160, 102, 0.8);
 </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+
+    <header class="top-nav">
+        <div class="header-left">
+          <button class="toggle-btn" onclick="toggleMobileNav()">&#9776;</button>
+          <div class="logo">MedCheck AI</div>
+        </div>
+        <nav class="nav-links">
+          <a href="profile.html">
+            <button class="profile-btn">
+               <i class="fas fa-user"></i>
+           </button>
+       </a> 
+          <a href="index.html">Logout</a>
+        </nav>
+      </header>
+
     <!-- Add sidebar -->
     <aside class="sidebar" id="sidebar">
         <a href="dashboard.html">Dashboard</a>
